@@ -1,0 +1,396 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<!--
+//                            _ooOoo_
+//                           o8888888o
+//                           88" . "88
+//                           (| -_- |)
+//                            O\ = /O
+//                        ____/`---'\____
+//                      .   ' \\| |// `.
+//                       / \\||| : |||// \
+//                     / _||||| -:- |||||- \
+//                       | | \\\ - /// | |
+//                     | \_| ''\---/'' | |
+//                      \ .-\__ `-` ___/-. /
+//                   ___`. .' /--.--\ `. . __
+//                ."" '< `.___\_<|>_/___.' >'"".
+//               | | : `- \`.;`\ _ /`;.`/ - ` : | |
+//                 \ \ `-. \_ __\ /__ _/ .-` / /
+//         ======`-.____`-.___\_____/___.-`____.-'======
+//                            `=---='
+//                 拦截插件累计拦截逗比攻击"1381438"次！
+//         .............................................
+//                  佛祖保佑             永无BUG
+//          佛曰:
+//                  写字楼里写字间，写字间里程序员；
+//                  程序人员写程序，又拿程序换酒钱。
+//                  酒醒只在网上坐，酒醉还来网下眠；
+//                  酒醉酒醒日复日，网上网下年复年。
+//                  但愿老死电脑间，不愿鞠躬老板前；
+//                  奔驰宝马贵者趣，公交自行程序员。
+//                  别人笑我忒疯癫，我笑自己命太贱；
+//                  不见满街漂亮妹，哪个归得程序员？
+-->
+<head>
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://shuoit.net/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://shuoit.net">
+<meta name="author" content="唐先森(https://www.tangkunyin.com)">
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/SimpleStyle.min.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>md5算法解析及加盐(salt) - Caine_菜呢</title>
+
+<meta name="keywords" content="java开发必备工具，MD5">
+
+<meta name="description " content="MD5算法是单向散列算法的一种,也称为HASH算法，是一种将任意长度的信息压缩至某一固定长度（称之为消息摘要）的函数(该压缩过程不可逆),可以产生出一个128位元（16位元组）的散列值（hash value）,用于确保信息传输完整一致。">
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="文">文</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">Caine_菜呢</h1>
+        <h3 class="cover-siteTitle">云层之上,全是阳光</h3>
+        <p class="cover-siteDesc">一个关注技术与人文的IT博客</p>
+        <div class="cover-sns">
+            
+            <div class="btn btn-telegram">
+                <a href="http://t.me/kunyintang" target="_blank" title="telegram" ref="friend">
+                    <i class="fa fa-telegram"></i>
+                </a>
+            </div>
+            
+            <div class="btn btn-instagram">
+                <a href="https://www.instagram.com/mtangsir/" target="_blank" title="instagram" ref="friend">
+                    <i class="fa fa-instagram"></i>
+                </a>
+            </div>
+            
+            <div class="btn btn-twitter">
+                <a href="https://twitter.com/tangkunyin" target="_blank" title="twitter" ref="friend">
+                    <i class="fa fa-twitter"></i>
+                </a>
+            </div>
+            
+            <div class="btn btn-github">
+                <a href="https://github.com/tangkunyin" target="_blank" title="github" ref="friend">
+                    <i class="fa fa-github"></i>
+                </a>
+            </div>
+            
+        </div>
+    </div>
+</div>
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最新</a></li>
+        
+            
+                <li class="">
+                    <a href="/categories/front-end" data-name="随笔">随笔</a>
+                </li>
+            
+                <li class="active">
+                    <a href="/categories/back-end" data-name="算法">算法</a>
+                </li>
+            
+                <li class="">
+                    <a href="/categories/product-design" data-name="架构">架构</a>
+                </li>
+            
+                <li class="">
+                    <a href="/categories/resource" data-name="资源">资源</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <label for="s" class="sr-only">请输入关键字</label>
+        <input class="search-field" type="text" name="s" class="text" placeholder="请输入关键字" />
+        <button type="submit" class="search-form-submit" title="搜索"><i class="fa fa-search"></i></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..."/>
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(无标题)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://cainelg.github.io" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar"/>
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://about.tangkunyin.com" target="_blank">刘关</a>
+                    <span title="最后编辑于2017-01-07">2017-01-07</span>
+                </p>
+                <p>java全栈技术</p>
+            </div>
+            <h2 class="post-title">MD5算法解析及加盐(salt)</h2>
+            <div class="post-meta">
+                本文总共5174个字 | 您是第<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <p><img src="/img/2017/md5.jpg" alt="md5"></p>
+<h2 id="一-MD5算法介绍"><a href="#一-MD5算法介绍" class="headerlink" title="一.MD5算法介绍"></a>一.MD5算法介绍</h2><h3 id="什么是MD5算法"><a href="#什么是MD5算法" class="headerlink" title="什么是MD5算法"></a>什么是MD5算法</h3><p>MD5算法是单向散列算法的一种,也称为HASH算法，是一种将任意长度的信息压缩至某一固定长度（称之为消息摘要）的函数(该压缩过程不可逆),可以产生出一个128位元（16位元组）的散列值（hash value）,用于确保信息传输完整一致。</p>
+<h3 id="MD5有哪些应用"><a href="#MD5有哪些应用" class="headerlink" title="MD5有哪些应用"></a>MD5有哪些应用</h3><p>1.防止被篡改：<br>1）比如发送一个电子文档，发送前，我先得到MD5的输出结果a。然后在对方收到电子文档后，对方也得到一个MD5的输出结果b。如果a与b一样就代表中途未被篡改。<br>2）比如我提供文件下载，为了防止不法分子在安装程序中添加木马，我可以在网站上公布由安装文件得到的MD5输出结果。<br>3）SVN在检测文件是否在CheckOut后被修改过，也是用到了MD5.</p>
+<p>2.防止直接看到明文：<br>现在很多网站在数据库存储用户的密码的时候都是存储用户密码的MD5值。这样就算不法分子得到数据库的用户密码的MD5值，也无法知道用户的密码。（比如在UNIX系统中用户的密码就是以MD5（或其它类似的算法）经加密后存储在文件系统中。当用户登录的时候，系统把用户输入的密码计算成MD5值，然后再去和保存在文件系统中的MD5值进行比较，进而确定输入的密码是否正确。通过这样的步骤，系统在并不知道用户密码的明码的情况下就可以确定用户登录系统的合法性。这不但可以避免用户的密码被具有系统管理员权限的用户知道，而且还在一定程度上增加了密码被破解的难度。）</p>
+<p>3.防止抵赖（数字签名）：<br>这需要一个第三方认证机构。例如A写了一个文件，认证机构对此文件用MD5算法产生摘要信息并做好记录。若以后A说这文件不是他写的，权威机构只需对此文件重新产生摘要信息，然后跟记录在册的摘要信息进行比对，相同的话，就证明是A写的了。这就是所谓的“数字签名”。</p>
+<h3 id="MD5算法的原理"><a href="#MD5算法的原理" class="headerlink" title="MD5算法的原理"></a>MD5算法的原理</h3><p>对MD5算法简要的叙述可以为：MD5以512位分组来处理输入的信息，且每一分组又被划分为16个32位子分组，经过了一系列的处理后，算法的输出由四个32位分组组成，将这四个32位分组级联后将生成一个128位散列值。</p>
+<p>第一步、填充</p>
+<pre><code>如果输入信息的长度(bit)对512求余的结果不等于448，就需要填充使得对512求余的结果等于448。填充的方法是填充一个1和n个0。填充完后，信息的长度就为N*512+448(bit)；
+</code></pre><p>第二步、记录信息长度</p>
+<pre><code>用64位来存储填充前信息长度。这64位加在第一步结果的后面，这样信息长度就变为N*512+448+64=(N+1)*512位。
+</code></pre><p>第三步、装入标准的幻数（四个整数）</p>
+<pre><code>标准的幻数（物理顺序）是（A=(01234567)16，B=(89ABCDEF)16，C=(FEDCBA98)16，D=(76543210)16）。如果在程序中定义应该是（A=0X67452301L，B=0XEFCDAB89L，C=0X98BADCFEL，D=0X10325476L）。有点晕哈，其实想一想就明白了。
+</code></pre><p>第四步、四轮循环运算</p>
+<pre><code>循环的次数是分组的个数（N+1）
+</code></pre><p>   1）将每一512字节细分成16个小组，每个小组64位（8个字节）<br>   2）先认识四个线性函数(&amp;是与,|是或,~是非,^是异或) </p>
+<pre><code>F(X,Y,Z)=(X&amp;Y)|((~X)&amp;Z)  
+G(X,Y,Z)=(X&amp;Z)|(Y&amp;(~Z))  
+H(X,Y,Z)=X^Y^Z  
+I(X,Y,Z)=Y^(X|(~Z))  
+</code></pre><p>   3）设Mj表示消息的第j个子分组（从0到15），&lt;&lt;&lt;s表示循环左移s位，则四种操作为：</p>
+<pre><code>FF(a,b,c,d,Mj,s,ti)表示a=b+((a+F(b,c,d)+Mj+ti)&lt;&lt;&lt;s)  
+GG(a,b,c,d,Mj,s,ti)表示a=b+((a+G(b,c,d)+Mj+ti)&lt;&lt;&lt;s)  
+HH(a,b,c,d,Mj,s,ti)表示a=b+((a+H(b,c,d)+Mj+ti)&lt;&lt;&lt;s)  
+II(a,b,c,d,Mj,s,ti)表示a=b+((a+I(b,c,d)+Mj+ti)&lt;&lt;&lt;s)   
+</code></pre><p>   4）四轮运算</p>
+<p>假设M[j]表示消息的第j个子分组（从0到15），&lt;&lt;表示循环左移s，常数ti是4294967296*abs(sin(i))的整数部分，i取值从1到64，单位是弧度。(4294967296等于2的32次方)</p>
+<p> 第一轮计算：j 从0 循环到15，轮数ln=0，i=j%16=j。<br>FF(a, b, c, d, M[j], s, ti)表示 a = b + ((a + F(b, c, d) + Mj + ti) &lt;&lt;&lt; s)</p>
+<p> 第二轮计算：j 从0 循环到15, 轮数ln=1，i=(1+5*j)%16，使用循环函数G，<br>GG(a, b, c, d, M[j], s, ti)表示 a = b + ((a + G(b, c, d) + Mj + ti) &lt;&lt;&lt; s)</p>
+<p>第三轮计算：j 从0 循环到15, 轮数ln=2，i=(5+3*j)%16，使用循环函数H<br>HH(a, b, c, d, M[j], s, ti)表示 a = b + ((a + H(b, c, d) + Mj + ti) &lt;&lt;&lt; s)</p>
+<p>第四轮计算：j 从0 循环到15, 轮数ln=3，i=(7*j)%16，使用循环函数I，其他同第一轮<br>II(a, b, c, d, M[j], s, ti)表示 a = b + ((a + I(b, c, d) + Mj + ti) &lt;&lt;&lt; s)<br>要确保形参a在内存中的值改变了，可以在形参中用按引用调用（&amp;a），或返回a值取代原来a值。<br>代码演示如下:</p>
+<pre><code>第一轮  
+ a=FF(a,b,c,d,M0,7,0xd76aa478)  
+ b=FF(d,a,b,c,M1,12,0xe8c7b756)  
+ c=FF(c,d,a,b,M2,17,0x242070db)  
+ d=FF(b,c,d,a,M3,22,0xc1bdceee)  
+ a=FF(a,b,c,d,M4,7,0xf57c0faf)  
+ b=FF(d,a,b,c,M5,12,0x4787c62a)  
+ c=FF(c,d,a,b,M6,17,0xa8304613)  
+ d=FF(b,c,d,a,M7,22,0xfd469501)  
+ a=FF(a,b,c,d,M8,7,0x698098d8)  
+ b=FF(d,a,b,c,M9,12,0x8b44f7af)  
+ c=FF(c,d,a,b,M10,17,0xffff5bb1)  
+ d=FF(b,c,d,a,M11,22,0x895cd7be)  
+ a=FF(a,b,c,d,M12,7,0x6b901122)  
+ b=FF(d,a,b,c,M13,12,0xfd987193)  
+ c=FF(c,d,a,b,M14,17,0xa679438e)  
+ d=FF(b,c,d,a,M15,22,0x49b40821)  
+
+第二轮  
+a=GG(a,b,c,d,M1,5,0xf61e2562)  
+ ... 
+ d=GG(b,c,d,a,M12,20,0x8d2a4c8a)  
+
+第三轮  
+a=HH(a,b,c,d,M5,4,0xfffa3942)  
+...
+ d=HH(b,c,d,a,M2,23,0xc4ac5665)  
+
+第四轮  
+a=II(a,b,c,d,M0,6,0xf4292244)  
+...
+ d=II(b,c,d,a,M9,21,0xeb86d391) 
+</code></pre><p>5）每轮循环后，将A，B，C，D分别加上a，b，c，d，然后进入下一循环。</p>
+<h2 id="二-java代码实现MD5并加盐"><a href="#二-java代码实现MD5并加盐" class="headerlink" title="二 java代码实现MD5并加盐"></a>二 java代码实现MD5并加盐</h2><p>在java中实现MD5是很简单的，在包java.security有个类MessageDigest。官方文档如下<br>MessageDigest 类为应用程序提供信息摘要算法的功能，如 MD5 或 SHA 算法。信息摘要是安全的单向哈希函数，它接收任意大小的数据，输出固定长度的哈希值。</p>
+<p>MessageDigest 对象开始被初始化。该对象通过使用 update 方法处理数据。任何时候都可以调用 reset 方法重置摘要。一旦所有需要更新的数据都已经被更新了，应该调用 digest 方法之一完成哈希计算。</p>
+<p>对于给定数量的更新数据，digest 方法只能被调用一次。digest 被调用后，MessageDigest 对象被重新设置成其初始状态。</p>
+<h3 id="java代码实现"><a href="#java代码实现" class="headerlink" title="java代码实现"></a>java代码实现</h3><p>  创建MD5工具类</p>
+<pre><code>package com.lg.utils;
+
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+public class Md5Utils {
+    public static String md5(String plainText) {
+        byte[] secretBytes = null;
+        try {
+            secretBytes = MessageDigest.getInstance(&quot;md5&quot;).digest(plainText.getBytes());
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(&quot;没有md5这个算法！&quot;);
+        }
+        String md5code = new BigInteger(1, secretBytes).toString(16);// 16进制数字
+        // 如果生成数字未满32位，需要前面补0
+        for (int i = 0; i &lt; 32 - md5code.length(); i++) {
+            md5code = &quot;0&quot; + md5code;
+        }
+        return md5code;
+    }
+}
+</code></pre><h3 id="加盐-salt-代码"><a href="#加盐-salt-代码" class="headerlink" title="加盐(salt)代码"></a>加盐(salt)代码</h3><p>加盐的代码是另一种实现:</p>
+<pre><code>public static String md5(String plainText) throws Exception {
+    //1.消息摘要 
+    byte[] bs = MessageDigest.getInstance(&quot;md5&quot;).digest(plainText.getBytes());
+    String str = &quot;&quot;;
+    StringBuffer sb = new StringBuffer();
+    for (byte b : bs) {
+    //2.此处将b加上2这个数值,这个数值可以任意设定
+        Integer aa = (b+2) &amp;0xff;
+        // 转成 16进制的值 
+        str = Integer.toHexString(aa);
+        if (str.length() == 1) {
+        //3.如果生成的这个数是一位数,在前面补零
+            sb.append(&quot;0&quot;);
+        }
+        System.out.println(str);
+        sb.append(str);
+    }
+    return sb.toString();
+}
+</code></pre><p>注释2和3都可以进行加盐操作:<br>注释2.将生成的遍历得到b这个对象进行简单的数学运算,即可实现加盐<br>注释3.如果生成的字符串str是一位数字符串,不进行加’零’操作,这样生成的摘要可能会少于32位,也可以实现加盐.</p>
+<p>以上操作生成的摘要在目前的是无法破解的.如<a href="http://www.cmd5.com">http://www.cmd5.com</a> 这样的破解网站,它们是将基于键值对的字典关系原理，收集海量MD5信息与摘要存入数据库，采用枚举法能够从MD5值找到原文本信息.这种类似原理的软件或工具无法破解这种加盐操作.</p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/算法研究/">算法研究</a>
+            
+        </div>
+        
+    </article>
+    
+    <p>本文代表个人观点，内容仅供参考。若有不恰当之处，望不吝赐教！</p>
+    
+    
+<div id="disqus_thread"></div>
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+     */
+    var disqus_config = function () {
+        this.page.url = 'https://shuoit.net/back-end/MD5_algorithm/1483804283.html';
+        this.page.identifier = 'back-end/MD5_algorithm/1483804283.html';
+    };
+    (function () { // DON'T EDIT BELOW THIS LINE
+        var d = document, disqus_shortname = 'shuoit', s = d.createElement('script');
+        s.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by
+        Disqus.</a></noscript>
+
+</div>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner">
+        <p>
+            <a href="/about"  title="关于本站">关于本站</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="help" >急救中心</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友情链接">友情链接</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/app" title="App下载">App下载</a>
+        </p>
+        <p>
+            本站点采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>，已建立<a href="/timeline" id="siteBuildingTime"></a>天<br/>
+            ©2017 基于<a href="http://hexo.io" target="_blank">Hexo</a>搭建
+            ，主题&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank">JSimple</a>
+            ，作者<a href="https://www.tangkunyin.com" target="_blank">唐先森</a>
+            ，Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+        </p>
+        
+<!-- Tencent Analytics -->
+<script type="text/javascript" src="//tajs.qq.com/stats?sId=65036274" charset="UTF-8"></script>
+
+
+    </div>
+</footer>
+<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<script src="/js/InsightSearch.js"></script>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        SimpleCore.init({
+            buildingTime: '01/20/2018',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+        });
+    });
+</script>
+</body>
+</html>
