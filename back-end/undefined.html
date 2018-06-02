@@ -49,11 +49,11 @@
 <link rel="shortcut icon" href="/images/favicon.png">
 
 
-<title>归档集- 2017/4 - 刘关</title>
+<title>目录分离算法 - 刘关</title>
 
 <meta name="keywords" content="java，技术博客，原创IT博客">
 
-<meta name="description " content="程序员刘关(caine)的技术博客。内容聚焦技术、产品和人文">
+<meta name="description " content="微软官方建议一个文件夹中最多存1000个文件,这样文件的速度和效率能保持在较高的水平.实际开发中,每个用户都会上传文件,当用户数非常大的时候,我们就需要对用户文件的存储路径进行设计.">
 </head>
 <body>
 <div id="nav">
@@ -120,8 +120,26 @@
 </div>
             <div class="page-title">
     <ul>
-        <li><a href="/" data-name="首页" title="Back Home">首页</a></li>
-        <li><a href="/tags" data-name="标签云" title="标签云">标签</a></li>
+        <li><a href="/">最新</a></li>
+        
+            
+                <li class="">
+                    <a href="/categories/front-end" data-name="随笔">随笔</a>
+                </li>
+            
+                <li class="active">
+                    <a href="/categories/back-end" data-name="算法">算法</a>
+                </li>
+            
+                <li class="">
+                    <a href="/categories/product-design" data-name="架构">架构</a>
+                </li>
+            
+                <li class="">
+                    <a href="/categories/resource" data-name="资源">资源</a>
+                </li>
+            
+        
         <li class="page-search">
     <form id="search" class="search-form">
         <label for="s" class="sr-only">请输入关键字</label>
@@ -163,92 +181,89 @@
 <div class="main-inner">
     <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
         <div class="post-header">
-            <h3 class="post-title">坦率的讲 - 本站目前共计6篇文章</h3>
-        </div>
-        <p><img src="/images/category-bg.jpg" alt="category-bg"></p>
-        <div class="post-content markdown-body" itemprop="articleBody">
-            <div class="archives">
-                
-                
-                
-                
-                
-                <div class="archives-item">
-                    <h2>2017年09月</h2>
-                    <ul class="archives_list">
-                        
-                        <li>06日18:00:52
-                            <a href="/product-design/nodeppt/1504692052.html">是时候抛弃你的OFFICE全家桶了</a>
-                        </li>
-                        
-                    </ul>
-                </div>
-                
-                
-                
-                
-                
-                <div class="archives-item">
-                    <h2>2017年04月</h2>
-                    <ul class="archives_list">
-                        
-                        <li>18日09:49:58
-                            <a href="/front-end/sql解析顺序/1492480198.html">SQL查询语句的解析顺序</a>
-                        </li>
-                        
-                    </ul>
-                </div>
-                
-                
-                
-                
-                
-                <div class="archives-item">
-                    <h2>2017年01月</h2>
-                    <ul class="archives_list">
-                        
-                        <li>07日23:51:23
-                            <a href="/back-end/MD5_algorithm/1483804283.html">MD5算法解析及加盐(salt)</a>
-                        </li>
-                        
-                
-                
-                
-                        <li>07日23:51:23
-                            <a href="/resource/mac-tools/1483804283.html">macOS下超赞的工具推荐</a>
-                        </li>
-                        
-                
-                
-                
-                        <li>07日22:54:05
-                            <a href="/back-end/undefined.html">目录分离算法</a>
-                        </li>
-                        
-                    </ul>
-                </div>
-                
-                
-                
-                
-                
-                <div class="archives-item">
-                    <h2>2015年04月</h2>
-                    <ul class="archives_list">
-                        
-                        <li>22日16:57:44
-                            <a href="/back-end/swift-in-serverside/1492851464.html">开始使用博客模板</a>
-                        </li>
-                        
-                    </ul>
-                </div>
-                
-                
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://cainelg.github.io" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar"/>
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://about.tangkunyin.com" target="_blank">刘关</a>
+                    <span title="最后编辑于2017-01-07">2017-01-07</span>
+                </p>
+                <p>java全栈技术</p>
+            </div>
+            <h2 class="post-title">目录分离算法</h2>
+            <div class="post-meta">
+                本文总共1030个字 | 您是第<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
             </div>
         </div>
-    </article>
-</div>
+        <div class="post-content markdown-body">
+            <p><img src="/img/2017/hashdir.jpg" alt="hashdir"></p>
+<h2 id="目录分离算法由来"><a href="#目录分离算法由来" class="headerlink" title="目录分离算法由来"></a>目录分离算法由来</h2><p>微软官方建议一个文件夹中最多存1000个文件,这样文件的速度和效率能保持在较高的水平.实际开发中,每个用户都会上传文件,当用户数非常大的时候,我们就需要对用户文件的存储路径进行设计,有多种方式可以为防止一个目录下面出现太多文件,常用的有以下几种:</p>
+<pre><code>1.为每个用户创建一个文件夹存放该用户文件
+2.以时间为单位,间隔一定时间创建一个文件夹,如每天固定时间点创建一个文件夹,如果用户量较大,可以缩短间隔时间.
+3.通过hash目录算法生成文件夹路径.
+</code></pre><h2 id="hash目录算法"><a href="#hash目录算法" class="headerlink" title="hash目录算法"></a>hash目录算法</h2><p>这里只介绍hash目录算法,创建一个文件夹路径生成的工具类:</p>
+<pre><code>public class HashcodeDirUtils {
+    /*
+     * 目录分离算法
+     */
+    public static String getRealPath(String uuidFileName) {
+        //1.获取文件名的哈希码
+        int code1 = uuidFileName.hashCode();
+        //2.将哈希码和0xf进行与运算
+        int dir1 = code1 &amp; 0xf;
+        //3.将哈希码无符号右移四位
+        int code2 = code1 &gt;&gt;&gt; 4;
+        //4.再进行与运算
+        int dir2 = code1 &amp; 0xf;
+        //5.拼接成路径,两级目录
+        return &quot;/&quot;+dir1+&quot;/&quot;+dir2;
+    }
+}
+</code></pre><p>不同的对象hashCode是有可能会相同的,如果只是使用hash算法打散存储,进行存取文件时,不用考虑hashCode,因为只要知道文件的名称,存和取所产生的dir1和dir2是一样的,文件的路径就可以确定.</p>
+<p>注释1.获取文件名的hash码,为四个字节,32位<br>注释2.与0xf进行与运算,即与1111进行与运算,得到的结果转换成十进制,将这个值作为一级目录名,一共有16种结果.<br>注释3和4会得到二级目录名,同理也有16种结果.</p>
+<p>最高可以创建8级,共有16^8=4294967296近<strong>43亿</strong>个目录,每个目录可以放1000个文件,这样一算,可以存放的文件就非常多了.实际应用中根据用户量,选择创建几级目录.</p>
 
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/hash目录/">hash目录</a>
+            
+        </div>
+        
+    </article>
+    
+    <p>本文代表个人观点，若有不恰当之处，望不吝赐教！----转载请说明出处!</p>
+    
+    
+<div id="disqus_thread"></div>
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+     */
+    var disqus_config = function () {
+        this.page.url = 'https://shuoit.net/back-end/undefined.html';
+        this.page.identifier = 'back-end//undefined.html';
+    };
+    (function () { // DON'T EDIT BELOW THIS LINE
+        var d = document, disqus_shortname = 'caine', s = d.createElement('script');
+        s.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by
+        Disqus.</a></noscript>
+
+</div>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
         </div><!-- end #main-->
     </div><!-- end #body -->
     <footer class="footer">
