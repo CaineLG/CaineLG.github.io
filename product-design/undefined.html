@@ -1,0 +1,426 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<!--
+//                            _ooOoo_
+//                           o8888888o
+//                           88" . "88
+//                           (| -_- |)
+//                            O\ = /O
+//                        ____/`---'\____
+//                      .   ' \\| |// `.
+//                       / \\||| : |||// \
+//                     / _||||| -:- |||||- \
+//                       | | \\\ - /// | |
+//                     | \_| ''\---/'' | |
+//                      \ .-\__ `-` ___/-. /
+//                   ___`. .' /--.--\ `. . __
+//                ."" '< `.___\_<|>_/___.' >'"".
+//               | | : `- \`.;`\ _ /`;.`/ - ` : | |
+//                 \ \ `-. \_ __\ /__ _/ .-` / /
+//         ======`-.____`-.___\_____/___.-`____.-'======
+//                            `=---='
+//                 拦截插件累计拦截逗比攻击"1381438"次！
+//         .............................................
+//                  佛祖保佑             永无BUG
+//          佛曰:
+//                  写字楼里写字间，写字间里程序员；
+//                  程序人员写程序，又拿程序换酒钱。
+//                  酒醒只在网上坐，酒醉还来网下眠；
+//                  酒醉酒醒日复日，网上网下年复年。
+//                  但愿老死电脑间，不愿鞠躬老板前；
+//                  奔驰宝马贵者趣，公交自行程序员。
+//                  别人笑我忒疯癫，我笑自己命太贱；
+//                  不见满街漂亮妹，哪个归得程序员？
+-->
+<head>
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://cainelg.github.io/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://cainelg.github.io">
+<meta name="author" content="刘关(https://cainelg.github.io)">
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/SimpleStyle.min.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>struts2全面解析 - 刘关</title>
+
+<meta name="keywords" content="java，技术博客，原创IT博客">
+
+<meta name="description " content="struts2是一个基于MVC设计模式的Web应用框架，它本质上相当于一个servlet，在MVC设计模式中，Struts2作为控制器(Controller)来建立模型与视图的数据交互.">
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="文">文</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">caine_菜呢</h1>
+        <h3 class="cover-siteTitle">云层之上,全是阳光</h3>
+        <p class="cover-siteDesc">Email:caine_lg@outlook.com</p>
+        <div class="cover-sns">
+            
+            <div class="btn btn-telegram">
+                <a href="http://t.me/kunyintang" target="_blank" title="telegram" ref="friend">
+                    <i class="fa fa-telegram"></i>
+                </a>
+            </div>
+            
+            <div class="btn btn-instagram">
+                <a href="https://www.instagram.com/mtangsir/" target="_blank" title="instagram" ref="friend">
+                    <i class="fa fa-instagram"></i>
+                </a>
+            </div>
+            
+            <div class="btn btn-twitter">
+                <a href="https://twitter.com/tangkunyin" target="_blank" title="twitter" ref="friend">
+                    <i class="fa fa-twitter"></i>
+                </a>
+            </div>
+            
+            <div class="btn btn-github">
+                <a href="https://github.com/cainelg" target="_blank" title="github" ref="friend">
+                    <i class="fa fa-github"></i>
+                </a>
+            </div>
+            
+        </div>
+    </div>
+</div>
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最新</a></li>
+        
+            
+                <li class="">
+                    <a href="/categories/front-end" data-name="随笔">随笔</a>
+                </li>
+            
+                <li class="">
+                    <a href="/categories/back-end" data-name="算法">算法</a>
+                </li>
+            
+                <li class="active">
+                    <a href="/categories/product-design" data-name="架构">架构</a>
+                </li>
+            
+                <li class="">
+                    <a href="/categories/resource" data-name="资源">资源</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <label for="s" class="sr-only">请输入关键字</label>
+        <input class="search-field" type="text" name="s" class="text" placeholder="请输入关键字" />
+        <button type="submit" class="search-form-submit" title="搜索"><i class="fa fa-search"></i></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..."/>
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(无标题)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://cainelg.github.io" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar"/>
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://about.tangkunyin.com" target="_blank">刘关</a>
+                    <span title="最后编辑于2016-05-07">2016-05-07</span>
+                </p>
+                <p>java全栈技术</p>
+            </div>
+            <h2 class="post-title">Struts2全面解析</h2>
+            <div class="post-meta">
+                本文总共10462个字 | 您是第<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <p><img src="/img/2017/struts2.jpg" alt="struts2"></p>
+<h2 id="struts2框架介绍"><a href="#struts2框架介绍" class="headerlink" title="struts2框架介绍"></a>struts2框架介绍</h2><p>1.struts2是一个基于MVC设计模式的Web应用框架，它本质上相当于一个servlet，在MVC设计模式中，Struts2作为控制器(Controller)来建立模型与视图的数据交互.<br>2.核心点:</p>
+<pre><code>拦截器 interceptor
+Action
+ognl与valueStack
+</code></pre><h2 id="struts2框架解决的问题与环境搭建"><a href="#struts2框架解决的问题与环境搭建" class="headerlink" title="struts2框架解决的问题与环境搭建"></a>struts2框架解决的问题与环境搭建</h2><h3 id="为什么使用struts2框架？"><a href="#为什么使用struts2框架？" class="headerlink" title="为什么使用struts2框架？"></a>为什么使用struts2框架？</h3><p>Struts2框架它是一个在web中应用的mvc框架, 我们使用struts2框架来完成web开发有什么优势？<br>1.原来需要在Servlet通过request.getParameter(“username”)来获取表单提交的数据;<br>2.原来要在Servlet通过response.sendRedirect或request.getRequestDispatcher来进行页面跳转；<br>3.原来携带数据到页面上通过request.setAttribute把数据存放到域对象，然后在页面上通过el表达式来获取数据<br>使用struts2框架可以简化这些麻烦的操作，因为框架已经封装好了，只要按照框架的规则定义属性、配置页面这些操作都可以自动的搞定.</p>
+<h3 id="怎样使用struts2框架"><a href="#怎样使用struts2框架" class="headerlink" title="怎样使用struts2框架"></a>怎样使用struts2框架</h3><p>struts2框架使用步骤:<br>1.导入相关的jar文件<br>2.需要在web.xml文件中配置一个Filter（只有配置了它才可以使用struts2框架）<br>3.struts.xml文件配置访问路径及访问资源<br>4.创建Action类来完成逻辑操作  </p>
+<h3 id="简单的入门案例"><a href="#简单的入门案例" class="headerlink" title="简单的入门案例"></a>简单的入门案例</h3><p>1.在index.jsp页面添加链接</p>
+<pre><code>&lt;a href=&quot;${pageContext.request.contextPath}/struts2&quot;&gt;struts2入门&lt;/a&gt;
+</code></pre><p>2.创建Struts2Action.java类(包cn.lg.web.action下)</p>
+<pre><code>public class Struts2Action {
+    public void show() {
+        System.out.println(&quot;show struts2.....&quot;);
+    }
+}
+</code></pre><p>3.struts.xml文件配置(注意Action类的包名要对应上)</p>
+<pre><code>&lt;package name=&quot;default&quot; namespace=&quot;/&quot; extends=&quot;struts-default&quot;&gt;
+    &lt;action name=&quot;struts2&quot; class=&quot;cn.lg.web.action.Struts2Action&quot; method=&quot;show&quot;&gt;&lt;/action&gt;
+&lt;/package&gt;
+</code></pre><p>4.流程分析<br><img src="/img/2017/rumen.png" alt="rumen"></p>
+<p> <strong>流程：浏览器发出请求的时候:</strong></p>
+<pre><code>------&gt;request
+------&gt;创建ValueStack对象（root,context）
+------&gt;创建ActionContext(ValueStack把context交给ActionContext管理)
+------&gt;创建当前访问的Action对象
+------&gt;将Action对象push到root中
+------&gt;执行一堆的拦截器
+------&gt;执行Action的方法
+</code></pre><h2 id="struts框架流程介绍"><a href="#struts框架流程介绍" class="headerlink" title="struts框架流程介绍"></a>struts框架流程介绍</h2><p>1.当通过浏览器发送一个请求<br>2.会被StrutsPrepareAndExecuteFilter拦截<br>3.会调用struts2框架默认的拦截器(interceptor)完成部分功能<br>4.执行Action中的方法<br>5.根据Action中方法的执行结果来选择跳转页面Result视图<br>一般管StrutsPrepareAndExecuteFilter 叫做前端控制器(核心控制器)，只有配置了这个filter我们的strtus2框架才能使用。</p>
+<h2 id="struts框架配置文件加载顺序"><a href="#struts框架配置文件加载顺序" class="headerlink" title="struts框架配置文件加载顺序"></a>struts框架配置文件加载顺序</h2><p>1.default.properties<br>   第一个加载的是default.properties文件<br>位置:strtus2-core.jar包org.apache.struts2包下<br>作用:主要是声明了struts2框架的常量<br>2.struts-default.xml<br>第二个加载的是struts-default.xml<br>位置:struts2-core.jar<br>作用:声明了interceptor(拦截器) result-type(结果视图类型)  bean(对象)<br>3.struts-plugin.xml<br>第三个加载的是struts-plugin.xml<br>位置:在struts2的插件包中<br>作用:主要用于插件的配置声明<br>4.struts.xml<br>第四个加载的是struts.xml<br>位置:在我们自己的工程中<br>作用:用于我们自己工程使用strtus2框架的配置<br>5.最后从web.xml读取struts2常量配置  </p>
+<h2 id="struts-xml的详细配置"><a href="#struts-xml的详细配置" class="headerlink" title="struts.xml的详细配置"></a>struts.xml的详细配置</h2><p>1.package配置<br>name属性,作用:定义一个包的名称，它必须唯一。<br>namespace属性,作用:与action标签的name属性联合使用来确定一个action的访问路径<br>extends属性,作用:指定继承自哪个包，一般值是struts-default<br>struts-default包是在struts-default.xml文件中声明的。<br>abstract属性,它代表当前包是一个抽象的，主要是用于被继承  </p>
+<p>2.action配置<br>name属性,作用:与package的namespace联合使用来确定一个action的访问路径<br>class属性,作用:用于指示当前访问的action类<br>method属性,作用:用于指示当前的action类中的哪个方法执行  </p>
+<p>3.result配置<br>它主要是用于指示结果视图<br>name属性,作用:与action类的method方法的返回值进行匹配，来确定跳转路径<br>type属性, 作用:是用于指定跳转方式  </p>
+<blockquote>
+<p>默认值是dispatcher 它代表的是请求转发。针对于jsp页面<br>redirect  它代表的是重定向   针对于jsp页面<br>chain  它类似于请示转发，只不过它是针对于action跳转<br>redirectAction 它类似于重定向  针对于action  </p>
+</blockquote>
+<pre><code>&lt;package name=&quot;p1&quot; extends=&quot;struts-default&quot;&gt;
+    &lt;action  name=&quot;&quot; class=&quot;&quot;  method=&quot;&quot;&gt;
+         &lt;result  name=&quot;&quot;&gt;/ &lt;/result&gt;
+         &lt;result  name=&quot;&quot;  type=&quot;&quot;&gt;/&lt;/result&gt;
+    &lt;/action&gt;
+&lt;/package&gt;
+</code></pre><p>关于action配置中的class与method的默认值以及result中的name与type 默认值问题</p>
+<pre><code>&lt;package name=&quot;default&quot; namespace=&quot;/&quot; extends=&quot;struts-default&quot;&gt;
+    &lt;action name=&quot;test&quot;&gt;
+        &lt;result&gt;/success.jsp&lt;/result&gt;
+    &lt;/action&gt;
+&lt;/package&gt;
+</code></pre><p>访问<a href="http://localhost:8080/struts2-day01/test">http://localhost:8080/struts2-day01/test</a> 跳转到success.jsp页面.</p>
+<p>原因:strtus-default.xml文件中配置<br>它的作用就是当一个请求来时，如果查找不到指定的class及对应的method就会执行.  </p>
+<p>ActionSupport类中的execute方法。<br>在这个类的execute方法中默认返回的是”success”<br>也就是说，result的name属性默认值是success,默认的跳转方式是请求转发dispatcher.  </p>
+<h3 id="struts2框架常量配置介绍"><a href="#struts2框架常量配置介绍" class="headerlink" title="struts2框架常量配置介绍"></a>struts2框架常量配置介绍</h3><p>default.properties文件中定义了struts2框架常用常量 .<br>问题:我们怎样可以定义常量<br>1、    可以在src下创建一个struts.properties配置文件<br>2、    可以在web.xml文件中配置<br>3、可以直接在struts.xml文件中定义常量 (推荐)<br>    <constant name="struts.i18n.encoding" value="UTF-8"/><br>可以帮助我们解决post请求乱码问题<br>    <constant name="struts.action.extension" value="action"/><br>指定访问struts2框架路径的扩展名<br>    <constant name="struts.devMode" value="true"><br>配置这项后，它会提供更加详细报错信息，以及在struts.xml文件修改后不在需要重启服务器<br><strong>注意:后加载的配置文件中的常量会将先加载的常量覆盖</strong>  </p>
+<h2 id="struts2的action详解-action创建方式介绍"><a href="#struts2的action详解-action创建方式介绍" class="headerlink" title="struts2的action详解-action创建方式介绍"></a>struts2的action详解-action创建方式介绍</h2><p>1.创建一个pojo类<br>Pojo类就是没有实现任何接口没有继承任何类,优点:无耦合<br>缺点:所有的功能都要自己完成  </p>
+<p>2.创建一个类实现一个Action接口com.opensymphony.xwork2.Action<br>在Action接口中定义了五个常量，一个execute方法<br>五个常量:它们是默认的五个结果视图<result name=””>:<br>ERROR : 错误视图<br>INPUT: 它是struts2框架中interceptor中发现问题后会访问的一个视图<br>LOGIN:它是一个登录视图，可以在权限操作中使用<br>NONE:它代表的是null,什么都不做（也不会做跳转操作）<br>SUCCESS:这是一个成功视图<br>优点：耦合度低, 缺点:还是需要自己来完成功能  </p>
+<p>3.创建一个类继承ActionSupport类com.opensymphony.xwork2.ActionSupport<br>ActionSupport类也实现了Action接口,我们在开发中一般会使用这种方案:<br>优点:具有丰富的功能，例如:表单校验,错误信息设置,国际化; 缺点:耦合度高  </p>
+<h2 id="struts2的action详解-action访问"><a href="#struts2的action详解-action访问" class="headerlink" title="struts2的action详解-action访问"></a>struts2的action详解-action访问</h2><p>1.直接通过<action>标签来配置，通过method来指定访问的方法<br>2.简化的action访问方式，可以使用<em>通配符来访问。<br>这种方式的缺点:不建议使用过多的</em>号，它带来程序阅读障碍，不便于理解<br>使用<em>来简化操作方案，它对名称规范必须进行一个统一。<br> 一个</em>号配置方式:  </p>
+<pre><code>&lt;action name=&quot;book_*&quot; class=&quot;cn.lg.web.action.BookAction&quot; method=&quot;{1}&quot;&gt;&lt;/action&gt;
+</code></pre><h2 id="struts2框架封装数据介绍"><a href="#struts2框架封装数据介绍" class="headerlink" title="struts2框架封装数据介绍"></a>struts2框架封装数据介绍</h2><p>主要解决的问题:在action中如果获取请求参数  </p>
+<h3 id="属性驱动"><a href="#属性驱动" class="headerlink" title="属性驱动"></a>属性驱动</h3><p>a.直接在action类中提供与请求参数匹配的set属性，在请求时页面上提供set属性后字符串作为请求参数名称(首字母小写)<br>b.在action类中创建一个javaBean,对其提供get方法 ，在请求时页面上通过ognl对象导航方式来注入请求参数值<br>以上两种方式的优缺点:<br>第一种：比较简单，但是请求参数值没有封装到User对象<br>第二种: 将请求参数值直接封装到了User中,但是要求在页面上必须使用ognl表达式user.username，就存在页面请求参数名称不通用问题。</p>
+<h3 id="模型驱动"><a href="#模型驱动" class="headerlink" title="模型驱动"></a>模型驱动</h3><p>步骤:<br> 1.让Action类要实现一个指定接口ModelDriven<br> 2.实例化模型对象(就是要new出来javaBean)<br> 3.重写getModel方法将实例化的模型返回</p>
+<h2 id="valueStack-值栈"><a href="#valueStack-值栈" class="headerlink" title="valueStack 值栈"></a>valueStack 值栈</h2><p>我们使用valueStack的主要目的是为我将我们action中产生的数据携带到页面上，也就是说valueStack它就是一个存储数据的容器。</p>
+<p>在Struts2框架中将valueStack设计成一个接口。<br>com.opensymphony.xwork2.util.ValueStack<br>我们主要使用的是它的实现类<br>com.opensymphony.xwork2.ognl.OgnlValueStack。  </p>
+<p>1.valueStack基于ognl,作用是在struts2框架中来存储数据<br>2.浏览器发出请求request——&gt;创建ValueStack对象——-&gt;创建当前访问的Action对象</p>
+<h3 id="valueStack内部结构介绍"><a href="#valueStack内部结构介绍" class="headerlink" title="valueStack内部结构介绍"></a>valueStack内部结构介绍</h3><p>1.valueStack主要有两部分组成:  </p>
+<pre><code>CompoundRoot  root: 就是一个ArrayList
+Map&lt;String,Object&gt; context:  就是一个Map
+</code></pre><p>2.struts2框架向root存放的数据<br>浏览器发出请求request—–&gt;创建当前访问的Action对象—–&gt;将Action对象push到root<br>3.struts2框架向context存放的数据<br>浏览器发出请求request——&gt;创建ValueStack对象之后，向context存放存储了一些引用，这个引用主要是关于web开发中相关信息，如</p>
+<pre><code>parameters :请求参数
+request:请求对象中所有属性
+session:会话对象中所有属性
+application:ServletContext对象中的所有属性
+</code></pre><p>在struts2框架中我们通过ognl表达式来获取valueStack中数据，没有使用#就会从CompoundRoot中获取数据，如果使用#来获取，这时就会从context中来获取.</p>
+<h3 id="valueStack获取"><a href="#valueStack获取" class="headerlink" title="valueStack获取"></a>valueStack获取</h3><p>ActionContext actionContext = ActionContext.getContext();//返回一个actionContext对象<br>ValueStack valueStack = ActionContext.getContext().getValueStack();  </p>
+<h3 id="ActionContext介绍"><a href="#ActionContext介绍" class="headerlink" title="ActionContext介绍"></a>ActionContext介绍</h3><p>1.ActionContext它是action上下文，作用是管理context，数据的管理者<br>2.ActionContext的获取是通过它的静态方法getContext()得到;<br>  ActionContext actionContext = ActionContext.getContext();<br>3.Struts2会根据每一次的http请求就创建对应的ActionContext,它是与当前线程绑定的。<br>浏览器发出请求request—&gt;创建ValueStack(root,context)对象<br>—&gt;创建ActionContext对象(管理context),通过构造方法传递context给ActionContext<br>—&gt;创建当前访问的Action对象  </p>
+<h3 id="valueStack存储数据"><a href="#valueStack存储数据" class="headerlink" title="valueStack存储数据"></a>valueStack存储数据</h3><p>1.手动向valueStack存储数据  </p>
+<pre><code>public String execute()  {
+    ValueStack stack = ActionContext.getContext().getValueStack();
+    stack.set(&quot;name&quot;, &quot;liuguan&quot;);
+    stack.push(&quot;itcast&quot;);
+    return &quot;success&quot;;
+}
+</code></pre><p>valueStackpush方法,  直接将对象压入到root<br>valueStackset(“key”, “value”)方法,  创建一个Map压入到root，再把数据以健值对&lt;k,v&gt;的形式存放到这个map中  </p>
+<p>2．Struts2框架自动向valueStack中存储数据<br>a.在框架源码的DefaultActionInvocation类的init方法内:<br>  首先创建了当前访问的Action对象，然后通过stack.push(action)将当前访问的Action对象存放到valueStack的root中，也就是每次请求访问action的时候，都会构造出action对象并将这个action对象存储到valueStack的root(ArrayList)中。</p>
+<p>b.在浏览器访问action的时候,ModelDrivernInterceptor这个拦截器会<br>判断当前访问的Action对象有没有实现ModelDriven这个接口，如果实现了这个接口就通过action对象已经实现的通过getModel方法获取模型对象存放到root(ArrayList)中</p>
+<h3 id="struts2获取servlet-api-ServletActionContext-掌握"><a href="#struts2获取servlet-api-ServletActionContext-掌握" class="headerlink" title="struts2获取servlet api-ServletActionContext(掌握)"></a>struts2获取servlet api-ServletActionContext(掌握)</h3><p>从valueStack的context的这个map里面获取的<br>HttpServletRequest request = ServletActionContext.getRequest();<br>HttpServletResponse response = ServletActionContext.getResponse();<br>ServletContext servletContext = ServletActionContext.getServletContext();  </p>
+<h3 id="valueStack中数据获取"><a href="#valueStack中数据获取" class="headerlink" title="valueStack中数据获取"></a>valueStack中数据获取</h3><p>1.获取手动存放的数据</p>
+<pre><code>public String execute()  {
+    ValueStack stack = ActionContext.getContext().getValueStack();
+    stack.set(&quot;name&quot;, &quot;liuguan&quot;);
+    stack.push(&quot;itcast&quot;);
+    return &quot;success&quot;;
+}
+</code></pre><p>在jsp页面中获取以上代码手动存放的数据  </p>
+<pre><code>&lt;s:property value=&quot;name&quot;/&gt;
+&lt;s:property value=&quot;[0]&quot;/&gt;可以查看整个root结构数据
+&lt;s:property value=&quot;[0].top&quot;/&gt;&lt;br/&gt;获取root顶部的对象
+</code></pre><p>2.获取自动存放的数据</p>
+<pre><code>public class ValueStackAction1 {
+    private String username = &quot;fox&quot;;
+    public String getUsername() {
+        return username;
+    }
+    public String getPwd() {
+        return &quot;123&quot;;
+    }
+}
+</code></pre><p>在页面中获取以上自动存放的数据，为什么?<br>    &lt;s:property value=”username” /&gt;<br>    &lt;s:property value=”pwd” /&gt;</p>
+<h2 id="Interceptor拦截器"><a href="#Interceptor拦截器" class="headerlink" title="Interceptor拦截器"></a>Interceptor拦截器</h2><p>struts2中的interceptor它是基于spring aop思想，而aop思想它本质上是通过动态代理来实现，strtus2的拦截器它主要是拦截Action的操作，在action的执行前或执行后进行一些其它的功能操作。<br>拦截器链（拦截器栈）简单说，就是可以将多个拦截器形成一个链，在访问它们时依次访问。<br>以下是struts2的执行流程图</p>
+<p><img src="/img/2017/struts2liucheng.png" alt="struts2liucheng"></p>
+<h3 id="自定义Interceptor步骤介绍"><a href="#自定义Interceptor步骤介绍" class="headerlink" title="自定义Interceptor步骤介绍"></a>自定义Interceptor步骤介绍</h3><p>第一步：定义Interceptor<br>所有的Interceptor实现一个接口com.opensymphony.xwork2.interceptor.Interceptor<br>第二步：配置Interceptor<br>将多个interceptor封装成一个stack<br>第三步：在Action的配置中引入上面定义的拦截器栈</p>
+<p>注意:当显示的引入了拦截器,那么默认的defaultStack就不会在导入，需要手动导入，可以把把默认的拦截器栈defaultStack放入自己定义的拦截器栈来解决</p>
+<h2 id="ognl表达式介绍"><a href="#ognl表达式介绍" class="headerlink" title="ognl表达式介绍"></a>ognl表达式介绍</h2><p>OGNL是Object-Graph Navigation Language(对象图导航语言)的缩写，它是一种功能强大的表达式语言，通过它简单一致的表达式语法，可以存取对象的任意属性，调用对象的方法，遍历整个对象的结构图，实现字段类型转化等功能。它使用相同的表达式去存取对象的属性。<br>Struts2框架内置了OGNL,OGNL本身也是一个项目，它是可以单独使用。<br>OGNL作用：  </p>
+<blockquote>
+<p>支持对象的操作，调用对象的方法<br>支持静态成员访问<br>支持赋值操作与表达串联<br>访问OGNL上下文，访问ActionContext<br>操作集合对象。  </p>
+</blockquote>
+<p>OGNL三要素: 表达式; OgnlContext上下文; Root根  </p>
+<p>如果从根中获取数据，不需要添加#号，如果不是从根中获取，需要#  </p>
+<h3 id="struts2框架中如何使用ognl表达式"><a href="#struts2框架中如何使用ognl表达式" class="headerlink" title="struts2框架中如何使用ognl表达式"></a>struts2框架中如何使用ognl表达式</h3><p>在struts2框架中我们使用ognl表达式的作用是从valueStack中获取数据。<br>我们在struts2框架中可以使用valueStack+ ognl到在页面(jsp)上来获取相关的数据<br>valueStack—-&gt;存放数据；ognl—-&gt;取数据，(类似于之前的request域存数据，el表达式取数据)<br>要想在jsp页面上使用ognl表达式，就需要结合struts2框架的标签<br>&lt;s:property value=”表达式”&gt;来使用  </p>
+<p><strong>引入struts2标签</strong>：  </p>
+<pre><code>&lt;%@ taglib uri=&quot;/struts-tags&quot; prefix=&quot;s&quot;%&gt;
+</code></pre><p>使用ognl表达式获取数据:   </p>
+<pre><code>&lt;s:property value=&quot;username&quot;/&gt;
+</code></pre><h3 id="ognl表达式中特殊符号介绍"><a href="#ognl表达式中特殊符号介绍" class="headerlink" title="ognl表达式中特殊符号介绍"></a>ognl表达式中特殊符号介绍</h3><p><strong>为什么el表达式可以从valueStack中获取数据？</strong><br>Struts2框架通过org.apache.struts2.dispatcher.StrutsRequestWrapper<br>对request进行了增强，重写了getAttribute方法，如果在request域中查找不到数据，就会在valueStack中获取。<br>El表达式获取数据的顺序  </p>
+<pre><code>pageContext-----&gt;request-------&gt;valueStack-----&gt;session-----&gt;application
+</code></pre><p>OGNL是通常要结合Struts 2的标志一起使用。主要是#、%和$这三个符号的使用<br>1.#号:它是从context中获取数据</p>
+<pre><code>&lt;%
+    request.setAttribute(&quot;itcast&quot;, &quot;java&quot;);
+    session.setAttribute(&quot;itheima&quot;, &quot;ios&quot;);
+%&gt;
+&lt;h1&gt;#号用法&lt;/h1&gt;
+&lt;s:property value=&quot;#request&quot; /&gt;    &lt;br&gt;
+&lt;s:property value=&quot;#request.itcast&quot; /&gt;    &lt;br&gt;
+&lt;s:property value=&quot;#session.itheima &quot; /&gt;   &lt;br&gt;
+&lt;!-- localhost:8080/struts2-day02-demo/ognl.jsp?username=tom --&gt;
+&lt;s:property value=&quot;#parameters&quot;/&gt;
+</code></pre><p>&lt;s:property value=”#request” /&gt; 从context中获取request对象<br>&lt;s:property value=”#parameters”/&gt; 从context中获取封装请求参数的map对象<br>2.%号用于强制是否要解析ognl表达式%{}</p>
+<pre><code>&lt;s:textfield value=&quot;%{#request.itcast}&quot;/&gt;  
+</code></pre><p>将字符串#request.itcast强制解析为ognl<br>3.$号可以在struts配置文件中来获取valueStack中的数据</p>
+<pre><code>&lt;action name=&quot;vs3&quot; class=&quot;cn.itheima.action.ValueStackAction3&quot;&gt;
+        &lt;result name=&quot;success&quot; type=&quot;redirect&quot;&gt;/vs2.jsp?username=${model.username}&lt;/result&gt;
+&lt;/action&gt;
+</code></pre>
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/struts2/">struts2</a>
+            
+        </div>
+        
+    </article>
+    
+    <p>本文代表个人观点，若有不恰当之处，望不吝赐教！----转载请说明出处!</p>
+    
+    
+<div id="disqus_thread"></div>
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+     */
+    var disqus_config = function () {
+        this.page.url = 'https://cainelg.github.io/product-design/undefined.html';
+        this.page.identifier = 'product-design//undefined.html';
+    };
+    (function () { // DON'T EDIT BELOW THIS LINE
+        var d = document, disqus_shortname = 'caine', s = d.createElement('script');
+        s.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by
+        Disqus.</a></noscript>
+
+</div>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner">
+        <p>
+            <a href="/about"  title="关于本站">关于本站</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="help" >急救中心</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友情链接">友情链接</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/app" title="App下载">App下载</a>
+        </p>
+        <p>
+            本站点采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>，已建立<a href="/timeline" id="siteBuildingTime"></a>天<br/>
+            ©2017 基于<a href="http://hexo.io" target="_blank">Hexo</a>搭建
+            ，主题&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank">JSimple</a>
+            ，作者<a href="https://www.tangkunyin.com" target="_blank">唐先森</a>
+            ，Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+        </p>
+        
+<!-- Tencent Analytics -->
+<script type="text/javascript" src="//tajs.qq.com/stats?sId=65036274" charset="UTF-8"></script>
+
+
+    </div>
+</footer>
+<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<script src="/js/InsightSearch.js"></script>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        SimpleCore.init({
+            buildingTime: '01/20/2018',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+        });
+    });
+</script>
+</body>
+</html>
