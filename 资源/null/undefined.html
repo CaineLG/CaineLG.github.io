@@ -1,0 +1,314 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<!--
+//                            _ooOoo_
+//                           o8888888o
+//                           88" . "88
+//                           (| -_- |)
+//                            O\ = /O
+//                        ____/`---'\____
+//                      .   ' \\| |// `.
+//                       / \\||| : |||// \
+//                     / _||||| -:- |||||- \
+//                       | | \\\ - /// | |
+//                     | \_| ''\---/'' | |
+//                      \ .-\__ `-` ___/-. /
+//                   ___`. .' /--.--\ `. . __
+//                ."" '< `.___\_<|>_/___.' >'"".
+//               | | : `- \`.;`\ _ /`;.`/ - ` : | |
+//                 \ \ `-. \_ __\ /__ _/ .-` / /
+//         ======`-.____`-.___\_____/___.-`____.-'======
+//                            `=---='
+//                 拦截插件累计拦截逗比攻击"1381438"次！
+//         .............................................
+//                  佛祖保佑             永无BUG
+//          佛曰:
+//                  写字楼里写字间，写字间里程序员；
+//                  程序人员写程序，又拿程序换酒钱。
+//                  酒醒只在网上坐，酒醉还来网下眠；
+//                  酒醉酒醒日复日，网上网下年复年。
+//                  但愿老死电脑间，不愿鞠躬老板前；
+//                  奔驰宝马贵者趣，公交自行程序员。
+//                  别人笑我忒疯癫，我笑自己命太贱；
+//                  不见满街漂亮妹，哪个归得程序员？
+-->
+<head>
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://cainelg.github.io/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://cainelg.github.io">
+<meta name="author" content="刘关(https://cainelg.github.io)">
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/SimpleStyle.min.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>动态代理,静态代理和装饰者模式理解 - 刘关</title>
+
+<meta name="keywords" content="java，技术博客，原创IT博客">
+
+<meta name="description " content="为其他对象提供一种代理以控制对这个对象的访问。在某些情况下，一个对象不适合或者不能直接引用另一个对象，而代理对象可以在客户端和目标对象之间起到中介的作用。">
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="文">文</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">caine_菜呢</h1>
+        <h3 class="cover-siteTitle">云层之上,全是阳光</h3>
+        <p class="cover-siteDesc">Email:caine_lg@outlook.com</p>
+        <div class="cover-sns">
+            
+            <div class="btn btn-telegram">
+                <a href="http://t.me/kunyintang" target="_blank" title="telegram" ref="friend">
+                    <i class="fa fa-telegram"></i>
+                </a>
+            </div>
+            
+            <div class="btn btn-instagram">
+                <a href="https://www.instagram.com/mtangsir/" target="_blank" title="instagram" ref="friend">
+                    <i class="fa fa-instagram"></i>
+                </a>
+            </div>
+            
+            <div class="btn btn-twitter">
+                <a href="https://twitter.com/tangkunyin" target="_blank" title="twitter" ref="friend">
+                    <i class="fa fa-twitter"></i>
+                </a>
+            </div>
+            
+            <div class="btn btn-github">
+                <a href="https://github.com/cainelg" target="_blank" title="github" ref="friend">
+                    <i class="fa fa-github"></i>
+                </a>
+            </div>
+            
+        </div>
+    </div>
+</div>
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最新</a></li>
+        
+            
+                <li class="">
+                    <a href="/categories/front-end" data-name="随笔">随笔</a>
+                </li>
+            
+                <li class="">
+                    <a href="/categories/back-end" data-name="算法">算法</a>
+                </li>
+            
+                <li class="">
+                    <a href="/categories/product-design" data-name="架构">架构</a>
+                </li>
+            
+                <li class="">
+                    <a href="/categories/resource" data-name="模式">模式</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <label for="s" class="sr-only">请输入关键字</label>
+        <input class="search-field" type="text" name="s" class="text" placeholder="请输入关键字" />
+        <button type="submit" class="search-form-submit" title="搜索"><i class="fa fa-search"></i></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..."/>
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(无标题)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://www.tangkunyin.com" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar"/>
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://about.tangkunyin.com" target="_blank">刘关</a>
+                    <span title="最后编辑于2018-02-22">2018-02-22</span>
+                </p>
+                <p>java全栈技术</p>
+            </div>
+            <h2 class="post-title">动态代理,静态代理和装饰者模式理解</h2>
+            <div class="post-meta">
+                本文总共4657个字 | 您是第<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <h2 id="代理模式介绍"><a href="#代理模式介绍" class="headerlink" title="代理模式介绍"></a>代理模式介绍</h2><p>代理模式是23种常用的面向对象软件的设计模式之一.<br><strong>定义：</strong><br>为其他对象提供一种代理以控制对这个对象的访问。在某些情况下，一个对象不适合或者不能直接引用另一个对象，而代理对象可以在客户端和目标对象之间起到中介的作用。<br><strong>优点:</strong><br>(1).职责清晰,真实的角色就是实现实际的业务逻辑，不用关心其他非本职责的事务，通过后期的代理完成一件完成事务，附带的结果就是编程简洁清晰。<br>(2).代理对象可以在客户端和目标对象之间起到中介的作用，这样起到了中介的作用和保护了目标对象的作用。<br>(3).高扩展性  </p>
+<h3 id="代理模式涉及的角色"><a href="#代理模式涉及的角色" class="headerlink" title="代理模式涉及的角色"></a>代理模式涉及的角色</h3><p>抽象角色：通过接口或抽象类声明真实角色实现的业务方法。<br>代理角色：实现抽象角色，是真实角色的代理，通过真实角色的业务逻辑方法来实现抽象方法，并可以附加自己的操作。<br>真实角色：实现抽象角色，定义真实角色所要实现的业务逻辑，供代理角色调用。  </p>
+<p><strong>静态代理</strong><br>是由程序员创建或工具生成代理类的源码，再编译代理类。所谓静态也就是在程序运行前就已经存在代理类的字节码文件，代理类和委托类的关系在运行前就确定了。<br><strong>动态代理</strong><br>是在实现阶段不用关心代理类，而在运行阶段才指定哪一个对象。  </p>
+<h3 id="代理模式的应用场景"><a href="#代理模式的应用场景" class="headerlink" title="代理模式的应用场景"></a>代理模式的应用场景</h3><p>代理的使用场景很多，struts2中的 action 调用， hibernate的懒加载， spring的 AOP无一不用到代理。总结起来可分为以下几类：  </p>
+<ol>
+<li>在原方法执行之前和之后做一些操作，可以用代理来实现（比如记录Log，做事务控制等）。  </li>
+<li>封装真实的主题类，将真实的业务逻辑隐藏，只暴露给调用者公共的主题接口。  </li>
+<li>在延迟加载上的应用。   <h3 id="java静态代理和装饰者模式区别"><a href="#java静态代理和装饰者模式区别" class="headerlink" title="java静态代理和装饰者模式区别"></a>java静态代理和装饰者模式区别</h3>静态代理模式和装饰模式非常的相似，代理类和被代理的客户实现同一个接口，装饰者和被装饰者也是实现的同一个接口，实现方式也类似（针对接口编程是一个主要设计原则）。搜索之，得到结论：<strong>代理模式主要是控制对某个特定对象访问，而装饰模式主要是为了给对象添加行为</strong>。<br>两类的设计模式的代码还是有一些差别,下面通过代码对比:<h3 id="静态代理模式"><a href="#静态代理模式" class="headerlink" title="静态代理模式"></a>静态代理模式</h3>通常自己构造对象，方法中控制对象的访问。  <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">//接口  </span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Subject</span></span>&#123;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doAction</span><span class="params">()</span></span>;  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="comment">//实现类  </span></span><br><span class="line"> <span class="class"><span class="keyword">class</span> <span class="title">RealSubject</span> <span class="keyword">implements</span> <span class="title">Subject</span></span>&#123;  </span><br><span class="line">    <span class="meta">@Override</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doAction</span><span class="params">()</span> </span>&#123;          </span><br><span class="line">      System.out.println(<span class="string">"do something"</span>);     </span><br><span class="line">    &#125;  </span><br><span class="line">       </span><br><span class="line"> &#125;  </span><br><span class="line"> <span class="comment">//代理类  </span></span><br><span class="line"> <span class="class"><span class="keyword">class</span> <span class="title">Proxy</span> <span class="keyword">implements</span> <span class="title">Subject</span></span>&#123;  </span><br><span class="line">    <span class="keyword">private</span> Subject subject;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Proxy</span><span class="params">()</span></span>&#123;  </span><br><span class="line">        <span class="comment">//关系在编译时确定  </span></span><br><span class="line">         subject = <span class="keyword">new</span> RealSubject();  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doAction</span><span class="params">()</span></span>&#123;  </span><br><span class="line">        <span class="comment">//控制访问  </span></span><br><span class="line">          <span class="keyword">if</span>()  </span><br><span class="line">              subject.doAction();  </span><br><span class="line">          <span class="keyword">else</span>  </span><br><span class="line">              ...  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="装饰者模式"><a href="#装饰者模式" class="headerlink" title="装饰者模式"></a>装饰者模式</h3><p>在构造函数中传入被装饰的对象。<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Component</span></span>&#123;  </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operate</span><span class="params">()</span></span>;  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="comment">//具体构件  </span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteComponent</span> <span class="keyword">implements</span> <span class="title">Component</span></span>&#123;  </span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operate</span><span class="params">()</span></span>&#123;  </span><br><span class="line">         System.out.print(<span class="string">"do somthing"</span>);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;  </span><br><span class="line"><span class="comment">//装饰者  </span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Decorator</span> <span class="keyword">implements</span> <span class="title">Component</span></span>&#123;   </span><br><span class="line"><span class="keyword">private</span> Component component;   </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Decorator</span><span class="params">(Component component)</span></span>&#123;   </span><br><span class="line"><span class="comment">//通过构造器传值   </span></span><br><span class="line"><span class="keyword">this</span>.component = component   </span><br><span class="line">&#125;  </span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">operation</span><span class="params">()</span></span>&#123;   </span><br><span class="line">           <span class="keyword">do</span> something          </span><br><span class="line">           component.operation();  </span><br><span class="line">           <span class="keyword">do</span> Something   </span><br><span class="line">             </span><br><span class="line">      &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h2><p>在jdk的api中提供了java.lang.reflect.Proxy,有两个重要的类和接口，一个是 InvocationHandler(Interface)、另一个则是 Proxy(Class)它可以帮助我们完成动态代理创建.<br>注意：在java中使用Proxy来完成动态代理对象的创建，只能为目标实现了接口的类创建代理对象。<br>动态代理是在内存中直接生成代理对象。</p>
+<p><strong>InvocationHandler(Interface)</strong><br>InvocationHandler是负责连接代理类和委托类的中间类必须实现的接口，它自定义了一个 invoke 方法，用于集中处理在动态代理类对象上的方法调用，通常在该方法中实现对委托类的代理访问。<br>InvocationHandler 的核心方法  </p>
+<pre><code>Object invoke(Object proxy, Method method, Object[] args)  
+- proxy 该参数为代理类的实例  
+- method 被调用的方法对象  
+- args 调用method对象的方法参数   
+</code></pre><p><strong>Proxy(Class)</strong><br>Proxy是 Java 动态代理机制的主类，它提供了一组静态方法来为一组接口动态地生成代理类及其对象。<br>Proxy 的静态方法<br>static InvocationHandler getInvocationHandler(Object proxy)<br>该方法用于获取指定代理对象所关联的调用处理器<br>static Class getProxyClass(ClassLoader loader, Class[] interfaces)<br>该方法用于获取关联于指定类装载器和一组接口的动态代理类的类对象<br>static boolean isProxyClass(Class cl)<br>该方法用于判断指定类对象是否是一个动态代理类  </p>
+<pre><code>static Object newProxyInstance(ClassLoader loader, Class[] interfaces,InvocationHandler h)   
+- loader 指定代理类的ClassLoader加载器  
+- interfaces 指定代理类要实现的接口  
+- h: 表示的是当我这个动态代理对象在调用方法的时候，会关联到哪一个InvocationHandler对象上  
+</code></pre><p><img src="https://i.imgur.com/pmdbbFZ.jpg" alt="dync"><br>该方法用于为指定类装载器、一组接口及调用处理器生成动态代理类实例 </p>
+<h3 id="使用Java-动态代理的两个重要步骤"><a href="#使用Java-动态代理的两个重要步骤" class="headerlink" title="使用Java 动态代理的两个重要步骤"></a>使用Java 动态代理的两个重要步骤</h3><pre><code>1.通过实现 InvocationHandler 接口创建自己的调用处理器；
+2.通过为Proxy类的newProxyInstance方法指定代理类的ClassLoader 对象和代理要实现的interface以及调用处理器InvocationHandler对象 来创建动态代理类的对象；
+</code></pre><h4 id="实现InvocationHandler接口"><a href="#实现InvocationHandler接口" class="headerlink" title="实现InvocationHandler接口"></a>实现InvocationHandler接口</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 动态代理类对应的调用处理程序类 </span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> caine</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SalesInvocationHandler</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span></span>&#123;</span><br><span class="line">     <span class="comment">//代理类持有一个委托类的对象引用  </span></span><br><span class="line">     <span class="keyword">private</span> Object delegate;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">SalesInvocationHandler</span><span class="params">(Object delegate)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.delegate = delegate;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Enter method "</span>+method.getName());</span><br><span class="line">        <span class="keyword">long</span> start=System.currentTimeMillis();	<span class="comment">//在调用真实角色方法之前进行操作</span></span><br><span class="line"></span><br><span class="line">        Object result=method.invoke(delegate, args); </span><br><span class="line"></span><br><span class="line">        <span class="keyword">long</span> end=System.currentTimeMillis();  <span class="comment">//在调用真实角色方法之后操作</span></span><br><span class="line">        System.out.println(<span class="string">"Exit method "</span>+method.getName());</span><br><span class="line">        System.out.println(<span class="string">"执行时间："</span>+(end-start));</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>SalesInvocationHandler实现了InvocationHandler的invoke方法，当代理对象的方法被调用时，invoke方法会被回调。其中proxy表示实现了公共代理方法的动态代理对象。</p>
+<h4 id="通过-Proxy-类静态函数生成代理对象"><a href="#通过-Proxy-类静态函数生成代理对象" class="headerlink" title="通过 Proxy 类静态函数生成代理对象"></a>通过 Proxy 类静态函数生成代理对象</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 客户端，使用代理类和主题接口完成一些工作。&lt;br&gt;</span></span><br><span class="line"><span class="comment"> * 在这里表示买房子的客户</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> caine</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Customer</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[]args)</span> </span>&#123;</span><br><span class="line">		Sales delegate=<span class="keyword">new</span> Owner(); <span class="comment">//Sales是一个接口,Owner实现了Sales接口,是真实角色</span></span><br><span class="line">        InvocationHandler handler=<span class="keyword">new</span> SalesInvocationHandler(delegate);</span><br><span class="line">        Sales proxy=(Sales)Proxy.newProxyInstance(delegate.getClass().getClassLoader(), delegate.getClass().getInterfaces(), handler);</span><br><span class="line">        proxy.doSomething();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>执行结果:<br>Enter method doSomething<br>我是房东,我正在卖我的房子<br>Exit method doSomething<br>执行时间：0    </p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/designModel/">设计模式</a>
+            
+        </div>
+        
+    </article>
+    
+    <p>本文代表个人观点，若有不恰当之处，望不吝赐教！----转载请说明出处!</p>
+    
+    
+<div id="disqus_thread"></div>
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+     */
+    var disqus_config = function () {
+        this.page.url = 'https://cainelg.github.io/资源/null/undefined.html';
+        this.page.identifier = '资源/null/undefined.html';
+    };
+    (function () { // DON'T EDIT BELOW THIS LINE
+        var d = document, disqus_shortname = 'caine', s = d.createElement('script');
+        s.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by
+        Disqus.</a></noscript>
+
+</div>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner">
+        <p>
+            <a href="/about"  title="关于本站">关于本站</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="help" >急救中心</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友情链接">友情链接</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/app" title="App下载">App下载</a>
+        </p>
+        <p>
+            本站点采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>，已建立<a href="/timeline" id="siteBuildingTime"></a>天<br/>
+            ©2017 基于<a href="http://hexo.io" target="_blank">Hexo</a>搭建
+            ，主题&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank">JSimple</a>
+            ，作者<a href="https://www.tangkunyin.com" target="_blank">唐先森</a>
+            ，Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+        </p>
+        
+<!-- Tencent Analytics -->
+<script type="text/javascript" src="//tajs.qq.com/stats?sId=65036274" charset="UTF-8"></script>
+
+
+    </div>
+</footer>
+<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<script src="/js/InsightSearch.js"></script>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        SimpleCore.init({
+            buildingTime: '01/20/2017',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+        });
+    });
+</script>
+</body>
+</html>
