@@ -193,7 +193,7 @@
             </div>
             <h2 class="post-title">ThreadLocal本地线程类解析</h2>
             <div class="post-meta">
-                本文总共6160个字 | 您是第<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+                本文总共6109个字 | 您是第<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
             </div>
         </div>
         <div class="post-content markdown-body">
@@ -209,128 +209,11 @@
 <p><strong>void remove()</strong><br>移除此线程局部变量的值。这可能有助于减少线程局部变量的存储需求。如果再次访问此线程局部变量，那么在默认情况下它将拥有其 initialValue。</p>
 <p><strong>void set(T value)</strong><br>将此线程局部变量的当前线程副本中的值设置为指定值。许多应用程序不需要这项功能，它们只依赖于 initialValue() 方法来设置线程局部变量的值。</p>
 <p>在程序中一般都重写initialValue方法，以给定一个特定的初始值。</p>
-<h2 id="典型实例"><a href="#典型实例" class="headerlink" title="典型实例"></a>典型实例</h2><p>1、Hiberante的Session 工具类HibernateUtil<br>这个类是Hibernate官方文档中HibernateUtil类，用于session管理。</p>
-<pre><code>public class HibernateUtil {
-    private static Log log = LogFactory.getLog(HibernateUtil.class);
-    private static final SessionFactory sessionFactory;     //定义SessionFactory
-
-    static {
-        try {
-            // 通过默认配置文件hibernate.cfg.xml创建SessionFactory
-            sessionFactory = new Configuration().configure().buildSessionFactory();
-        } catch (Throwable ex) {
-            log.error(&quot;初始化SessionFactory失败！&quot;, ex);
-            throw new ExceptionInInitializerError(ex);
-        }
-    }
-
-    //创建线程局部变量session，用来保存Hibernate的Session
-    public static final ThreadLocal session = new ThreadLocal();
-
-    /**
-     * 获取当前线程中的Session
-     * @return Session
-     * @throws HibernateException
-     */
-    public static Session currentSession() throws HibernateException {
-            Session s = (Session) session.get();
-            // 如果Session还没有打开，则新开一个Session
-            if (s == null) {
-                s = sessionFactory.openSession();
-                session.set(s);         //将新开的Session保存到线程局部变量中
-            }
-            return s;
-        }
-
-        public static void closeSession() throws HibernateException {
-            //获取线程局部变量，并强制转换为Session类型
-            Session s = (Session) session.get();
-            session.set(null);
-            if (s != null)
-                s.close();
-       }
-}
-</code></pre><p>在这个类中，由于没有重写ThreadLocal的initialValue()方法，则首次创建线程局部变量session其初始值为null，第一次调用currentSession()的时候，线程局部变量的get()方法也为null。<br>因此，对session做了判断，如果为null，则新开一个Session，并保存到线程局部变量session中，这一步非常的关键，这也是“public static final ThreadLocal session = new ThreadLocal()”所创建对象session能强制转换为Hibernate Session对象的原因。</p>
-<p>2、另外一个实例<br>创建一个Bean，通过不同的线程对象设置Bean属性，保证各个线程Bean对象的独立性。</p>
-<pre><code>/**
- * Created by IntelliJ IDEA.
- * User: leizhimin
- * Date: 2007-11-23
- * Time: 10:45:02
- * 学生
- */
-public class Student {
-    private int age = 0;   //年龄
-
-    public int getAge() {
-        return this.age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-}
-</code></pre><hr>
-<pre><code>/**
- * Created by IntelliJ IDEA.
- * User: leizhimin
- * Date: 2007-11-23
- * Time: 10:53:33
- * 多线程下测试程序
- */
-public class ThreadLocalDemo implements Runnable {
-//创建线程局部变量studentLocal，在后面你会发现用来保存Student对象
-private final static ThreadLocal studentLocal = new ThreadLocal();
-
-public static void main(String[] agrs) {
-    ThreadLocalDemo td = new ThreadLocalDemo();
-    Thread t1 = new Thread(td, &quot;a&quot;);
-    Thread t2 = new Thread(td, &quot;b&quot;);
-    t1.start();
-    t2.start();
-}
-
-public void run() {
-    accessStudent();
-}
-
-/**
- * 示例业务方法，用来测试
- */
-public void accessStudent() {
-        //获取当前线程的名字
-        String currentThreadName = Thread.currentThread().getName();
-        System.out.println(currentThreadName + &quot; is running!&quot;);
-        //产生一个随机数并打印
-        Random random = new Random();
-        int age = random.nextInt(100);
-        System.out.println(&quot;thread &quot; + currentThreadName + &quot; set age to:&quot; + age);
-        //获取一个Student对象，并将随机数年龄插入到对象属性中
-        Student student = getStudent();
-        student.setAge(age);
-        System.out.println(&quot;thread &quot; + currentThreadName + &quot; first read age is:&quot; + student.getAge());
-        try {
-            Thread.sleep(500);
-        }
-        catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }
-        System.out.println(&quot;thread &quot; + currentThreadName + &quot; second read age is:&quot; + student.getAge());
-    }
-
-    protected Student getStudent() {
-        //获取本地线程变量并强制转换为Student类型
-        Student student = (Student) studentLocal.get();
-        //线程首次执行此方法的时候，studentLocal.get()肯定为null
-        if (student == null) {
-            //创建一个Student对象，并保存到本地线程变量studentLocal中
-            student = new Student();
-            studentLocal.set(student);
-        }
-        return student;
-    }
-}
-</code></pre><p>运行结果：  </p>
+<h2 id="典型实例"><a href="#典型实例" class="headerlink" title="典型实例"></a>典型实例</h2><p>1、Hiberante的Session 工具类HibernateUtil<br>这个类是Hibernate官方文档中HibernateUtil类，用于session管理。<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HibernateUtil</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Log log = LogFactory.getLog(HibernateUtil.class);</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> SessionFactory sessionFactory;     <span class="comment">//定义SessionFactory</span></span><br><span class="line"> </span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 通过默认配置文件hibernate.cfg.xml创建</span></span><br><span class="line">		SessionFactory sessionFactory = <span class="keyword">new</span> Configuration().configure().buildSessionFactory();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Throwable ex) &#123;</span><br><span class="line">            log.error(<span class="string">"初始化SessionFactory失败！"</span>, ex);</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> ExceptionInInitializerError(ex);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建线程局部变量session，用来保存Hibernate的Session</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> ThreadLocal session = <span class="keyword">new</span> ThreadLocal();</span><br><span class="line"> </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取当前线程中的Session</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> Session</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> HibernateException</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Session <span class="title">currentSession</span><span class="params">()</span> <span class="keyword">throws</span> HibernateException </span>&#123;</span><br><span class="line">        Session s = (Session) session.get();</span><br><span class="line">        <span class="comment">// 如果Session还没有打开，则新开一个Session</span></span><br><span class="line">        <span class="keyword">if</span> (s == <span class="keyword">null</span>) &#123;</span><br><span class="line">            s = sessionFactory.openSession();</span><br><span class="line">            session.set(s);         <span class="comment">//将新开的Session保存到线程局部变量中</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> s;</span><br><span class="line">    &#125;</span><br><span class="line">	 </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">closeSession</span><span class="params">()</span> <span class="keyword">throws</span> HibernateException </span>&#123;</span><br><span class="line">        <span class="comment">//获取线程局部变量，并强制转换为Session类型</span></span><br><span class="line">        Session s = (Session) session.get();</span><br><span class="line">        session.set(<span class="keyword">null</span>);</span><br><span class="line">        <span class="keyword">if</span> (s != <span class="keyword">null</span>)</span><br><span class="line">            s.close();</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在这个类中，由于没有重写ThreadLocal的initialValue()方法，则首次创建线程局部变量session其初始值为null，第一次调用currentSession()的时候，线程局部变量的get()方法也为null。<br>因此，对session做了判断，如果为null，则新开一个Session，并保存到线程局部变量session中，这一步非常的关键，这也是“public static final ThreadLocal session = new ThreadLocal()”所创建对象session能强制转换为Hibernate Session对象的原因。</p>
+<p>2、另外一个实例<br>创建一个Bean，通过不同的线程对象设置Bean属性，保证各个线程Bean对象的独立性。<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created by IntelliJ IDEA.</span></span><br><span class="line"><span class="comment"> * User: leizhimin</span></span><br><span class="line"><span class="comment"> * Date: 2007-11-23</span></span><br><span class="line"><span class="comment"> * Time: 10:45:02</span></span><br><span class="line"><span class="comment"> * 学生</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age = <span class="number">0</span>;   <span class="comment">//年龄</span></span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.age;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created by IntelliJ IDEA.</span></span><br><span class="line"><span class="comment"> * User: leizhimin</span></span><br><span class="line"><span class="comment"> * Date: 2007-11-23</span></span><br><span class="line"><span class="comment"> * Time: 10:53:33</span></span><br><span class="line"><span class="comment"> * 多线程下测试程序</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThreadLocalDemo</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">   <span class="comment">//创建线程局部变量studentLocal，在后面你会发现用来保存Student对象</span></span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> ThreadLocal studentLocal = <span class="keyword">new</span> ThreadLocal();</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] agrs)</span> </span>&#123;</span><br><span class="line">       ThreadLocalDemo td = <span class="keyword">new</span> ThreadLocalDemo();</span><br><span class="line">       Thread t1 = <span class="keyword">new</span> Thread(td, <span class="string">"a"</span>);</span><br><span class="line">       Thread t2 = <span class="keyword">new</span> Thread(td, <span class="string">"b"</span>);</span><br><span class="line">       t1.start();</span><br><span class="line">       t2.start();</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       accessStudent();</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 示例业务方法，用来测试</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">accessStudent</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//获取当前线程的名字</span></span><br><span class="line">        String currentThreadName = Thread.currentThread().getName();</span><br><span class="line">        System.out.println(currentThreadName + <span class="string">" is running!"</span>);</span><br><span class="line">        <span class="comment">//产生一个随机数并打印</span></span><br><span class="line">        Random random = <span class="keyword">new</span> Random();</span><br><span class="line">        <span class="keyword">int</span> age = random.nextInt(<span class="number">100</span>);</span><br><span class="line">        System.out.println(<span class="string">"thread "</span> + currentThreadName + <span class="string">" set age to:"</span> + age);</span><br><span class="line">        <span class="comment">//获取一个Student对象，并将随机数年龄插入到对象属性中</span></span><br><span class="line">        Student student = getStudent();</span><br><span class="line">        student.setAge(age);</span><br><span class="line">        System.out.println(<span class="string">"thread "</span> + currentThreadName + <span class="string">" first read age is:"</span> + student.getAge());</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="number">500</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (InterruptedException ex) &#123;</span><br><span class="line">            ex.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">"thread "</span> + currentThreadName + <span class="string">" second read age is:"</span> + student.getAge());</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">protected</span> Student <span class="title">getStudent</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//获取本地线程变量并强制转换为Student类型</span></span><br><span class="line">        Student student = (Student) studentLocal.get();</span><br><span class="line">        <span class="comment">//线程首次执行此方法的时候，studentLocal.get()肯定为null</span></span><br><span class="line">        <span class="keyword">if</span> (student == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">//创建一个Student对象，并保存到本地线程变量studentLocal中</span></span><br><span class="line">            student = <span class="keyword">new</span> Student();</span><br><span class="line">            studentLocal.set(student);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> student;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果：  </p>
 <blockquote>
 <p>a is running!<br>thread a set age to:76<br>b is running!<br>thread b set age to:27<br>thread a first read age is:76<br>thread b first read age is:27<br>thread a second read age is:76<br>thread b second read age is:27   </p>
 </blockquote>

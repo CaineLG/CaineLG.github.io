@@ -193,7 +193,7 @@
             </div>
             <h2 class="post-title">目录分离算法</h2>
             <div class="post-meta">
-                本文总共1030个字 | 您是第<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+                本文总共938个字 | 您是第<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
             </div>
         </div>
         <div class="post-content markdown-body">
@@ -202,25 +202,8 @@
 <pre><code>1.为每个用户创建一个文件夹存放该用户文件
 2.以时间为单位,间隔一定时间创建一个文件夹,如每天固定时间点创建一个文件夹,如果用户量较大,可以缩短间隔时间.
 3.通过hash目录算法生成文件夹路径.
-</code></pre><h2 id="hash目录算法"><a href="#hash目录算法" class="headerlink" title="hash目录算法"></a>hash目录算法</h2><p>这里只介绍hash目录算法,创建一个文件夹路径生成的工具类:</p>
-<pre><code>public class HashcodeDirUtils {
-    /*
-     * 目录分离算法
-     */
-    public static String getRealPath(String uuidFileName) {
-        //1.获取文件名的哈希码
-        int code1 = uuidFileName.hashCode();
-        //2.将哈希码和0xf进行与运算
-        int dir1 = code1 &amp; 0xf;
-        //3.将哈希码无符号右移四位
-        int code2 = code1 &gt;&gt;&gt; 4;
-        //4.再进行与运算
-        int dir2 = code1 &amp; 0xf;
-        //5.拼接成路径,两级目录
-        return &quot;/&quot;+dir1+&quot;/&quot;+dir2;
-    }
-}
-</code></pre><p>不同的对象hashCode是有可能会相同的,如果只是使用hash算法打散存储,进行存取文件时,不用考虑hashCode,因为只要知道文件的名称,存和取所产生的dir1和dir2是一样的,文件的路径就可以确定.</p>
+</code></pre><h2 id="hash目录算法"><a href="#hash目录算法" class="headerlink" title="hash目录算法"></a>hash目录算法</h2><p>这里只介绍hash目录算法,创建一个文件夹路径生成的工具类:<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HashcodeDirUtils</span> </span>&#123;</span><br><span class="line">	<span class="comment">/*</span></span><br><span class="line"><span class="comment">	 * 目录分离算法</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getRealPath</span><span class="params">(String uuidFileName)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//1.获取文件名的哈希码</span></span><br><span class="line">		<span class="keyword">int</span> code1 = uuidFileName.hashCode();</span><br><span class="line">		<span class="comment">//2.将哈希码和0xf进行与运算</span></span><br><span class="line">		<span class="keyword">int</span> dir1 = code1 &amp; <span class="number">0xf</span>;</span><br><span class="line">		<span class="comment">//3.将哈希码无符号右移四位</span></span><br><span class="line">		<span class="keyword">int</span> code2 = code1 &gt;&gt;&gt; <span class="number">4</span>;</span><br><span class="line">		<span class="comment">//4.再进行与运算</span></span><br><span class="line">		<span class="keyword">int</span> dir2 = code1 &amp; <span class="number">0xf</span>;</span><br><span class="line">		<span class="comment">//5.拼接成路径,两级目录</span></span><br><span class="line">		<span class="keyword">return</span> <span class="string">"/"</span>+dir1+<span class="string">"/"</span>+dir2;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>不同的对象hashCode是有可能会相同的,如果只是使用hash算法打散存储,进行存取文件时,不用考虑hashCode,因为只要知道文件的名称,存和取所产生的dir1和dir2是一样的,文件的路径就可以确定.</p>
 <p>注释1.获取文件名的hash码,为四个字节,32位<br>注释2.与0xf进行与运算,即与1111进行与运算,得到的结果转换成十进制,将这个值作为一级目录名,一共有16种结果.<br>注释3和4会得到二级目录名,同理也有16种结果.</p>
 <p>最高可以创建8级,共有16^8=4294967296近<strong>43亿</strong>个目录,每个目录可以放1000个文件,这样一算,可以存放的文件就非常多了.实际应用中根据用户量,选择创建几级目录.</p>
 

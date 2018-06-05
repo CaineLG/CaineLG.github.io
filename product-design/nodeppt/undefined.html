@@ -1,0 +1,331 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<!--
+//                            _ooOoo_
+//                           o8888888o
+//                           88" . "88
+//                           (| -_- |)
+//                            O\ = /O
+//                        ____/`---'\____
+//                      .   ' \\| |// `.
+//                       / \\||| : |||// \
+//                     / _||||| -:- |||||- \
+//                       | | \\\ - /// | |
+//                     | \_| ''\---/'' | |
+//                      \ .-\__ `-` ___/-. /
+//                   ___`. .' /--.--\ `. . __
+//                ."" '< `.___\_<|>_/___.' >'"".
+//               | | : `- \`.;`\ _ /`;.`/ - ` : | |
+//                 \ \ `-. \_ __\ /__ _/ .-` / /
+//         ======`-.____`-.___\_____/___.-`____.-'======
+//                            `=---='
+//                 拦截插件累计拦截逗比攻击"1381438"次！
+//         .............................................
+//                  佛祖保佑             永无BUG
+//          佛曰:
+//                  写字楼里写字间，写字间里程序员；
+//                  程序人员写程序，又拿程序换酒钱。
+//                  酒醒只在网上坐，酒醉还来网下眠；
+//                  酒醉酒醒日复日，网上网下年复年。
+//                  但愿老死电脑间，不愿鞠躬老板前；
+//                  奔驰宝马贵者趣，公交自行程序员。
+//                  别人笑我忒疯癫，我笑自己命太贱；
+//                  不见满街漂亮妹，哪个归得程序员？
+-->
+<head>
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://cainelg.github.io/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://cainelg.github.io">
+<meta name="author" content="刘关(https://cainelg.github.io)">
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/SimpleStyle.min.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>自己实现dbutils小框架 - 刘关</title>
+
+<meta name="keywords" content="java，技术博客，原创IT博客">
+
+<meta name="description " content="DbUtils是一个为做一些诸如关闭连接、装载JDBC驱动程序之类的常规工作提供有用方法的类，它里面所有的方法都是静态的。">
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="文">文</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">caine_菜呢</h1>
+        <h3 class="cover-siteTitle">云层之上,全是阳光</h3>
+        <p class="cover-siteDesc">Email:caine_lg@outlook.com</p>
+        <div class="cover-sns">
+            
+            <div class="btn btn-telegram">
+                <a href="http://t.me/kunyintang" target="_blank" title="telegram" ref="friend">
+                    <i class="fa fa-telegram"></i>
+                </a>
+            </div>
+            
+            <div class="btn btn-instagram">
+                <a href="https://www.instagram.com/mtangsir/" target="_blank" title="instagram" ref="friend">
+                    <i class="fa fa-instagram"></i>
+                </a>
+            </div>
+            
+            <div class="btn btn-twitter">
+                <a href="https://twitter.com/tangkunyin" target="_blank" title="twitter" ref="friend">
+                    <i class="fa fa-twitter"></i>
+                </a>
+            </div>
+            
+            <div class="btn btn-github">
+                <a href="https://github.com/cainelg" target="_blank" title="github" ref="friend">
+                    <i class="fa fa-github"></i>
+                </a>
+            </div>
+            
+        </div>
+    </div>
+</div>
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最新</a></li>
+        
+            
+                <li class="">
+                    <a href="/categories/front-end" data-name="随笔">随笔</a>
+                </li>
+            
+                <li class="">
+                    <a href="/categories/back-end" data-name="算法">算法</a>
+                </li>
+            
+                <li class="active">
+                    <a href="/categories/product-design" data-name="架构">架构</a>
+                </li>
+            
+                <li class="">
+                    <a href="/categories/resource" data-name="资源">资源</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <label for="s" class="sr-only">请输入关键字</label>
+        <input class="search-field" type="text" name="s" class="text" placeholder="请输入关键字" />
+        <button type="submit" class="search-form-submit" title="搜索"><i class="fa fa-search"></i></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..."/>
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(无标题)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://www.tangkunyin.com" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar"/>
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://about.tangkunyin.com" target="_blank">刘关</a>
+                    <span title="最后编辑于2017-10-06">2017-10-06</span>
+                </p>
+                <p>java全栈技术</p>
+            </div>
+            <h2 class="post-title">自己实现DBUtils小框架</h2>
+            <div class="post-meta">
+                本文总共8163个字 | 您是第<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <p><img src="https://i.imgur.com/7K0sZWs.jpg" alt="dbutils"></p>
+<h2 id="DBUtils框架使用介绍"><a href="#DBUtils框架使用介绍" class="headerlink" title="DBUtils框架使用介绍"></a>DBUtils框架使用介绍</h2><p>DBUtils是一个为做一些诸如关闭连接、装载JDBC驱动程序之类的常规工作提供有用方法的类，它里面所有的方法都是静态的。<br><strong>这个类里的重要方法有：</strong><br><strong>close()：</strong></p>
+<pre><code>DbUtils类提供了三个重载的关闭方法。这些方法检查所提供的参数是不是NULL，
+如果不是的话，它们就关闭连接、声明和结果集（ResultSet）。
+</code></pre><p><strong>CloseQuietly: </strong> </p>
+<pre><code>CloseQuietly这一方法不仅能在连接、声明或者结果集（ResultSet）为NULL情况下避免关闭，
+还能隐藏一些在程序中抛出的SQLEeception。如果你不想捕捉这些异常的话，这对你是非常有用的。
+在重载CloseQuietly方法时，特别有用的一个方法是closeQuietly(Connection conn,Statement stmt,ResultSet rs)，
+这是因为在大多数情况下，连接、声明和结果集（ResultSet）是你要用的三样东西，而且在最后的块你必须关闭它们。
+使用这一方法，你最后的块就可以只需要调用这一方法即可。
+</code></pre><p><strong>CommitAndCloseQuietly(Connection conn)：</strong></p>
+<pre><code>这一方法用来提交连接，然后关闭连接，并且在关闭连接时不向上抛出在关闭时发生的一些SQL异常。
+</code></pre><p><strong>LoadDriver(String driveClassName):</strong></p>
+<pre><code>这一方法装载并注册JDBC驱动程序，如果成功就返回TRUE。
+使用这种方法，你不需要去捕捉这个异常ClassNotFoundException。使用loadDrive方法，编码就变得更容易理解，
+你也就得到了一个很好的Boolean返回值，这个返回值会告诉你驱动类是不是已经加载成功了。
+</code></pre><p><strong>ResultSetHandler接口</strong></p>
+<pre><code>这一接口执行处理一个jaca.sql.ResultSet，将数据转变并处理为任何一种形式，这样有益于其应用而且使用起来更容易。
+这一组件提供了ArrayHandler, ArrayListHandler, BeanHandler, BeanListHandler, MapHandler, MapListHandler, and ScalarHandler等执行程序。
+
+ResultSetHandler接口提供了一个单独的方法：Object handle (java.sql.ResultSet .rs)。
+因此任何ResultSetHandler 的执行需要一个结果集（ResultSet）作为参数传入，然后才能处理这个结果集，再返回一个对象。
+因为返回类型是java.lang.Object，所以除了不能返回一个原始的Java类型之外，其它的返回类型并没有什么限制。
+如果你发现这七个执行程序中没有任何一个提供了你想要的服务，你可以自己写执行程序并使用它。
+</code></pre><p><strong>QreryRunner</strong></p>
+<pre><code>这个类使执行SQL查询简单化了，它与ResultSetHandler串联在一起有效地履行着一些平常的任务，它能够大大减少你所要写的编码。
+QueryRunner类提供了两个构造器：其中一个是一个空构造器，另一个则拿一个 javax.sql.DataSource 来作为参数。
+因此，在你不用为一个方法提供一个数据库连接来作为参数的情况下，提供给构造器的数据源(DataSource) 被用来获得一个新的连接并将继续进行下去。
+</code></pre><h3 id="这一类中的重要方法包括以下这些："><a href="#这一类中的重要方法包括以下这些：" class="headerlink" title="这一类中的重要方法包括以下这些："></a>这一类中的重要方法包括以下这些：</h3><p>query(Connection conn, String sql, Object[] params, ResultSetHandler rsh):</p>
+<pre><code>这一方法执行一个选择查询，在这个查询中，对象阵列的值被用来作为查询的置换参数。
+这一方法内在地处理PreparedStatement 和ResultSet  的创建和关闭。
+</code></pre><p>ResultSetHandler对把从 ResultSet得来的数据转变成一个更容易的或是应用程序特定的格式来使用。<br>query(String sql, Object[] params, ResultSetHandler rsh):  </p>
+<pre><code>这几乎与第一种方法一样；唯一的不同在于它不将数据库连接提供给方法，
+并且它是从提供给构造器的数据源(DataSource) 或使用的setDAtaSource 方法中重新获得的。
+</code></pre><p>query(Connection conn, String sql, ResultSetHandler rsh):  </p>
+<pre><code>这执行一个不要参数的选择查询。
+</code></pre><p>update(Connection conn, String sql, Object[] params):  </p>
+<pre><code>这一方法被用来执行一个插入、更新或删除操作。对象阵列为声明保存着置换参数。
+</code></pre><h3 id="使用遵从以下步骤："><a href="#使用遵从以下步骤：" class="headerlink" title="使用遵从以下步骤："></a>使用遵从以下步骤：</h3><p>1．加载JDBC驱动程序类，并用DriverManager来得到一个数据库连接conn。<br>2．实例化 QueryRunner,得到实例化对象qRunner,可通过构造器传入DataSource。</p>
+<ol start="3">
+<li>qRunner.update()方法，执行增改删的sql命令，<br> qRunner.query()方法，得到结果集。</li>
+</ol>
+<h2 id="自己实现DBUtils框架"><a href="#自己实现DBUtils框架" class="headerlink" title="自己实现DBUtils框架"></a>自己实现DBUtils框架</h2><p><font color="#006600"><strong>源码jar包在我的github中,欢迎大佬们来Fork!</strong></font><br /> </p>
+<h3 id="一-定义核心类-要完成QueryRunner对象的功能-这里抽取主要的功能进行编写"><a href="#一-定义核心类-要完成QueryRunner对象的功能-这里抽取主要的功能进行编写" class="headerlink" title="一.定义核心类,要完成QueryRunner对象的功能,这里抽取主要的功能进行编写"></a>一.定义核心类,要完成QueryRunner对象的功能,这里抽取主要的功能进行编写</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.caine.myDbutils;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.sql.Connection;</span><br><span class="line"><span class="keyword">import</span> java.sql.ParameterMetaData;</span><br><span class="line"><span class="keyword">import</span> java.sql.PreparedStatement;</span><br><span class="line"><span class="keyword">import</span> java.sql.ResultSet;</span><br><span class="line"><span class="keyword">import</span> java.sql.SQLException;</span><br><span class="line"><span class="keyword">import</span> java.sql.Statement;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.sql.DataSource;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.caine.handler.ResultSetHandler;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 核心类,提供一个增删改的方法,和一个查询的方法</span></span><br><span class="line"><span class="comment"> * 创建实例对象,需要传递一个连接池对象,这里没有生成无参构造.</span></span><br><span class="line"><span class="comment"> * 如果用无参构造创建对象,只需要在方法的参数中传递一个Connection对象即可(省略)</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> caine</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> v1.0</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyDbutils</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> DataSource ds;</span><br><span class="line">	<span class="comment">//通过构造方法传递一个dataSource</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">MyDbutils</span><span class="params">(DataSource ds)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.ds = ds;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 完成增删改的方法</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> sql 要执行的sql语句</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> params 可变参数,用于替换sql中的占位符,参数个数与占位符个数一致</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(String sql, Object[] params)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//创建连接和statement对象</span></span><br><span class="line">		Connection conn = <span class="keyword">null</span>;</span><br><span class="line">		PreparedStatement stmt = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			conn = ds.getConnection();<span class="comment">//获取连接</span></span><br><span class="line">			stmt = conn.prepareStatement(sql);<span class="comment">//预编译sql</span></span><br><span class="line">			</span><br><span class="line">			<span class="comment">//获取数据库元数据metaData对象</span></span><br><span class="line">			ParameterMetaData pmd = stmt.getParameterMetaData();</span><br><span class="line">			</span><br><span class="line">			<span class="comment">// 获得占位符个数</span></span><br><span class="line">			<span class="keyword">int</span> count = pmd.getParameterCount();</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> (count &gt; <span class="number">0</span>) &#123;</span><br><span class="line">				<span class="comment">// 进来有占位符,先判断参数是否合法</span></span><br><span class="line">				<span class="keyword">if</span> (params == <span class="keyword">null</span>) &#123;</span><br><span class="line">					<span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"哥们,不要乱传 ,参数的数组不能为空 "</span>);</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">if</span> (count != params.length) &#123;</span><br><span class="line">					<span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"哥们,参数的个数与占位符个数不匹配  "</span>);</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="comment">// 走到这里,说明占位符个数和数组中元素的个数匹配,那么就可以放心去替换占位符了</span></span><br><span class="line">				<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; params.length; i++) &#123;</span><br><span class="line">					<span class="comment">//占位符是从1开始计数,进行替换,这里需要用setObject,因为不知道各个占位符是什么类型</span></span><br><span class="line">					stmt.setObject(i + <span class="number">1</span>, params[i]);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">// 走到这里,可以执行sql语句了</span></span><br><span class="line">			stmt.executeUpdate();</span><br><span class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"对不起,俺出错了"</span>);</span><br><span class="line">		&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">			<span class="comment">//释放资源</span></span><br><span class="line">			release(<span class="keyword">null</span>, stmt, conn);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * </span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> sql 要执行的sql语句</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> params 可变参数,用于替换sql中的占位符,参数个数与占位符个数一致</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@param</span> rsh 这个是一个结果集接口,我只写了两个实现类:BeanHandler和BeanListHandler.可以根据实际情况进行拓展</span></span><br><span class="line"><span class="comment">	 * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">query</span><span class="params">(String sql, Object[] params, ResultSetHandler rsh )</span></span>&#123;</span><br><span class="line"></span><br><span class="line">		Connection conn = <span class="keyword">null</span>;</span><br><span class="line">		PreparedStatement stmt = <span class="keyword">null</span>;</span><br><span class="line">		ResultSet rs = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			conn = ds.getConnection();</span><br><span class="line">			stmt = conn.prepareStatement(sql);</span><br><span class="line">			<span class="comment">//获取元数据对象</span></span><br><span class="line">			ParameterMetaData pmd = stmt.getParameterMetaData();</span><br><span class="line">			</span><br><span class="line">			<span class="comment">// 获得占位符个数</span></span><br><span class="line">			<span class="keyword">int</span> count = pmd.getParameterCount();</span><br><span class="line">			<span class="comment">// 替换占位符</span></span><br><span class="line">			<span class="keyword">if</span> (count &gt; <span class="number">0</span>) &#123;</span><br><span class="line">				<span class="comment">// 进来有占位符</span></span><br><span class="line">				<span class="keyword">if</span> (params == <span class="keyword">null</span>) &#123;</span><br><span class="line">					<span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"哥们,不要乱传 ,参数的数组不能为空 "</span>);</span><br><span class="line">				&#125;</span><br><span class="line"></span><br><span class="line">				<span class="keyword">if</span> (count != params.length) &#123;</span><br><span class="line">					<span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"哥们,参数的个数与占位符个数不匹配  "</span>);</span><br><span class="line">				&#125;</span><br><span class="line"></span><br><span class="line">				<span class="comment">// 走到这里,说明占位符个数和数组中元素的个数匹配,那么就可以放心去替换占位符了</span></span><br><span class="line">				<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; params.length; i++) &#123;</span><br><span class="line">					<span class="comment">//替换占位符</span></span><br><span class="line">					stmt.setObject(i + <span class="number">1</span>, params[i]);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">// 走到这里, 可以执行sql语句了</span></span><br><span class="line">			rs = stmt.executeQuery();</span><br><span class="line">			</span><br><span class="line">			<span class="comment">/*这里注意:ResultSetHandler是一个接口,这里调用者需要传递一个实现类,</span></span><br><span class="line"><span class="comment">			 *我为接口提供了两个实现类,调用者也可以自己实现接口.</span></span><br><span class="line"><span class="comment">			 *将rsh.handle(rs)的结果直接返回即可</span></span><br><span class="line"><span class="comment">			 */</span></span><br><span class="line">			<span class="keyword">return</span> rsh.handle(rs);</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//小框架已经写完了. </span></span><br><span class="line">			<span class="comment">//一个好的框架要把用户常见的情况都要考虑到位,并且帮用户实现好,让用户使用的时候非常的舒服就可以了.</span></span><br><span class="line">			<span class="comment">//除了将常见情况都帮用户处理好外,还要留下足够的 空间 让用户自由发挥. </span></span><br><span class="line">		&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"对不起,出错了"</span>);</span><br><span class="line">		&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">			release(<span class="keyword">null</span>, stmt, conn);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//释放资源</span></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">release</span><span class="params">(ResultSet rs, Statement stmt, Connection conn)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (rs != <span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				rs.close();</span><br><span class="line">			&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">//主动将对象的引用赋值为null,让对象在内存中被更快的回收</span></span><br><span class="line">			rs = <span class="keyword">null</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (stmt != <span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				stmt.close();</span><br><span class="line">			&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">//主动将对象的引用赋值为null,让对象在内存中被更快的回收</span></span><br><span class="line">			stmt = <span class="keyword">null</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">if</span> (conn != <span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				conn.close();</span><br><span class="line">			&#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="comment">//主动将对象的引用赋值为null,让对象在内存中被更快的回收</span></span><br><span class="line">			conn = <span class="keyword">null</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="二-beanHandler实现类编写"><a href="#二-beanHandler实现类编写" class="headerlink" title="二.beanHandler实现类编写"></a>二.beanHandler实现类编写</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.caine.handler;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Field;</span><br><span class="line"><span class="keyword">import</span> java.sql.ResultSet;</span><br><span class="line"><span class="keyword">import</span> java.sql.ResultSetMetaData;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 这是ResultSerHandler接口的实现类,它可以将结果集封装成一个对象</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> caine</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BeanHandler</span> <span class="keyword">implements</span> <span class="title">ResultSetHandler</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> Class clazz;</span><br><span class="line">	<span class="comment">//这里必须传递一个字节码对象,这样才能通过反射将数据进行封装</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">BeanHandler</span><span class="params">(Class clazz)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.clazz = clazz;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">handle</span><span class="params">(ResultSet rs)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">try</span>&#123;</span><br><span class="line">			<span class="comment">//获取结果集rs的元数据对象</span></span><br><span class="line">			ResultSetMetaData rsmd = rs.getMetaData();</span><br><span class="line">			<span class="comment">//获取结果集中字段的个数</span></span><br><span class="line">			<span class="keyword">int</span> columnCount = rsmd.getColumnCount();</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//创建要封装的对象实例</span></span><br><span class="line">			Object obj = clazz.newInstance();</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//这里rs只有一条记录,所以用if判断即可</span></span><br><span class="line">			<span class="keyword">if</span>(rs.next())&#123;</span><br><span class="line">				<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; columnCount; i++) &#123;</span><br><span class="line">					<span class="comment">// 得到结果集中每一个字段名,从索引从1开始</span></span><br><span class="line">					String columnName = rsmd.getColumnName(i+<span class="number">1</span>);</span><br><span class="line">					</span><br><span class="line">					Field field = clazz.getDeclaredField(columnName);</span><br><span class="line">					field.setAccessible(<span class="keyword">true</span>);  <span class="comment">//  暴力反射 </span></span><br><span class="line">					</span><br><span class="line">					<span class="comment">//获取rs中字段的值</span></span><br><span class="line">					Object value = rs.getObject(columnName);</span><br><span class="line">					<span class="comment">//通过反射给对象的字段赋值</span></span><br><span class="line">					field.set(obj, value);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">return</span> obj;</span><br><span class="line">		&#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="BeanListHandler实现类编写"><a href="#BeanListHandler实现类编写" class="headerlink" title="BeanListHandler实现类编写"></a>BeanListHandler实现类编写</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.caine.handler;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Field;</span><br><span class="line"><span class="keyword">import</span> java.sql.ResultSet;</span><br><span class="line"><span class="keyword">import</span> java.sql.ResultSetMetaData;</span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BeanListHandler</span> <span class="keyword">implements</span> <span class="title">ResultSetHandler</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> Class clazz;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">BeanListHandler</span><span class="params">(Class clazz)</span></span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.clazz = clazz;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//这里写法和BeanHandler类似,注解省略</span></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> Object <span class="title">handle</span><span class="params">(ResultSet rs)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">try</span>&#123;</span><br><span class="line">			ResultSetMetaData rsmd = rs.getMetaData();</span><br><span class="line">			List list = <span class="keyword">new</span> ArrayList();</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">int</span> columnCount = rsmd.getColumnCount();</span><br><span class="line">			<span class="keyword">while</span>(rs.next())&#123;</span><br><span class="line">				</span><br><span class="line">				Object obj = clazz.newInstance();</span><br><span class="line">				</span><br><span class="line">				<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; columnCount; i++) &#123;</span><br><span class="line">					<span class="comment">// id , name , price, count</span></span><br><span class="line">					String columnName = rsmd.getColumnName(i+<span class="number">1</span>);</span><br><span class="line">					</span><br><span class="line">					Field field = clazz.getDeclaredField(columnName);</span><br><span class="line">					</span><br><span class="line">					Object value = rs.getObject(columnName);</span><br><span class="line">					field.setAccessible(<span class="keyword">true</span>);  <span class="comment">//  暴力反射 </span></span><br><span class="line">					field.set(obj, value);</span><br><span class="line">				&#125;</span><br><span class="line">				list.add(obj);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">return</span> list;</span><br><span class="line">		&#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/DBUtils/">DBUtils</a>
+            
+        </div>
+        
+    </article>
+    
+    <p>本文代表个人观点，若有不恰当之处，望不吝赐教！----转载请说明出处!</p>
+    
+    
+<div id="disqus_thread"></div>
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+     */
+    var disqus_config = function () {
+        this.page.url = 'https://cainelg.github.io/product-design/nodeppt/undefined.html';
+        this.page.identifier = 'product-design/nodeppt/undefined.html';
+    };
+    (function () { // DON'T EDIT BELOW THIS LINE
+        var d = document, disqus_shortname = 'caine', s = d.createElement('script');
+        s.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by
+        Disqus.</a></noscript>
+
+</div>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner">
+        <p>
+            <a href="/about"  title="关于本站">关于本站</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="help" >急救中心</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友情链接">友情链接</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/app" title="App下载">App下载</a>
+        </p>
+        <p>
+            本站点采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>，已建立<a href="/timeline" id="siteBuildingTime"></a>天<br/>
+            ©2017 基于<a href="http://hexo.io" target="_blank">Hexo</a>搭建
+            ，主题&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank">JSimple</a>
+            ，作者<a href="https://www.tangkunyin.com" target="_blank">唐先森</a>
+            ，Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+        </p>
+        
+<!-- Tencent Analytics -->
+<script type="text/javascript" src="//tajs.qq.com/stats?sId=65036274" charset="UTF-8"></script>
+
+
+    </div>
+</footer>
+<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<script src="/js/InsightSearch.js"></script>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        SimpleCore.init({
+            buildingTime: '01/20/2018',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+        });
+    });
+</script>
+</body>
+</html>

@@ -193,7 +193,7 @@
             </div>
             <h2 class="post-title">MD5算法解析及加盐(salt)</h2>
             <div class="post-meta">
-                本文总共5174个字 | 您是第<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+                本文总共5120个字 | 您是第<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
             </div>
         </div>
         <div class="post-content markdown-body">
@@ -211,102 +211,10 @@
 <pre><code>标准的幻数（物理顺序）是（A=(01234567)16，B=(89ABCDEF)16，C=(FEDCBA98)16，D=(76543210)16）。如果在程序中定义应该是（A=0X67452301L，B=0XEFCDAB89L，C=0X98BADCFEL，D=0X10325476L）。有点晕哈，其实想一想就明白了。
 </code></pre><p>第四步、四轮循环运算</p>
 <pre><code>循环的次数是分组的个数（N+1）
-</code></pre><p>   1）将每一512字节细分成16个小组，每个小组64位（8个字节）<br>   2）先认识四个线性函数(&amp;是与,|是或,~是非,^是异或) </p>
-<pre><code>F(X,Y,Z)=(X&amp;Y)|((~X)&amp;Z)  
-G(X,Y,Z)=(X&amp;Z)|(Y&amp;(~Z))  
-H(X,Y,Z)=X^Y^Z  
-I(X,Y,Z)=Y^(X|(~Z))  
-</code></pre><p>   3）设Mj表示消息的第j个子分组（从0到15），&lt;&lt;&lt;s表示循环左移s位，则四种操作为：</p>
-<pre><code>FF(a,b,c,d,Mj,s,ti)表示a=b+((a+F(b,c,d)+Mj+ti)&lt;&lt;&lt;s)  
-GG(a,b,c,d,Mj,s,ti)表示a=b+((a+G(b,c,d)+Mj+ti)&lt;&lt;&lt;s)  
-HH(a,b,c,d,Mj,s,ti)表示a=b+((a+H(b,c,d)+Mj+ti)&lt;&lt;&lt;s)  
-II(a,b,c,d,Mj,s,ti)表示a=b+((a+I(b,c,d)+Mj+ti)&lt;&lt;&lt;s)   
-</code></pre><p>   4）四轮运算</p>
-<p>假设M[j]表示消息的第j个子分组（从0到15），&lt;&lt;表示循环左移s，常数ti是4294967296*abs(sin(i))的整数部分，i取值从1到64，单位是弧度。(4294967296等于2的32次方)</p>
-<p> 第一轮计算：j 从0 循环到15，轮数ln=0，i=j%16=j。<br>FF(a, b, c, d, M[j], s, ti)表示 a = b + ((a + F(b, c, d) + Mj + ti) &lt;&lt;&lt; s)</p>
-<p> 第二轮计算：j 从0 循环到15, 轮数ln=1，i=(1+5*j)%16，使用循环函数G，<br>GG(a, b, c, d, M[j], s, ti)表示 a = b + ((a + G(b, c, d) + Mj + ti) &lt;&lt;&lt; s)</p>
-<p>第三轮计算：j 从0 循环到15, 轮数ln=2，i=(5+3*j)%16，使用循环函数H<br>HH(a, b, c, d, M[j], s, ti)表示 a = b + ((a + H(b, c, d) + Mj + ti) &lt;&lt;&lt; s)</p>
-<p>第四轮计算：j 从0 循环到15, 轮数ln=3，i=(7*j)%16，使用循环函数I，其他同第一轮<br>II(a, b, c, d, M[j], s, ti)表示 a = b + ((a + I(b, c, d) + Mj + ti) &lt;&lt;&lt; s)<br>要确保形参a在内存中的值改变了，可以在形参中用按引用调用（&amp;a），或返回a值取代原来a值。<br>代码演示如下:</p>
-<pre><code>第一轮  
- a=FF(a,b,c,d,M0,7,0xd76aa478)  
- b=FF(d,a,b,c,M1,12,0xe8c7b756)  
- c=FF(c,d,a,b,M2,17,0x242070db)  
- d=FF(b,c,d,a,M3,22,0xc1bdceee)  
- a=FF(a,b,c,d,M4,7,0xf57c0faf)  
- b=FF(d,a,b,c,M5,12,0x4787c62a)  
- c=FF(c,d,a,b,M6,17,0xa8304613)  
- d=FF(b,c,d,a,M7,22,0xfd469501)  
- a=FF(a,b,c,d,M8,7,0x698098d8)  
- b=FF(d,a,b,c,M9,12,0x8b44f7af)  
- c=FF(c,d,a,b,M10,17,0xffff5bb1)  
- d=FF(b,c,d,a,M11,22,0x895cd7be)  
- a=FF(a,b,c,d,M12,7,0x6b901122)  
- b=FF(d,a,b,c,M13,12,0xfd987193)  
- c=FF(c,d,a,b,M14,17,0xa679438e)  
- d=FF(b,c,d,a,M15,22,0x49b40821)  
-
-第二轮  
-a=GG(a,b,c,d,M1,5,0xf61e2562)  
- ... 
- d=GG(b,c,d,a,M12,20,0x8d2a4c8a)  
-
-第三轮  
-a=HH(a,b,c,d,M5,4,0xfffa3942)  
-...
- d=HH(b,c,d,a,M2,23,0xc4ac5665)  
-
-第四轮  
-a=II(a,b,c,d,M0,6,0xf4292244)  
-...
- d=II(b,c,d,a,M9,21,0xeb86d391) 
-</code></pre><p>5）每轮循环后，将A，B，C，D分别加上a，b，c，d，然后进入下一循环。</p>
-<h2 id="二-java代码实现MD5并加盐"><a href="#二-java代码实现MD5并加盐" class="headerlink" title="二 java代码实现MD5并加盐"></a>二 java代码实现MD5并加盐</h2><p>在java中实现MD5是很简单的，在包java.security有个类MessageDigest。官方文档如下<br>MessageDigest 类为应用程序提供信息摘要算法的功能，如 MD5 或 SHA 算法。信息摘要是安全的单向哈希函数，它接收任意大小的数据，输出固定长度的哈希值。</p>
-<p>MessageDigest 对象开始被初始化。该对象通过使用 update 方法处理数据。任何时候都可以调用 reset 方法重置摘要。一旦所有需要更新的数据都已经被更新了，应该调用 digest 方法之一完成哈希计算。</p>
-<p>对于给定数量的更新数据，digest 方法只能被调用一次。digest 被调用后，MessageDigest 对象被重新设置成其初始状态。</p>
-<h3 id="java代码实现"><a href="#java代码实现" class="headerlink" title="java代码实现"></a>java代码实现</h3><p>  创建MD5工具类</p>
-<pre><code>package com.lg.utils;
-
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
-public class Md5Utils {
-    public static String md5(String plainText) {
-        byte[] secretBytes = null;
-        try {
-            secretBytes = MessageDigest.getInstance(&quot;md5&quot;).digest(plainText.getBytes());
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(&quot;没有md5这个算法！&quot;);
-        }
-        String md5code = new BigInteger(1, secretBytes).toString(16);// 16进制数字
-        // 如果生成数字未满32位，需要前面补0
-        for (int i = 0; i &lt; 32 - md5code.length(); i++) {
-            md5code = &quot;0&quot; + md5code;
-        }
-        return md5code;
-    }
-}
-</code></pre><h3 id="加盐-salt-代码"><a href="#加盐-salt-代码" class="headerlink" title="加盐(salt)代码"></a>加盐(salt)代码</h3><p>加盐的代码是另一种实现:</p>
-<pre><code>public static String md5(String plainText) throws Exception {
-    //1.消息摘要 
-    byte[] bs = MessageDigest.getInstance(&quot;md5&quot;).digest(plainText.getBytes());
-    String str = &quot;&quot;;
-    StringBuffer sb = new StringBuffer();
-    for (byte b : bs) {
-    //2.此处将b加上2这个数值,这个数值可以任意设定
-        Integer aa = (b+2) &amp;0xff;
-        // 转成 16进制的值 
-        str = Integer.toHexString(aa);
-        if (str.length() == 1) {
-        //3.如果生成的这个数是一位数,在前面补零
-            sb.append(&quot;0&quot;);
-        }
-        System.out.println(str);
-        sb.append(str);
-    }
-    return sb.toString();
-}
-</code></pre><p>注释2和3都可以进行加盐操作:<br>注释2.将生成的遍历得到b这个对象进行简单的数学运算,即可实现加盐<br>注释3.如果生成的字符串str是一位数字符串,不进行加’零’操作,这样生成的摘要可能会少于32位,也可以实现加盐.</p>
+</code></pre><p>   1）将每一512字节细分成16个小组，每个小组64位（8个字节）<br>   2）先认识四个线性函数(&amp;是与,|是或,~是非,^是异或)<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">F(X,Y,Z)=(X&amp;Y)|((~X)&amp;Z)  </span><br><span class="line">G(X,Y,Z)=(X&amp;Z)|(Y&amp;(~Z))  </span><br><span class="line">H(X,Y,Z)=X^Y^Z  </span><br><span class="line">I(X,Y,Z)=Y^(X|(~Z))</span><br></pre></td></tr></table></figure></p>
+<p>   3）设Mj表示消息的第j个子分组（从0到15），&lt;&lt;&lt;s表示循环左移s位，则四种操作为：<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">    FF(a,b,c,d,Mj,s,ti)表示a=b+((a+F(b,c,d)+Mj+ti)&lt;&lt;&lt;s)  </span><br><span class="line">    GG(a,b,c,d,Mj,s,ti)表示a=b+((a+G(b,c,d)+Mj+ti)&lt;&lt;&lt;s)  </span><br><span class="line">    HH(a,b,c,d,Mj,s,ti)表示a=b+((a+H(b,c,d)+Mj+ti)&lt;&lt;&lt;s)  </span><br><span class="line">    II(a,b,c,d,Mj,s,ti)表示a=b+((a+I(b,c,d)+Mj+ti)&lt;&lt;&lt;s)   </span><br><span class="line">```   </span><br><span class="line"><span class="number">4</span>）四轮运算</span><br><span class="line"></span><br><span class="line">假设M[j]表示消息的第j个子分组（从<span class="number">0</span>到<span class="number">15</span>），&lt;&lt;表示循环左移s，常数ti是<span class="number">4294967296</span>*abs(sin(i))的整数部分，i取值从<span class="number">1</span>到<span class="number">64</span>，单位是弧度。(<span class="number">4294967296</span>等于<span class="number">2</span>的<span class="number">32</span>次方)</span><br><span class="line"></span><br><span class="line"> 第一轮计算：j 从<span class="number">0</span> 循环到<span class="number">15</span>，轮数ln=<span class="number">0</span>，i=j%<span class="number">16</span>=j。</span><br><span class="line">FF(a, b, c, d, M[j], s, ti)表示 a = b + ((a + F(b, c, d) + Mj + ti) &lt;&lt;&lt; s)</span><br><span class="line"></span><br><span class="line"> 第二轮计算：j 从<span class="number">0</span> 循环到<span class="number">15</span>, 轮数ln=<span class="number">1</span>，i=(<span class="number">1</span>+<span class="number">5</span>*j)%<span class="number">16</span>，使用循环函数G，</span><br><span class="line">GG(a, b, c, d, M[j], s, ti)表示 a = b + ((a + G(b, c, d) + Mj + ti) &lt;&lt;&lt; s)</span><br><span class="line"></span><br><span class="line">第三轮计算：j 从<span class="number">0</span> 循环到<span class="number">15</span>, 轮数ln=<span class="number">2</span>，i=(<span class="number">5</span>+<span class="number">3</span>*j)%<span class="number">16</span>，使用循环函数H</span><br><span class="line">HH(a, b, c, d, M[j], s, ti)表示 a = b + ((a + H(b, c, d) + Mj + ti) &lt;&lt;&lt; s)</span><br><span class="line"></span><br><span class="line">第四轮计算：j 从<span class="number">0</span> 循环到<span class="number">15</span>, 轮数ln=<span class="number">3</span>，i=(<span class="number">7</span>*j)%<span class="number">16</span>，使用循环函数I，其他同第一轮</span><br><span class="line">II(a, b, c, d, M[j], s, ti)表示 a = b + ((a + I(b, c, d) + Mj + ti) &lt;&lt;&lt; s)</span><br><span class="line">要确保形参a在内存中的值改变了，可以在形参中用按引用调用（&amp;a），或返回a值取代原来a值。</span><br><span class="line">代码演示如下:</span><br><span class="line"></span><br><span class="line">    第一轮  </span><br><span class="line">     a=FF(a,b,c,d,M0,<span class="number">7</span>,<span class="number">0xd76aa478</span>)  </span><br><span class="line">     b=FF(d,a,b,c,M1,<span class="number">12</span>,<span class="number">0xe8c7b756</span>)  </span><br><span class="line">     c=FF(c,d,a,b,M2,<span class="number">17</span>,<span class="number">0x242070db</span>)  </span><br><span class="line">     d=FF(b,c,d,a,M3,<span class="number">22</span>,<span class="number">0xc1bdceee</span>)  </span><br><span class="line">     a=FF(a,b,c,d,M4,<span class="number">7</span>,<span class="number">0xf57c0faf</span>)  </span><br><span class="line">     b=FF(d,a,b,c,M5,<span class="number">12</span>,<span class="number">0x4787c62a</span>)  </span><br><span class="line">     c=FF(c,d,a,b,M6,<span class="number">17</span>,<span class="number">0xa8304613</span>)  </span><br><span class="line">     d=FF(b,c,d,a,M7,<span class="number">22</span>,<span class="number">0xfd469501</span>)  </span><br><span class="line">     a=FF(a,b,c,d,M8,<span class="number">7</span>,<span class="number">0x698098d8</span>)  </span><br><span class="line">     b=FF(d,a,b,c,M9,<span class="number">12</span>,<span class="number">0x8b44f7af</span>)  </span><br><span class="line">     c=FF(c,d,a,b,M10,<span class="number">17</span>,<span class="number">0xffff5bb1</span>)  </span><br><span class="line">     d=FF(b,c,d,a,M11,<span class="number">22</span>,<span class="number">0x895cd7be</span>)  </span><br><span class="line">     a=FF(a,b,c,d,M12,<span class="number">7</span>,<span class="number">0x6b901122</span>)  </span><br><span class="line">     b=FF(d,a,b,c,M13,<span class="number">12</span>,<span class="number">0xfd987193</span>)  </span><br><span class="line">     c=FF(c,d,a,b,M14,<span class="number">17</span>,<span class="number">0xa679438e</span>)  </span><br><span class="line">     d=FF(b,c,d,a,M15,<span class="number">22</span>,<span class="number">0x49b40821</span>)  </span><br><span class="line">      </span><br><span class="line">    第二轮  </span><br><span class="line">    a=GG(a,b,c,d,M1,<span class="number">5</span>,<span class="number">0xf61e2562</span>)  </span><br><span class="line">     ... </span><br><span class="line">     d=GG(b,c,d,a,M12,<span class="number">20</span>,<span class="number">0x8d2a4c8a</span>)  </span><br><span class="line">      </span><br><span class="line">    第三轮  </span><br><span class="line">    a=HH(a,b,c,d,M5,<span class="number">4</span>,<span class="number">0xfffa3942</span>)  </span><br><span class="line">    ...</span><br><span class="line">     d=HH(b,c,d,a,M2,<span class="number">23</span>,<span class="number">0xc4ac5665</span>)  </span><br><span class="line">      </span><br><span class="line">    第四轮  </span><br><span class="line">    a=II(a,b,c,d,M0,<span class="number">6</span>,<span class="number">0xf4292244</span>)  </span><br><span class="line">    ...</span><br><span class="line">     d=II(b,c,d,a,M9,<span class="number">21</span>,<span class="number">0xeb86d391</span>) </span><br><span class="line"><span class="number">5</span>）每轮循环后，将A，B，C，D分别加上a，b，c，d，然后进入下一循环。</span><br><span class="line"></span><br><span class="line">## 二 java代码实现MD5并加盐</span><br><span class="line"></span><br><span class="line">在java中实现MD5是很简单的，在包java.security有个类MessageDigest。官方文档如下</span><br><span class="line">MessageDigest 类为应用程序提供信息摘要算法的功能，如 MD5 或 SHA 算法。信息摘要是安全的单向哈希函数，它接收任意大小的数据，输出固定长度的哈希值。</span><br><span class="line"></span><br><span class="line">MessageDigest 对象开始被初始化。该对象通过使用 update 方法处理数据。任何时候都可以调用 reset 方法重置摘要。一旦所有需要更新的数据都已经被更新了，应该调用 digest 方法之一完成哈希计算。</span><br><span class="line"></span><br><span class="line">对于给定数量的更新数据，digest 方法只能被调用一次。digest 被调用后，MessageDigest 对象被重新设置成其初始状态。</span><br><span class="line"></span><br><span class="line">### java代码实现</span><br><span class="line">  创建MD5工具类</span><br><span class="line">```java</span><br><span class="line"></span><br><span class="line">	<span class="keyword">package</span> com.lg.utils;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">import</span> java.math.BigInteger;</span><br><span class="line">	<span class="keyword">import</span> java.security.MessageDigest;</span><br><span class="line">	<span class="keyword">import</span> java.security.NoSuchAlgorithmException;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Md5Utils</span> </span>&#123;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">md5</span><span class="params">(String plainText)</span> </span>&#123;</span><br><span class="line">			<span class="keyword">byte</span>[] secretBytes = <span class="keyword">null</span>;</span><br><span class="line">			<span class="keyword">try</span> &#123;</span><br><span class="line">				secretBytes = MessageDigest.getInstance(<span class="string">"md5"</span>).digest(plainText.getBytes());</span><br><span class="line">			&#125; <span class="keyword">catch</span> (NoSuchAlgorithmException e) &#123;</span><br><span class="line">				<span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"没有md5这个算法！"</span>);</span><br><span class="line">			&#125;</span><br><span class="line">			String md5code = <span class="keyword">new</span> BigInteger(<span class="number">1</span>, secretBytes).toString(<span class="number">16</span>);<span class="comment">// 16进制数字</span></span><br><span class="line">			<span class="comment">// 如果生成数字未满32位，需要前面补0</span></span><br><span class="line">			<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">32</span> - md5code.length(); i++) &#123;</span><br><span class="line">				md5code = <span class="string">"0"</span> + md5code;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">return</span> md5code;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="加盐-salt-代码"><a href="#加盐-salt-代码" class="headerlink" title="加盐(salt)代码"></a>加盐(salt)代码</h3><p>加盐的代码是另一种实现:<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">md5</span><span class="params">(String plainText)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">	<span class="comment">//1.消息摘要 </span></span><br><span class="line">	<span class="keyword">byte</span>[] bs = MessageDigest.getInstance(<span class="string">"md5"</span>).digest(plainText.getBytes());</span><br><span class="line">	String str = <span class="string">""</span>;</span><br><span class="line">	StringBuffer sb = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">byte</span> b : bs) &#123;</span><br><span class="line">	<span class="comment">//2.此处将b加上2这个数值,这个数值可以任意设定</span></span><br><span class="line">		Integer aa = (b+<span class="number">2</span>) &amp;<span class="number">0xff</span>;</span><br><span class="line">		<span class="comment">// 转成 16进制的值 </span></span><br><span class="line">		str = Integer.toHexString(aa);</span><br><span class="line">		<span class="keyword">if</span> (str.length() == <span class="number">1</span>) &#123;</span><br><span class="line">		<span class="comment">//3.如果生成的这个数是一位数,在前面补零</span></span><br><span class="line">			sb.append(<span class="string">"0"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(str);</span><br><span class="line">		sb.append(str);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> sb.toString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>注释2和3都可以进行加盐操作:<br>注释2.将生成的遍历得到b这个对象进行简单的数学运算,即可实现加盐<br>注释3.如果生成的字符串str是一位数字符串,不进行加’零’操作,这样生成的摘要可能会少于32位,也可以实现加盐.</p>
 <p>以上操作生成的摘要在目前的是无法破解的.如<a href="http://www.cmd5.com">http://www.cmd5.com</a> 这样的破解网站,它们是将基于键值对的字典关系原理，收集海量MD5信息与摘要存入数据库，采用枚举法能够从MD5值找到原文本信息.这种类似原理的软件或工具无法破解这种加盐操作.</p>
 
         </div>

@@ -1,0 +1,387 @@
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
+<!--
+//                            _ooOoo_
+//                           o8888888o
+//                           88" . "88
+//                           (| -_- |)
+//                            O\ = /O
+//                        ____/`---'\____
+//                      .   ' \\| |// `.
+//                       / \\||| : |||// \
+//                     / _||||| -:- |||||- \
+//                       | | \\\ - /// | |
+//                     | \_| ''\---/'' | |
+//                      \ .-\__ `-` ___/-. /
+//                   ___`. .' /--.--\ `. . __
+//                ."" '< `.___\_<|>_/___.' >'"".
+//               | | : `- \`.;`\ _ /`;.`/ - ` : | |
+//                 \ \ `-. \_ __\ /__ _/ .-` / /
+//         ======`-.____`-.___\_____/___.-`____.-'======
+//                            `=---='
+//                 拦截插件累计拦截逗比攻击"1381438"次！
+//         .............................................
+//                  佛祖保佑             永无BUG
+//          佛曰:
+//                  写字楼里写字间，写字间里程序员；
+//                  程序人员写程序，又拿程序换酒钱。
+//                  酒醒只在网上坐，酒醉还来网下眠；
+//                  酒醉酒醒日复日，网上网下年复年。
+//                  但愿老死电脑间，不愿鞠躬老板前；
+//                  奔驰宝马贵者趣，公交自行程序员。
+//                  别人笑我忒疯癫，我笑自己命太贱；
+//                  不见满街漂亮妹，哪个归得程序员？
+-->
+<head>
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://cainelg.github.io/warn.html">
+<![endif]-->
+<meta charset="utf-8">
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://cainelg.github.io">
+<meta name="author" content="刘关(https://cainelg.github.io)">
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/SimpleStyle.min.css">
+
+<link rel="shortcut icon" href="/images/favicon.png">
+
+
+<title>一个web请求的详细过程 - 刘关</title>
+
+<meta name="keywords" content="java，技术博客，原创IT博客">
+
+<meta name="description " content="打开浏览器，在地址栏输入URL，回车，出现网页内容。整个过程可以概括为几下几个部分： 1.域名解析成IP地址； 2.与目的主机进行TCP连接（三次握手）； 3.发送与收取数据（浏览器与目的主机开始HTTP访问过程）； 4.与目的主机断开TCP连接（四次挥手）；">
+</head>
+<body>
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="文">文</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- custom single page of menus -->
+        
+        
+        <a href="/help" title="帮助">
+            <i class="fa fa-question-circle"></i>
+            <span>帮助</span>
+        </a>
+        
+    </nav>
+</div>
+
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-sns-qr" href="javascript:"><i class="fa fa-telegram"></i></a>
+</div>
+
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        
+        <h1 class="cover-siteName">caine_菜呢</h1>
+        <h3 class="cover-siteTitle">云层之上,全是阳光</h3>
+        <p class="cover-siteDesc">Email:caine_lg@outlook.com</p>
+        <div class="cover-sns">
+            
+            <div class="btn btn-telegram">
+                <a href="http://t.me/kunyintang" target="_blank" title="telegram" ref="friend">
+                    <i class="fa fa-telegram"></i>
+                </a>
+            </div>
+            
+            <div class="btn btn-instagram">
+                <a href="https://www.instagram.com/mtangsir/" target="_blank" title="instagram" ref="friend">
+                    <i class="fa fa-instagram"></i>
+                </a>
+            </div>
+            
+            <div class="btn btn-twitter">
+                <a href="https://twitter.com/tangkunyin" target="_blank" title="twitter" ref="friend">
+                    <i class="fa fa-twitter"></i>
+                </a>
+            </div>
+            
+            <div class="btn btn-github">
+                <a href="https://github.com/cainelg" target="_blank" title="github" ref="friend">
+                    <i class="fa fa-github"></i>
+                </a>
+            </div>
+            
+        </div>
+    </div>
+</div>
+            <div class="page-title">
+    <ul>
+        <li><a href="/">最新</a></li>
+        
+            
+                <li class="active">
+                    <a href="/categories/front-end" data-name="随笔">随笔</a>
+                </li>
+            
+                <li class="">
+                    <a href="/categories/back-end" data-name="算法">算法</a>
+                </li>
+            
+                <li class="">
+                    <a href="/categories/product-design" data-name="架构">架构</a>
+                </li>
+            
+                <li class="">
+                    <a href="/categories/resource" data-name="资源">资源</a>
+                </li>
+            
+        
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <label for="s" class="sr-only">请输入关键字</label>
+        <input class="search-field" type="text" name="s" class="text" placeholder="请输入关键字" />
+        <button type="submit" class="search-form-submit" title="搜索"><i class="fa fa-search"></i></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..."/>
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(无标题)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="https://www.tangkunyin.com" target="_blank">
+                    <img width="48" src="/images/favicon.png" alt="avatar"/>
+                </a>
+                <p><span class="label">作者</span>
+                    <a href="https://about.tangkunyin.com" target="_blank">刘关</a>
+                    <span title="最后编辑于2016-08-13">2016-08-13</span>
+                </p>
+                <p>java全栈技术</p>
+            </div>
+            <h2 class="post-title">一个Web请求的详细过程</h2>
+            <div class="post-meta">
+                本文总共4974个字 | 您是第<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <p><img src="https://i.imgur.com/L7NeEzN.jpg" alt="web"></p>
+<h2 id="描述情景"><a href="#描述情景" class="headerlink" title="描述情景"></a>描述情景</h2><p>打开浏览器，在地址栏输入URL，回车，出现网页内容。</p>
+<p>整个过程可以概括为几下几个部分：</p>
+<pre><code>1.域名解析成IP地址；
+2.与目的主机进行TCP连接（三次握手）；
+3.发送与收取数据（浏览器与目的主机开始HTTP访问过程）；
+4.与目的主机断开TCP连接（四次挥手）；
+</code></pre><h2 id="域名解析成IP地址"><a href="#域名解析成IP地址" class="headerlink" title="域名解析成IP地址"></a>域名解析成IP地址</h2><p>访问目标地址有两种方式：</p>
+<p>①使用目标IP地址访问。由于IP地址是一堆数字不方便记忆，于是有了域名这种字符型标识。</p>
+<p>②使用域名访问。域名解析就是域名到IP地址的转换过程，域名的解析工作由DNS服务器完成。</p>
+<p>DNS域名解析时用的是UDP协议。整个域名解析的过程如下：</p>
+<pre><code>1.浏览器向本机DNS模块发出DNS请求，DNS模块生成相关的DNS报文；
+2.DNS模块将生成的DNS报文传递给传输层的UDP协议单元；
+3.UDP协议单元将该数据封装成UDP数据报，传递给网络层的IP协议单元；
+4.IP协议单元将该数据封装成IP数据包，其目的IP地址为DNS服务器的IP地址；
+5.封装好的IP数据包将传递给数据链路层的协议单元进行发送；
+6.发送时在ARP缓存中查询相关数据，如果没有，就发送ARP广播（包含待查询的IP地址，收到广播的主机检查自己的IP，符合条件的主机将含7.有自己MAC地址的ARP包发送给ARP广播的主机）请求，等待ARP回应；
+8.得到ARP回应后，将IP地址与路由的下一跳MAC地址对应的信息写入ARP缓存表；
+9.写入缓存后，以路由下一跳的地址填充目的MAC地址，以数据帧形式转发；
+10.转发可能进行多次；
+11.DNS请求到达DNS服务器的数据链路层协议单元；
+12.DNS服务器的数据链路层协议单元解析数据帧，将内部的IP数据包传递给网络层IP协议单元；
+13.DNS服务器的IP协议单元解析IP数据包，将内部的UDP数据报传递给传输层UDP协议单元；
+14.DNS服务器的UDP协议单元解析收到的UDP数据报，将内部的DNS报文传递给DNS服务单元；
+15.DNS服务单元将域名解析成对应IP地址，产生DNS回应报文；
+16.DNS回应报文-&gt;UDP-&gt;IP-&gt;MAC-&gt;我的主机；
+17.我的主机收到数据帧，将数据帧-&gt;IP-&gt;UDP-&gt;浏览器；
+18.将域名解析结果以域名和IP地址对应的形式写入DNS缓存表。
+</code></pre><h2 id="与目的主机进行TCP连接（三次握手）"><a href="#与目的主机进行TCP连接（三次握手）" class="headerlink" title="与目的主机进行TCP连接（三次握手）"></a>与目的主机进行TCP连接（三次握手）</h2><p>向目的主机发送TCP连接请求报文；</p>
+<pre><code>1.该TCP报文中SYN标志位设为1，表示连接请求；
+2.该TCP报文通过IP（DNS）-&gt;MAC（ARP）-&gt;网关-&gt;目的主机；
+3.目的主机收到数据帧，通过IP-&gt;TCP，TCP协议单元回应请求应答报文；
+4.该报文中SYN和ACK标志设为1，表示连接请求应答；
+5.该TCP报文通过IP（DNS）-&gt;MAC（ARP）-&gt;网关-&gt;我的主机；
+6.我的主机收到数据帧，通过IP-&gt;TCP，TCP协议单元回应请求确认报文；
+7.该TCP报文通过IP（DNS）-&gt;MAC（ARP）-&gt;网关-&gt;目的主机；
+8.目的主机收到数据帧，通过IP-&gt;TCP，连接建立完成。
+</code></pre><h2 id="发送与收取数据（浏览器与目的主机开始HTTP访问过程）"><a href="#发送与收取数据（浏览器与目的主机开始HTTP访问过程）" class="headerlink" title="发送与收取数据（浏览器与目的主机开始HTTP访问过程）"></a>发送与收取数据（浏览器与目的主机开始HTTP访问过程）</h2><p>只有建立连接后才能开始传输数据。</p>
+<pre><code>1.浏览器向域名发出GET方法报文（HTTP请求）；
+2.该GET方法报文通过TCP-&gt;IP（DNS）-&gt;MAC（ARP）-&gt;网关-&gt;目的主机；
+
+3.目的主机收到数据帧，通过IP-&gt;TCP-&gt;HTTP，HTTP协议单元会回应HTTP协议格式封装好的HTML形式数据（HTTP响应）；[ 从请求信息中获得客户机想访问的主机名。从请求信息中获取客户机想要访问的web应用（web应用程序指提供浏览器访问的程序，简称web应用）。从请求信息中获取客户机要访问的web资源。（web资源，即各种文件，图片，视频，文本等）读取相应的主机下的web应用，web资源。用读取到的web资源数据，创建一个HTTP响应。]
+4.该HTML数据通过TCP-&gt;IP（DNS）-&gt;MAC（ARP）-&gt;网关-&gt;我的主机；
+5.我的主机收到数据帧，通过IP-&gt;TCP-&gt;HTTP-&gt;浏览器，浏览器以网页形式显示HTML内容。
+</code></pre><h3 id="HTTP协议"><a href="#HTTP协议" class="headerlink" title="HTTP协议"></a>HTTP协议</h3><p>HTTP请求：http请求由三部分组成，分别是：请求行、消息报头、请求正文</p>
+<p>请求行以一个方法符号开头，以空格分开，后面跟着请求的URI和协议的版本，格式如下：Method Request-URI HTTP-Version CRLF<br>其中 Method表示请求方法；Request-URI是一个统一资源标识符；HTTP-Version表示请求的HTTP协议版本；CRLF表示回车和换行（除了作为结尾的CRLF外，不允许出现单独的CR或LF字符）。</p>
+<p>请求方法（所有方法全为大写）有多种，各个方法的解释如下：</p>
+<pre><code>GET     请求获取Request-URI所标识的资源
+POST    在Request-URI所标识的资源后附加新的数据
+HEAD    请求获取由Request-URI所标识的资源的响应消息报头
+PUT     请求服务器存储一个资源，并用Request-URI作为其标识
+DELETE  请求服务器删除Request-URI所标识的资源
+TRACE   请求服务器回送收到的请求信息，主要用于测试或诊断
+CONNECT 保留将来使用
+OPTIONS 请求查询服务器的性能，或者查询与资源相关的选项和需求
+</code></pre><p>HTTP响应也是由三个部分组成，分别是：状态行、消息报头、响应正文<br>状态行格式如下：HTTP-Version Status-Code Reason-Phrase CRLF<br>其中，HTTP-Version表示服务器HTTP协议的版本；Status-Code表示服务器发回的响应状态代码；Reason-Phrase表示状态代码的文本描述。<br>状态代码有三位数字组成，第一个数字定义了响应的类别，且有五种可能取值：</p>
+<pre><code>1xx：指示信息--表示请求已接收，继续处理
+2xx：成功--表示请求已被成功接收、理解、接受
+3xx：重定向--要完成请求必须进行更进一步的操作
+4xx：客户端错误--请求有语法错误或请求无法实现
+5xx：服务器端错误--服务器未能实现合法的请求
+</code></pre><h3 id="常见状态代码、状态描述、说明："><a href="#常见状态代码、状态描述、说明：" class="headerlink" title="常见状态代码、状态描述、说明："></a>常见状态代码、状态描述、说明：</h3><pre><code>200 OK      //客户端请求成功
+400 Bad Request  //客户端请求有语法错误，不能被服务器所理解
+401 Unauthorized //请求未经授权，这个状态代码必须和WWW-Authenticate报头域一起使用 
+403 Forbidden  //服务器收到请求，但是拒绝提供服务
+404 Not Found  //请求资源不存在，eg：输入了错误的URL
+500 Internal Server Error //服务器发生不可预期的错误
+503 Server Unavailable  //服务器当前不能处理客户端的请求，一段时间后可能恢复正常
+</code></pre><p>eg：HTTP/1.1 200 OK （CRLF）</p>
+<p>消息报头：</p>
+<h3 id="常用的请求报头"><a href="#常用的请求报头" class="headerlink" title="常用的请求报头"></a>常用的请求报头</h3><ul>
+<li>Accept<br>Accept请求报头域用于指定客户端接受哪些类型的信息。eg：Accept：image/gif，表明客户端希望接受GIF图象格式的资源；Accept：text/html，表明客户端希望接受html文本。</li>
+<li>Accept-Charset<br>Accept-Charset<br>请求报头域用于指定客户端接受的字符集。eg：Accept-Charset:iso-8859-1,gb2312.如果在请求消息中没有设置这个域，缺省是任何字符集都可以接受。</li>
+<li>Accept-Encoding<br>Accept-Encoding请求报头域类似于Accept，但是它是用于指定可接受的内容编码。eg：Accept-Encoding:gzip.deflate.如果请求消息中没有设置这个域服务器假定客户端对各种内容编码都可以接受。</li>
+<li>Accept-Language<br>Accept-Language请求报头域类似于Accept，但是它是用于指定一种自然语言。eg：Accept-Language:zh-cn.如果请求消息中没有设置这个报头域，服务器假定客户端对各种语言都可以接受。</li>
+<li>Authorization<br>Authorization请求报头域主要用于证明客户端有权查看某个资源。当浏览器访问一个页面时，如果收到服务器的响应代码为401（未授权），可以发送一个包含Authorization请求报头域的请求，要求服务器对其进行验证。</li>
+<li>Host（发送请求时，该报头域是必需的）<br>Host请求报头域主要用于指定被请求资源的Internet主机和端口号，它通常从HTTP URL中提取出来的，eg：<br>我们在浏览器中输入：<a href="http://www.guet.edu.cn/index.html">http://www.guet.edu.cn/index.html</a><br>浏览器发送的请求消息中，就会包含Host请求报头域，如下：<br>Host：<a href="http://www.guet.edu.cn">www.guet.edu.cn</a><br>此处使用缺省端口号80，若指定了端口号，则变成：Host：<a href="http://www.guet.edu.cn:指定端口号">www.guet.edu.cn:指定端口号</a></li>
+<li>User-Agent<br>User-Agent请求报头域允许客户端将它的操作系统、浏览器和其它属性告诉服务器。这个报头域不是必需的。</li>
+</ul>
+<h3 id="常用的响应报头"><a href="#常用的响应报头" class="headerlink" title="常用的响应报头"></a>常用的响应报头</h3><ul>
+<li>Location<br>Location响应报头域用于重定向接受者到一个新的位置。Location响应报头域常用在更换域名的时候。</li>
+<li>Server<br>Server响应报头域包含了服务器用来处理请求的软件信息。与User-Agent请求报头域是相对应的。下面是<br>Server响应报头域的一个例子：<br>Server：Apache-Coyote/1.1</li>
+<li>WWW-Authenticate<br>WWW-Authenticate响应报头域必须被包含在401（未授权的）响应消息中，客户端收到401响应消息时候，并发送Authorization报头域请求服务器对其进行验证时，服务端响应报头就包含该报头域。<br>eg：WWW-Authenticate:Basic realm=”Basic Auth Test!”  //可以看出服务器对请求资源采用的是基本验证机制。</li>
+</ul>
+<h2 id="与目的主机断开TCP连接（四次挥手）"><a href="#与目的主机断开TCP连接（四次挥手）" class="headerlink" title="与目的主机断开TCP连接（四次挥手）"></a>与目的主机断开TCP连接（四次挥手）</h2><p>TCP连接释放过程：</p>
+<pre><code>1.浏览器向目的主机发出TCP连接结束请求报文，此时进入FIN WAIT状态；
+2.该报文FIN标志位设为1，表示结束请求；
+3.TCP结束请求报文通过IP（DNS）-&gt;MAC（ARP）-&gt;网关-&gt;目的主机；
+4.目的主机收到数据帧，通过IP-&gt;TCP，TCP协议单元回应结束应答报文；
+5.当前只是进行回应，因为目的主机可能还有数据要传，并不急着断开连接；
+6.该报文中ACK标志位设为1，表示收到结束请求；
+7.目的数据发送完所有数据后，向我的主机发出TCP连接结束请求报文；
+8.该报文FIN标志位设为1，表示结束请求；
+9.TCP结束请求报文通过IP（DNS）-&gt;MAC（ARP）-&gt;网关-&gt;我的主机；
+10.我的主机收到数据帧，通过IP-&gt;TCP，TCP协议单元回应结束应答报文，此时进入TIME WAIT状态，因为不相信网络是可靠的，如果目的主机没收到还可以重发；
+11.该报文中的FIN标志位均设为1，表示结束应答；
+12.该TCP回应报文通过IP（DNS）-&gt;MAC（ARP）-&gt;网关-&gt;目的主机；
+13.目的主机关闭连接；
+14.TIME WAIT等待结束后，没有收到回复，说明目的正常关闭了，我的主机也关闭连接。
+</code></pre><p><strong>总结：</strong></p>
+<p>URL访问网站时的网络传输全过程，可以归纳为：</p>
+<p>首先通过域名找到IP，如果缓存里没有就要请求DNS服务器；得到IP后开始与目的主机进行三次握手来建立TCP连接；连接建立后进行HTTP访问，传输并获取网页内容；传输完后与目的主机四次挥手来断开TCP连接。</p>
+
+        </div>
+        <div class="post-tool">
+            <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
+                <i class="fa fa-thumbs-up" aria-hidden="true"></i> 打赏
+            </a>
+        </div>
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/web/">web</a>
+            
+        </div>
+        
+    </article>
+    
+    <p>本文代表个人观点，若有不恰当之处，望不吝赐教！----转载请说明出处!</p>
+    
+    
+<div id="disqus_thread"></div>
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+     */
+    var disqus_config = function () {
+        this.page.url = 'https://cainelg.github.io/front-end/mac-tools/undefined.html';
+        this.page.identifier = 'front-end/mac-tools/undefined.html';
+    };
+    (function () { // DON'T EDIT BELOW THIS LINE
+        var d = document, disqus_shortname = 'caine', s = d.createElement('script');
+        s.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by
+        Disqus.</a></noscript>
+
+</div>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner">
+        <p>
+            <a href="/about"  title="关于本站">关于本站</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <!-- 自定义链接 -->
+            <a href="/help" title="help" >急救中心</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/links" title="友情链接">友情链接</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/app" title="App下载">App下载</a>
+        </p>
+        <p>
+            本站点采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>，已建立<a href="/timeline" id="siteBuildingTime"></a>天<br/>
+            ©2017 基于<a href="http://hexo.io" target="_blank">Hexo</a>搭建
+            ，主题&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank">JSimple</a>
+            ，作者<a href="https://www.tangkunyin.com" target="_blank">唐先森</a>
+            ，Hosted by <a href="https://pages.coding.me" style="font-weight: bold">Coding Pages</a>
+        </p>
+        
+<!-- Tencent Analytics -->
+<script type="text/javascript" src="//tajs.qq.com/stats?sId=65036274" charset="UTF-8"></script>
+
+
+    </div>
+</footer>
+<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<script src="/js/InsightSearch.js"></script>
+<script src="/js/SimpleCore.js"></script>
+
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        SimpleCore.init({
+            buildingTime: '01/20/2018',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            snsQRCode: '/images/sns-qrcode.png',
+            donateImg: '/images/donate-qr.png',
+        });
+    });
+</script>
+</body>
+</html>
