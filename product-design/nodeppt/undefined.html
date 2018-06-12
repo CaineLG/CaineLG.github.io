@@ -22,7 +22,7 @@
 
 <meta name="keywords" content="java，技术博客，原创IT博客">
 
-<meta name="description " content="DbUtils是一个为做一些诸如关闭连接、装载JDBC驱动程序之类的常规工作提供有用方法的类，它里面所有的方法都是静态的。">
+<meta name="description " content="Hibernate是一个开放源代码的对象关系映射框架，它对JDBC进行了非常轻量级的对象封装，它将POJO与数据库表建立映射关系，是一个全自动的orm框架，hibernate可以自动生成SQL语句，自动执行，使得Java程序员可以随心所欲的使用对象编程思维来操纵数据库。 Hibernate可以应用在任何使用JDBC的场合，既可以在Java的客户端程序使用，也可以在Servlet/JSP的Web应用中使用。">
 </head>
 <body>
 <div id="nav">
@@ -162,7 +162,7 @@
             </div>
             <h2 class="post-title">Hibernate知识点总结</h2>
             <div class="post-meta">
-                本文总共9759个字 | 您是第<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+                本文总共18467个字 | 您是第<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
             </div>
         </div>
         <div class="post-content markdown-body">
@@ -223,7 +223,7 @@ Int-&gt;Integer  double-&gt;Double  float-&gt;Float
 <h2 id="Hibernate主键生成策略"><a href="#Hibernate主键生成策略" class="headerlink" title="Hibernate主键生成策略"></a>Hibernate主键生成策略</h2><p>Hibernate中定义的主键类型包括：自然主键和代理主键  </p>
 <p>自然主键：具有业务含义 字段 作为主键，比如：学号、身份证号<br>代理主键：不具有业务含义 字段作为主键（例如 自增id），比如：mysql自增主键，oracle序列生成的主键、uuid()方法生成的唯一序列串  </p>
 <p><strong>代理主键及优缺点:</strong><br><code>increment</code>:由hibernate维护一个变量，每次生成主键时自动以递增。<br>问题：如果有多个应用访问一个数据库，由于每个应用维护自己的主键，所以此时主键可能冲突。建议不采用。<br>优点:可以方便跨平台<br>缺点:不适合高并发访问<br><code>identity</code>:由底层数据库生成表识符。条件是数据库支持自动增长数据类型。比如：mysql的自增主键，oracle不支持主键自动生成。<br>如果数据库支持自增建议采用。<br>优点:由底层数据库维护，和hibernate无关<br>缺点:只能对支持自动增长的数据库有效，例如mysql<br><code>sequence</code>:Hibernate根据底层数据库序列生成标识符。条件是数据库支持序列。比如oracle的序列。<br>如果数据库支持序列建议采用。<br>优点:由底层数据库维护，和hibernate无关<br>缺点:数据库必须支持sequence方案例如oracle<br><code>native</code>:根据底层数据库对自动来选择identity、sequence、hilo<br>由于生成主键策略的控制权由hibernate控制，所以不建议采用。<br>优点:在项目中如果存在多个数据库时使用<br>缺点:效率比较低<br><code>uuid</code>:Hibernate采用128bit位的UUID算法来生成标识符。该算法<br>能够在网络环境中生成唯一的字符串标识符。<br>此策略可以保证生成主键的唯一性，并且提供了最好的数据库插入性能和数据库平台的无关性。建议采用。<br>优点:与数据库无关，方便数据库移植，效率高，不访问数据库就可以直接生成主键值，并且它能保证唯一性。<br>缺点:uuid长度大(32位),占用空间比较大，对应数据库中类型 char/varchar<br><code>assigned</code>:由java程序负责生成标识符。<br>不建议采用。尽量在操作中避免手动对主键操作  </p>
-<h2 id="持久化对象的三种状态"><a href="#持久化对象的三种状态" class="headerlink" title="持久化对象的三种状态"></a>持久化对象的三种状态</h2><p>1、<code>瞬时态</code>：也叫做临时态或自由态，它一般指我们new出来的对象，它不存在OID,与hibernate session无关联，在数据库中也无记录。它使用完成后，会被jvm直接回收掉，它只是用于信息携带。<br>简单说：无OID 与数据库中的信息无关联，不在session管理范围内。<br>2、<code>持久态</code>：在hibernate session管理范围内，它具有持久化标识OID它的特点，当它发生改变时，hibernate是可以检测到的。<br>简单说：有OID 由session管理，在数据库中有可能有，也有可有没有。<br>3、<code>托管态</code>：也叫做游离态或离线态，它是指持久态对象失去了与session的关联，托管态对象它存在OID,在数据库中有可能存在，也有可能不存在。<br>对于托管态对象，它发生改变时hibernet不能检测到。  </p>
+<h2 id="持久化对象的三种状态"><a href="#持久化对象的三种状态" class="headerlink" title="持久化对象的三种状态"></a>持久化对象的三种状态</h2><p>1、<code>瞬时态</code>：也叫做临时态或自由态，它一般指我们new出来的对象，它不存在OID,与hibernate session无关联，在数据库中也无记录。它使用完成后，会被jvm直接回收掉，它只是用于信息携带。<br>简单说：<strong>无OID 与数据库中的信息无关联，不在session管理范围内。</strong><br>2、<code>持久态</code>：在hibernate session管理范围内，它具有持久化标识OID它的特点，当它发生改变时，hibernate是可以检测到的。<br>简单说：<strong>有OID 由session管理，在数据库中有可能有，也有可有没有。</strong><br>3、<code>托管态</code>：也叫做游离态或离线态，它是<strong>指持久态对象失去了与session的关联，托管态对象它存在OID</strong>,在数据库中有可能存在，也有可能不存在。<br>对于托管态对象，它发生改变时hibernet不能检测到。  </p>
 <p><strong>判断持久化类对象三种状态：</strong><br>1.是否有OID<br>2.判断是否与session关联  </p>
 <h2 id="hibernate一级缓存"><a href="#hibernate一级缓存" class="headerlink" title="hibernate一级缓存"></a>hibernate一级缓存</h2><p>Hibernate的一级缓存就是指session缓存。<br>它有两个API:actionQueue和persistenceContext.<br>actionQueue它是一个行列队列，它主要记录crud操作的相关信息persistenceContext它是持久化上下文，它其实是真正缓存。<br>在session中定义了一系列的集合来存储数据，它们构成session缓存,只要session没有关闭，它就会一直存在。  </p>
 <p><font color="red">当我们通过hibernate中的session提供的一些API例如 save  get  update等进行CRUD操作时，就会将持久化对象保存到session中，当下一次在去查询缓存中具有的对象(OID值来判断)，就不会去从数据库查询，而是直接从缓存中获取。</font><br>Hibernate的一级缓存存在的目的就是为了减少对数据库访问。<br>在hibernate中还有一个二级缓存，它是SessionFactory级别缓存。  </p>
@@ -242,10 +242,149 @@ delete: 在执行delete 时进行关联操作。
 all-delete-orphan: 当一个节点在对象图中成为孤儿节点时，删除该节点
 </code></pre><p>我们使用得是save-update，也就是说如果相关联的对象在表中没有记录，则会一起save，如果有会进行update. </p>
 <p>inverse的值是boolean值，也就是能设置为true或false。 如果一方的映射文件中设置为true，说明在映射关系(一对多，多对多等)中让对方来维护关系。如果为false，就自己来维护关系。默认值在配置文件中是false,用注解时是true。 并且这属性只能在一端设置。比如一对多，这个一端。也就是在有set集合的这方设置。</p>
-<p>看一个案例:<br><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">Customer.hbm.xml</span><br><span class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><br><span class="line"><span class="meta">&lt;!DOCTYPE hibernate-mapping PUBLIC </span></span><br><span class="line"><span class="meta">    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"</span></span><br><span class="line"><span class="meta">    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">hibernate-mapping</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">class</span> <span class="attr">name</span>=<span class="string">"cn.itheima.oneToMany.Customer"</span> <span class="attr">table</span>=<span class="string">"t_customer"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">id</span> <span class="attr">name</span>=<span class="string">"id"</span> <span class="attr">column</span>=<span class="string">"c_id"</span>&gt;</span></span><br><span class="line">	   <span class="tag">&lt;<span class="name">generator</span> <span class="attr">class</span>=<span class="string">"identity"</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"name"</span> <span class="attr">column</span>=<span class="string">"c_name"</span> <span class="attr">length</span>=<span class="string">"20"</span> /&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 一个客户关联多个订单 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">set</span> <span class="attr">name</span>=<span class="string">"orders"</span> <span class="attr">inverse</span>=<span class="string">"true"</span> <span class="attr">cascade</span>=<span class="string">"save-update"</span>&gt;</span></span><br><span class="line">	     <span class="tag">&lt;<span class="name">key</span> <span class="attr">column</span>=<span class="string">"c_customer_id"</span>/&gt;</span></span><br><span class="line">	     <span class="tag">&lt;<span class="name">one-to-many</span> <span class="attr">class</span>=<span class="string">"cn.itheima.oneToMany.Order"</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">set</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">hibernate-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>看一个案例:<br><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">Customer.hbm.xml</span><br><span class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><br><span class="line"><span class="meta">&lt;!DOCTYPE hibernate-mapping PUBLIC </span></span><br><span class="line"><span class="meta">    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"</span></span><br><span class="line"><span class="meta">    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">hibernate-mapping</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">class</span> <span class="attr">name</span>=<span class="string">"cn.itheima.oneToMany.Customer"</span> <span class="attr">table</span>=<span class="string">"t_customer"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">id</span> <span class="attr">name</span>=<span class="string">"id"</span> <span class="attr">column</span>=<span class="string">"c_id"</span>&gt;</span></span><br><span class="line">	   <span class="tag">&lt;<span class="name">generator</span> <span class="attr">class</span>=<span class="string">"identity"</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"name"</span> <span class="attr">column</span>=<span class="string">"c_name"</span> <span class="attr">length</span>=<span class="string">"20"</span> /&gt;</span></span><br><span class="line">	<span class="comment">&lt;!-- 一个客户关联多个订单 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">set</span> <span class="attr">name</span>=<span class="string">"orders"</span> <span class="attr">inverse</span>=<span class="string">"true"</span> <span class="attr">cascade</span>=<span class="string">"save-update"</span>&gt;</span></span><br><span class="line">	     <span class="tag">&lt;<span class="name">key</span> <span class="attr">column</span>=<span class="string">"c_customer_id"</span>/&gt;</span></span><br><span class="line">	     <span class="tag">&lt;<span class="name">one-to-many</span> <span class="attr">class</span>=<span class="string">"cn.lg.oneToMany.Order"</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">set</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">hibernate-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">Session session = HibernateUtils.openSession();</span><br><span class="line">session.beginTransaction();</span><br><span class="line">Customer c = <span class="keyword">new</span> Customer(<span class="string">"张三"</span>);</span><br><span class="line">Order o1 = <span class="keyword">new</span> Order(<span class="number">1000</span>d, <span class="string">"北京"</span>);</span><br><span class="line">Order o2 = <span class="keyword">new</span> Order(<span class="number">2000</span>d, <span class="string">"上海"</span>);</span><br><span class="line"><span class="comment">//o1.setC(c);</span></span><br><span class="line"><span class="comment">//o2.setC(c);</span></span><br><span class="line">c.getOrders().add(o1);</span><br><span class="line">c.getOrders().add(o2);</span><br><span class="line"><span class="comment">//session.save(o1);</span></span><br><span class="line"><span class="comment">//session.save(o2);</span></span><br><span class="line">session.save(c);</span><br><span class="line"></span><br><span class="line">session.getTransaction().commit();</span><br><span class="line">session.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>运行结果：customer和order都保存能成功保存数据,但是order中的数据外键都是null.  </p>
-<p><strong>虽然Customer这一方的set上配置的inverse=”true”让Customer不能维护外键了，但是Customer任然可以通过c.getOrders().add(o1); c.getOrders().add(o2);来级联保存Order.<br>Order对象在执行set(Customer)这个操作的时候就是在做外键维护,同理Customer对象在做set(List<Order>)操作时也是在做外键维护,如果不设置inverse属性,那么就会进行两次外键维护,每次外键维护都会执行update语句,使程序效率降低.在一方设置inverse属性,只让一边去管理外键,就会提高程序的性能,提高效率.而这个并不影响cascade级联操作保存数据,所以两者并没有直接的关系.</strong></p>
+<p><strong>虽然Customer这一方的set上配置的inverse=”true”让Customer不能维护外键了，但是Customer任然可以通过c.getOrders().add(o1); c.getOrders().add(o2);来级联保存Order.<br>Order对象在执行set(Customer)这个操作的时候就是在做外键维护,同理Customer对象在做set(List<Order>)操作时也是在做外键维护,如果不设置inverse属性,那么就会进行两次外键维护,每次外键维护都会执行update语句,使程序效率降低.在一方设置inverse属性,只让一边去管理外键,就会提高程序的性能,提高效率.而这个并不影响cascade级联操作保存数据,所以两者并没有直接的关系.</strong>  </p>
+<h2 id="Hibernate注解开发"><a href="#Hibernate注解开发" class="headerlink" title="Hibernate注解开发"></a>Hibernate注解开发</h2><p>在hibernate中我们使用注解，可以帮助我们简化hbm文件配置。<br>PO类注解配置<br>@Entity 声明一个实体  </p>
+<p>@Table来描述类与表对应  </p>
+<p>@Id来声明一个主键  </p>
+<p>@GenerateValue 用它来声明一个主键生成策略<br>默认情况下相当于native<br>可以选择的主键生成策略 AUTO IDENTITY SEQUENCE  </p>
+<p>@Column来定义列<br>注意：对于PO类中所有属性，如果你不写注解，默认情况下也会在表中生成对应的列。<br>列的名称就是属性的名称  </p>
+<p>@Temporal来声明日期类型<br>可以选择:<br>TemporalType.DATA   只有年月日<br>TemporalType.TIME   只有小时分钟秒<br>TemporalType.TIMESTAMP 有年月日小时分钟秒  </p>
+<p>我们最终需要在hibernate.cfg.xml文件中将我们类中的注解配置引用生效.<br>例如:<mapping class="com.lg.domain.User"/></p>
+<p>下面两端java代码,展示注解配置:<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.HashSet;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="meta">@Table</span>(name=<span class="string">"t_customer"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Customer</span> </span>&#123;</span><br><span class="line">	<span class="meta">@Id</span></span><br><span class="line">	<span class="meta">@GenericGenerator</span>(name=<span class="string">"myUuid"</span>,strategy=<span class="string">"uuid"</span>) <span class="comment">//strategy:策略</span></span><br><span class="line">	<span class="meta">@GeneratedValue</span>(generator=<span class="string">"myUuid"</span>)</span><br><span class="line">	<span class="keyword">private</span> Integer id;</span><br><span class="line">	<span class="keyword">private</span> String name;</span><br><span class="line">	<span class="comment">//mappedBy=”c”相当于inverse=true,target:目标</span></span><br><span class="line">	<span class="meta">@OneToMany</span>(targetEntity=Order.class,mappedBy=<span class="string">"c"</span>,orphanRemoval=<span class="keyword">true</span>) </span><br><span class="line">	<span class="meta">@Cascade</span>(CascadeType.ALL)<span class="comment">//一般不用级联删除,因为会删除很多关联数据,产生数据缺失</span></span><br><span class="line">	<span class="keyword">private</span> Set&lt;Order&gt; orders = <span class="keyword">new</span> HashSet&lt;Order&gt;();</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Integer <span class="title">getId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> id;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setId</span><span class="params">(Integer id)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.id = id;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> name;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.name = name;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Set&lt;Order&gt; <span class="title">getOrders</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> orders;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setOrders</span><span class="params">(Set&lt;Order&gt; orders)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.orders = orders;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> javax.annotation.Generated;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="meta">@Table</span>(name=<span class="string">"t_order"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Order</span> </span>&#123;</span><br><span class="line">	<span class="meta">@Id</span></span><br><span class="line">	<span class="meta">@GeneratedValue</span>(strategy=GenerationType.IDENTITY)</span><br><span class="line">	<span class="keyword">private</span> Integer id;</span><br><span class="line">	<span class="keyword">private</span> Double price;</span><br><span class="line">	<span class="meta">@ManyToOne</span>(targetEntity=Customer.class)</span><br><span class="line">	<span class="meta">@Cascade</span>(cascadeType.SAVE-UPDATE)<span class="comment">//级联保存,这边外键有Order维护</span></span><br><span class="line">	<span class="comment">//@JoinColumn(name="cus_id") 外键生成可以省略,默认会生成c_id外键</span></span><br><span class="line">	<span class="keyword">private</span> Customer c;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Integer <span class="title">getId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> id;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setId</span><span class="params">(Integer id)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.id = id;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Double <span class="title">getPrice</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> price;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPrice</span><span class="params">(Double price)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.price = price;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Customer <span class="title">getC</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> c;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setC</span><span class="params">(Customer c)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.c = c;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Hibernate检索方式概述"><a href="#Hibernate检索方式概述" class="headerlink" title="Hibernate检索方式概述"></a>Hibernate检索方式概述</h2><p>对数据库操作中，最常用的是select.使用hibernate如何select操作。  </p>
+<p>分为五种:<br>1导航对象图检索方式，根据已加载的对象导航到其它对象<br>2.OID检索方式，按照对象的OID来检索对象<br>3.HQL检索方式，使用面向对象的HQL查询语言<br>4.QBC检索方式,使用QBC(Query by Criteria)API来检索对象，这种API封装了基于字符串形式的查询语句，提供了更加面向对象的查询接口<br>5.本地SQL检索方式，使用本地数据库的SQL查询语句  </p>
+<h3 id="导航对象图检索方式"><a href="#导航对象图检索方式" class="headerlink" title="导航对象图检索方式"></a>导航对象图检索方式</h3><pre><code>Customer c=session.get(Customer.class,2);
+c.getOrders().size()
+通过在hibernate中进行映射关系，在hibernate操作时，可以通过导航方式得到
+其关联的持久化对象信息。
+</code></pre><h3 id="OID检索方式"><a href="#OID检索方式" class="headerlink" title="OID检索方式"></a>OID检索方式</h3><pre><code>Session.get(Customer.class,3);
+Session.load(Order.class,1);
+Hibernate中通过get/load方法查询指定的对象,要通过OID来查询。
+</code></pre><h3 id="HQL"><a href="#HQL" class="headerlink" title="HQL"></a>HQL</h3><p>HQL是我们在hibernate中是常用的一种检索方式。<br>HQL（Hibernate Query Language）提供更加丰富灵活、更为强大的查询能力<br>因此Hibernate将HQL查询方式立为官方推荐的标准查询方式，HQL查询在涵盖Criteria查询的所有功能的前提下，提供了类似标准SQL语句的查询方式，同时也提供了更加面向对象的封装。完整的HQL语句形式如下： Select/update/delete…… from …… where …… group by …… having …… order by …… asc/desc 其中的update/delete为Hibernate3中所新添加的功能，可见HQL查询非常类似于标准SQL查询。<br>基本步骤:  </p>
+<pre><code>1.得到Session  
+2.编写HQL语句  
+3.通过session.createQuery(hql)创建一个Query对象  
+4.为Query对象设置条件参数  
+5.执行list查询所有，它反胃的是List集合  uniqueResut()返回一个查询结果。  
+</code></pre><h3 id="QBC"><a href="#QBC" class="headerlink" title="QBC"></a>QBC</h3><p>QBC(query by criteria),它是一种更加面向对象的检索方式。<br>QBC步骤:  </p>
+<pre><code>1.通过Session得到一个Criteria对象   session.createCriteria()
+2.设定条件  Criterion实例 它的获取可以通过Restrictions类提供静态。  
+    Criteria的add方法用于添加查询条件  
+3.调用list进行查询  criterfia.list.
+</code></pre><h3 id="本地SQL"><a href="#本地SQL" class="headerlink" title="本地SQL"></a>本地SQL</h3><p>本地sql也支持命名查询。<br>可以将sql语句定义在hbm文件中，也可以使用注解。<br>配置在hbm配置文件种:  </p>
+<p><sql-query name=""><aql-query>  </p>
+<p>本地命名sql注解方式:<br>//在类上注解<br>@NamedNativeQuery(name=”findCustomer”,query=”select <em> from t_customer”)<br>//此时还需要配置结果集封装的方式,不然会产生异常<br>@SqlResultSetMapping(name=”customerSetMapping”,entities={@EntityResult(entityClass=Customer.class,<br>fields={@FeildResult(name=”id”,column=”id”),@FieldResult(name=”name”,column=”name”)})})<br>//在@NamedNativeQuery中添加结果及注解的引用<br>@NamedNativeQuery(name=”findCustomer”,query=”select </em> from t_customer”,resultSetMapping=”customerSetMapping”)</p>
+<h2 id="多表操作"><a href="#多表操作" class="headerlink" title="多表操作"></a>多表操作</h2><p>SQL多表操作<br>1.交叉连接  CROSS JOIN  会产生迪卡尔积 </p>
+<pre><code>SELECT * FROM t_customer CROSS JOIN t_order;  
+</code></pre><p>2.内连接  INNER JOIN  ON   </p>
+<pre><code>SELECT * FROM t_customer AS c INNER JOIN t_order AS o ON c.id=o.c_customer_id;   
+</code></pre><p>使用内连接它只能将有关联的数据得到。  </p>
+<p>隐式内连接  使用 “逗号”将表分开，使用WHERE来消除迪卡尔积  </p>
+<pre><code>SELECT * FROM t_customer AS c ,t_order o WHERE c.id=o.c_customer_id;  
+</code></pre><p>3.外连接  左外LEFT OUTER JOIN    右外RIGHT OUTER JOIN<br>OUTER可以省略  </p>
+<pre><code>SELECT * FROM t_customer c LEFT OUTER JOIN t_order o ON c.id=o.c_customer_id;  
+</code></pre><h2 id="HQL多表操作"><a href="#HQL多表操作" class="headerlink" title="HQL多表操作"></a>HQL多表操作</h2><pre><code>Hql多表操作分类:
+</code></pre><p>1.交叉连接<br>2.内连接<br>a)显示内连接    inner join with<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String hql = <span class="string">"from Customer c inner join c.orders with c.id=1"</span>;</span><br></pre></td></tr></table></figure></p>
+<p>b)隐式内连接    使用weere关键字,通过”.”运算符来关联<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String hql = <span class="string">"from Order o where o.c.id=1"</span>;</span><br></pre></td></tr></table></figure></p>
+<p>c)迫切内连接<br>迫切内连接得到的结果是直接封装到PO类中，而内连接得到的是Object[]数组，数组中封装的是PO类对象。<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String hql = <span class="string">"select distinct c from Customer c inner join fetch c.orders"</span>;</span><br></pre></td></tr></table></figure></p>
+<p>3.外连接<br>左外连接<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">String hql = <span class="string">"from Customer c left outer join c.orders"</span>;</span><br></pre></td></tr></table></figure></p>
+<p>迫切左外连接<br>String hql = “select distinct c from Customer c left outer join fetch c.orders where c.id=1”;<br>右外连接<br>注意：在hibernate中有迫切连接的概念，而sql中没有。</p>
+<h2 id="事务介绍"><a href="#事务介绍" class="headerlink" title="事务介绍"></a>事务介绍</h2><p><strong>1.什么是事务?</strong><br>事务就是逻辑上的一组操作,组成这组操作的各个单元,要么全部成功,要么全部失败.<br><strong>2.事务的四个特性</strong>  </p>
+<pre><code>原子性:不可分割.  
+一致性:事务在执行前后,要保证数据一致.  
+隔离性:一个事务执行中不应该受到其他事务的干扰.  
+持久性:事务一旦结束,数据会持久化到数据库.  
+</code></pre><p><strong>3不考虑事务的隔离性会产生什么问题?</strong>  </p>
+<pre><code>脏读:一个事务读到了另一个事务未提交的数据.  
+不可重复读:一个事务读取到另一个事务已提交的数据(主要指update操作),会导致两次读取的结果不一致.  
+虚读:一个事务读取到另一个事务已提交的数据(主要指insert操作),会导致两次读取结果不一致.  
+</code></pre><p><strong>4.针对上述问题如何解决?</strong><br>设置隔离级别:  </p>
+<pre><code>READ_UNCOMMITTED:读取未提交,它会引发所有的隔离问题.
+READ_COMMITTED:读取已提交,他会发生不可重复读和虚读.
+REPEATABLE_READ:重复读.阻止脏读和不可重复读,可能发生虚读
+SERIALIZABLE:串行化.解决所有问题,不允许两个事务同时操作一个数据目标(效率低下).
+</code></pre><p>ORACLE  默认的是事务隔离级别  READ_COMMITTED<br>MYSQL 默认的事务隔离级别  REPEATABLE_READ</p>
+<h3 id="Hibernate中设置事务隔离级别"><a href="#Hibernate中设置事务隔离级别" class="headerlink" title="Hibernate中设置事务隔离级别"></a>Hibernate中设置事务隔离级别</h3><p>在hibernate.cfg.xml文件中配置,设置事务的隔离级别:</p>
+<property name="hibernate.connection.isolation">4</property>
+
+<p>它可取的值有 1 2 4 8<br>1代表的事务隔离级别为READ UNCOMMITTED<br>2代表的事务隔离级别为READ COMMITTED<br>4.代表的事务隔离级别为 REPEATABLE READ<br>8代表的事务隔离级别为 SERIALIZABLE  </p>
+<h2 id="Hibernate中session管理"><a href="#Hibernate中session管理" class="headerlink" title="Hibernate中session管理"></a>Hibernate中session管理</h2><p> Hibernate提供了三种管理session的方式:<br>1.Session对象的生命周期与本地线程绑定(ThreadLocal)<br>2.Session对象的生命周期与JTA事务绑定(分布式事务管理)<br>3.Hibernate委托程序来管理Session的生命周期<br>我们之前所使用的是第三种 ,通过程序获取一个Session对象，使用它，最后session.close();</p>
+<p>在实际开发中我们一般使用的是前两种,这里主要介绍本地线程绑定session.<br>步骤:<br>1.在hibernate.cfg.xml中配置<br><code>&lt;property name=&quot;hibernate.current_session_context_class&quot;&gt;thread&lt;/property&gt;</code><br>2.在获取session时不要再使用openSession(),而是使用getCurrentSession()方法.</p>
+<p>注意:通过getCurrentSession()方法获取与线程绑定的session对象,在使用完毕之后,不需要手动关闭session,因为线程结束,session会自动关闭,如果再手动关闭会报异常.</p>
+<h2 id="Hibernate优化方案"><a href="#Hibernate优化方案" class="headerlink" title="Hibernate优化方案"></a>Hibernate优化方案</h2><h3 id="HQL优化"><a href="#HQL优化" class="headerlink" title="HQL优化"></a>HQL优化</h3><p>1.使用参数绑定</p>
+<pre><code>1.使用绑定参数的原因是让数据库一次解析SQL,对后续的重复请求可以使用用生成好的执行计划，这样做节省CPU时间和内存。
+2.避免SQL注入
+</code></pre><p>2.尽量少使用NOT </p>
+<pre><code>如果where子句中包含not关键字，那么执行时该字段的索引失效。
+</code></pre><p>3.尽量使用where来替换having</p>
+<pre><code>Having在检索出所有记录后才对结果集进行过滤，这个处理需要一定的开销，而where子句限制记录的数目，能减少这方面的开销
+</code></pre><p>4.减少对表的查询</p>
+<pre><code>在含有子查询的HQL中,尽量减少对表的查询，降低开销
+</code></pre><p>5.使用表的别名</p>
+<pre><code>当在HQL语句中连接多个表时，使用别名，提高程序阅读性，并把别名前缀与每个列上，这样一来，可以减少解析时间并减少列歧义引起的语法错误。
+</code></pre><p>6.实体的更新与删除</p>
+<pre><code>在hibernate3以后支持hql的update与delete操作
+</code></pre><h3 id="一级缓存优化"><a href="#一级缓存优化" class="headerlink" title="一级缓存优化"></a>一级缓存优化</h3><p>一级缓存也叫做session缓存，在一个hibernate session有效，这级缓存的可干预性不强，大多于hibernate自动管理，但它提供清除缓存的方法，这在大批量增加(更新)操作是有效果的，例如，同时增加十万条记录，按常规进行，很可能会出现异常，这时可能需要手动清除一级缓存，session.evict以及session.clear.</p>
+<h3 id="延迟加载"><a href="#延迟加载" class="headerlink" title="延迟加载"></a>延迟加载</h3><p>延迟加载 是hibernate为提高程序执行的效率而提供的一种机制，即只有真正使用该对象的数据时才会创建。<br>load方法采用的策略延迟加载.<br>get方法采用的策略立即加载。  </p>
+<p>检索策略分为两种:<br>1.类级别检索<br>2.关联级别检索  </p>
+<h4 id="类级别检索"><a href="#类级别检索" class="headerlink" title="类级别检索"></a>类级别检索</h4><p>类级别检索是通过session直接检索某一类对应的数据，例如<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Customer c=session.load(Customer.class,<span class="number">1</span>)</span><br><span class="line">Session.createQuery(“from Order”)</span><br></pre></td></tr></table></figure></p>
+<p>类级别检索策略分为立即检索与延迟检索，默认是延迟检索，类级别的检索策略可以通过<class>元素的lazy属性来设置 ,默认值是true  </p>
+<p>在hbm配置文件中设置:<br><code>&lt;class name=&quot;Customer&quot; table=&quot;t_customer&quot; catalog=&quot;hibernateTest&quot; lazy=&quot;true&quot;&gt;</code><br>在类上使用注解:<br>@Proxy(lazy = true)</p>
+<p><strong>如果将lazy设置为false,代表类级别检索也使用立即检索。这时load与get就一样，都是立即检索。</strong>  </p>
+<p>对一个延迟代理对象进行初始化:<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line">Customer c = session.load(Customer.class,<span class="number">1</span>);</span><br><span class="line">Hibernate.initialize(c1);</span><br></pre></td></tr></table></figure></p>
+<h3 id="关联级别检索"><a href="#关联级别检索" class="headerlink" title="关联级别检索"></a>关联级别检索</h3><p>查询到某个对象，获得其关联的对象或属性，这种称为关联级别检索，例如</p>
+<pre><code>c.getOrders().size()
+c.getName()
+</code></pre><p>对于关联级别检索我们就要研究其检索策略(抓取策略)</p>
+<h3 id="检索策略-抓取策略"><a href="#检索策略-抓取策略" class="headerlink" title="检索策略(抓取策略)"></a>检索策略(抓取策略)</h3><p>抓取策略介绍<br> 指的是查找到某个对象后，通过这个对象去查询关联对象的信息时的一种策略。 </p>
+<pre><code>一对一 &lt;one-to-one&gt;
+一对多（多对一） &lt;set&gt;下有&lt;one-to-many&gt;  &lt;many-to-one&gt;
+多对多 &lt;set&gt;下有&lt;many-to- many&gt;
+</code></pre><p>我们主要是在<set>与<many-to-one>或<one-to-one>上设置fetch  lazy  </p>
+<p>例如:查询一个客户，要关联查询它的订单<br>客户是一的一方，在客户中有set集合来描述其订单，在配置中我们是使用  </p>
+<pre><code>&lt;set&gt;
+    &lt;one-to-many&gt;
+&lt;/set&gt;..
+</code></pre><p>可以在set标签上设置两个属性:  fetch   lazy<br>Fetch主要描述的是SQL语句的格式(例如是多条，子查询，多表联查)<br>Lazy 控制SQL语句何时发送  </p>
+<p>例如:在查询一个订单时，要查询客户信息  </p>
+<p><many-to-one> 或<one-to-one><br>也可以设置fetch  lazy<br>Fetch主要描述的是SQL语句的格式(例如是多条，子查询，多表联查<br>Lazy 控制SQL语句何时发送  </p>
+<p>总结:<br>讲解抓取策略<br>在两方面设置  </p>
+<pre><code>&lt;set fetch=”” lazy=””&gt;
+&lt;many-to-one fetch=”” lazy=””&gt;
+&lt;one-to-one fetch=”” lazy=””&gt;
+</code></pre><h3 id="注解配置抓取策略"><a href="#注解配置抓取策略" class="headerlink" title="注解配置抓取策略"></a>注解配置抓取策略</h3><p>在<set>上设置的fetch与lazy可以使用下面注解来描述:  </p>
+<pre><code>@Fetch(FetchMode.SUBSELECT)
+@LazyCollection(LazyCollectionOption.EXTRA)
+private Set&lt;Order&gt; orders = new HashSet&lt;Order&gt;();
+</code></pre><p>在<many-to-one>或<one-to-one>上怎么设置fetch和lazy:</p>
+<pre><code>@Fetch(FecthMode.SELECT)
+@LazyToOne(LazyToOneOption.FALSE)
+private Customer c;
+</code></pre><h3 id="set上的fetch与lazy"><a href="#set上的fetch与lazy" class="headerlink" title="set上的fetch与lazy"></a>set上的fetch与lazy</h3><p>set上的fetch与lazy它主要是用于设置关联的集合信息的抓取策略。<br>Fetch可取值有:  </p>
+<pre><code>1.SELECT 多条简单的sql   （默认值）  
+2.JOIN 采用迫切左外连接  
+3.SUBSELECT 将生成子查询的SQL  
+</code></pre><p>lazy可取值有: </p>
+<pre><code>1.TURE 延迟检索   (默认值)  
+2.FALSE 立即检索  
+3.EXTRA 加强延迟检索(及其懒惰)  
+</code></pre><p>一共有七种组合,当Fetch为JOIN时,Lazy的设置无效.</p>
+<h3 id="One的一言fetch与lazy"><a href="#One的一言fetch与lazy" class="headerlink" title="One的一言fetch与lazy"></a>One的一言fetch与lazy</h3><p><set fetch lazy>它主要是设置在:获取到一的一方时，如果去查询多的一方。<br>在<many-to-one>或<one-to-one>如果去查询对方。<br>对于程序 就是在多的一方如何查询一的主方信息<br>例如:获取到一个订单对象，要查询客户信息。  </p>
+<p>Fetch可取值:</p>
+<pre><code>select 默认值，代表发送一条或多条简单的select语句
+join  发送一条迫切左外连接
+</code></pre><p>lazy可取值</p>
+<pre><code>false 不采用延迟加载
+proxy 默认值 是否采用延迟，需要另一方的类级别延迟策略来决定 
+no-proxy 不用研究
+</code></pre><h2 id="批量抓取"><a href="#批量抓取" class="headerlink" title="批量抓取"></a>批量抓取</h2><p>我们在查询多个对象的关联对象时，可以采用批量抓取方式来对程序进行优化.<br>要想实现批量抓取：<br>可以在配置文件中 batch-size属性来设置<br>可以使用注解 @BatchSize(size=4)   </p>
+<p>采用批量抓取可以解决N+1问题.  </p>
+<p>注意：<strong>无论是根据哪一方来查询别一方，在进行批量抓取时，都是在父方来设置,如果是要查询子信息，那么我们是在<set>上来设置batch-size,如果是从子方来查询父方，也是在父方设置在<class>设置batch-size.</strong></p>
+<p>父与子区分:有外键的表是子(从关联方就是父(主)表.</p>
 
         </div>
         <div class="post-tool">
