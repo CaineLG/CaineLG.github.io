@@ -162,7 +162,7 @@
             </div>
             <h2 class="post-title">Spring知识点总结</h2>
             <div class="post-meta">
-                本文总共3927个字 | 您是第<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+                本文总共9069个字 | 您是第<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
             </div>
         </div>
         <div class="post-content markdown-body">
@@ -204,7 +204,7 @@ session 用在web开发中，将bean对象session.setAttribute()存储到session
 <p><strong>总结:</strong><br>对于bean的生命周期，我们需要关注的主要有两个方法:  </p>
 <pre><code>1.增强bean的功能可以使用后处理Bean, BeanPostProcessor
 2.如果需要初始化或销毁操作我们可以使用init-method  destroy-method
-</code></pre><p>注意:<strong>destroy-method只对scope=singleton有效果。Bean实现InitializingBean接口，afterPropertiesSet属性注入之后调用.Bean实现DisposableBean接口，destroy方法在ApplicationContext—&gt;close的时候调用.
+</code></pre><p>注意:<strong>destroy-method只对scope=singleton有效果。<br>Bean实现InitializingBean接口，afterPropertiesSet属性注入之后调用.<br>Bean实现DisposableBean接口，destroy方法在ApplicationContext—&gt;close的时候调用.
 </strong></p>
 <h2 id="配置ContextLoaderListener解决了什么问题"><a href="#配置ContextLoaderListener解决了什么问题" class="headerlink" title="配置ContextLoaderListener解决了什么问题?"></a>配置ContextLoaderListener解决了什么问题?</h2><p>1.在web.xml中配置</p>
 <pre><code>&lt;context-param&gt;
@@ -220,7 +220,62 @@ session 用在web开发中，将bean对象session.setAttribute()存储到session
 <p>3.解决的问题:</p>
 <pre><code>1.WebApplicationContext是一个重量级的对象,如果在web应用中每次都要手动构造一个ClassPathXmlApplicationContext去加载applicationContext.xml配置文件,会很耗时间.配置后在tomcat启动的时候通过初始化WebApplicationContext,然后加载applicationContext.xml配置文件初始化bean对象,这样在程序运行的时候就不需要再初始化bean工厂,以时间换时间,提高用户访问速度.
 2.随服务器启动加载,保证了ApplicationContext工厂只初始化一次.
-</code></pre>
+</code></pre><h2 id="AOP-与-OOP-区别"><a href="#AOP-与-OOP-区别" class="headerlink" title="AOP 与 OOP 区别"></a>AOP 与 OOP 区别</h2><p>OOP（ 面向对象编程）针对业务处理过程的实体及其属性和行为进行抽象封装，以获得更加清晰高效的逻辑单元划分。<br>而 AOP 则是针对业务处理过程中的切面进行提取，它所面对的是处理过程中的某个步骤或阶段，以获得逻辑过程中各部分之间低耦合性的隔离效果。这两种设计思想在目标上有着本质的差异。AOP 是 OOP 的延续.<br>换而言之， OOD/OOP 面向名词领域，AOP面向动词领域.  </p>
+<h2 id="AOP底层实现"><a href="#AOP底层实现" class="headerlink" title="AOP底层实现"></a>AOP底层实现</h2><p>AOP分为静态AOP和动态AOP。静态AOP是指AspectJ实现的AOP，他是将切面代码直接编译到Java类文件中。动态AOP是指将切面代码进行动态织入实现的AOP。Spring的AOP为动态AOP，实现的技术为： JDK提供的动态代理技术 和 CGLIB(动态字节码增强技术).  </p>
+<h3 id="JDK动态代理及Cglib代理相关介绍见博文"><a href="#JDK动态代理及Cglib代理相关介绍见博文" class="headerlink" title="JDK动态代理及Cglib代理相关介绍见博文"></a>JDK动态代理及Cglib代理相关介绍见博文</h3><h3 id="spring采用的是哪一种动态机制"><a href="#spring采用的是哪一种动态机制" class="headerlink" title="spring采用的是哪一种动态机制?"></a>spring采用的是哪一种动态机制?</h3><pre><code>如果目标对象，有接口，优先使用jdk动态代理
+如果目标对象，无接口，使用cglib动态代理。
+</code></pre><p>可以设置不管有无接口都用cglib动态代理,配置如下:  </p>
+<pre><code>&lt;aop:aspectj-autoproxy proxy-target-class=&quot;true&quot;/&gt;
+</code></pre><h2 id="Aspect切点表达式写法"><a href="#Aspect切点表达式写法" class="headerlink" title="Aspect切点表达式写法"></a>Aspect切点表达式写法</h2><pre><code>&lt;aop:pointcut id=&quot;orderServicePointCut&quot;
+expression=&quot;execution(* cn.itheima.aop.IOrderService.*(..))&quot;/&gt;
+</code></pre><p>这个语法源于aspectJ的语法，spring中aop开发，对aspectj不是完全支持，只支持部分语法,在开发中使用的比较多的是execution语法.<br><strong>关于execution语法常用</strong>: </p>
+<pre><code>1.execution(public * *()) 所有的public的方法
+2.execution(* cn.itheima.aop..*(..)) 所有的aop包及其子包下的所有类的方法 
+3.execution(* cn.itheima.aop.IOrderService.*(..)) IOrderService接口中定义的所有方法
+4.execution(* cn.itheima.aop.IOrderService+.*(..)) 匹配实现特定接口所有类的方法
+5.execution(* save*(..)) 区配所有的以save开头的方法
+</code></pre><h2 id="spring事务管理"><a href="#spring事务管理" class="headerlink" title="spring事务管理"></a>spring事务管理</h2><h3 id="spring事务管理的四个优点"><a href="#spring事务管理的四个优点" class="headerlink" title="spring事务管理的四个优点"></a>spring事务管理的四个优点</h3><pre><code>1.提供一致的对于不同的事务管理的API
+2.支持声明式事务管理(重点)
+3.编程事务管理(在开发中应用比较少)
+4.优秀的整合与Spring的数据访问
+</code></pre><h3 id="spring声明式事务管理"><a href="#spring声明式事务管理" class="headerlink" title="spring声明式事务管理"></a>spring声明式事务管理</h3><p>Spring事务管理主要提供了三个接口来完成:  </p>
+<ol>
+<li>org.springframework.transaction.<strong>PlatformTransactionManager</strong><br>这是一个事务管理器，可以来选择相关的平台(jdbc  hibernate  jpa…)  </li>
+<li><strong>TransactionDefinition </strong><br>它定义事务的一些相关信息 例如 隔离 传播 超时 只读  </li>
+<li><p><strong>TransactionStatus</strong><br>它主要描述事务具体的运行状态  </p>
+<h3 id="PlatformTransactionManager接口"><a href="#PlatformTransactionManager接口" class="headerlink" title="PlatformTransactionManager接口"></a>PlatformTransactionManager接口</h3><p>platformTransactionManager平台事务管理器在不同的持久化解决技术它的事务代码不一样:<br>DataSourceTransactionManager主要针对于jdbcTemplate和MyBates开发.<br>HibernateTransactionManager主要针对于Hibernate开发.<br>JpaTransactionManager主要针对于JPA开发.  </p>
+<h3 id="TransactionDefinition接口"><a href="#TransactionDefinition接口" class="headerlink" title="TransactionDefinition接口"></a>TransactionDefinition接口</h3><p>transactionDefinition它描述的是事务的定义信息,它定义了大量的常量.<br>常量有如下几类:<br>1.隔离<br>事务的四个特性 ACIU 原子性,一致性,隔离性,持久性<br>不考虑事务的隔离性会有什么问题?脏读,不可重复读,虚读/幻读  </p>
+<p>ISOLATION_DEFUALT 它使用后端数据库的默认隔离级别(spring中选项)<br>ISOLATION_READ_UNCOMMITTED 不能解决问题，会发生脏读 不可重复读 虚读<br>ISOLATION_READ_COMMITTED 可以解决脏读 会产生不可重复读与虚读。<br>ISOLATION_REPEATABLE_READ 可以解决脏读，不可重复读 解决不了虚读<br>ISOLATION_SERIALIZABLE 串行化，可以解决所有问题<br>Oracle数据库它默认的是read_committed<br>Mysql数据库它默认的是repeatable_read.<br>2.超时  </p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">int</span> TIMEOUT_DEFAULT = -<span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>默认值是-1 它使用的是数据库默认的超时时间。<br>3.只读<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">isReadOnly</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure></p>
+<p>在select操作时一般选择true.<br>4.传播行为<br>它解决的是两个被事务管理的方法互相调用的问题,与数据库无关,是程序内部的维护问题.<br>以下定义了事务的传播行为:  </p>
+<pre><code>int PROPAGATION_REQUIRED = 0;
+int PROPAGATION_SUPPORTS = 1;
+int PROPAGATION_MANDATORY = 2;
+int PROPAGATION_REQUIRES_NEW = 3;
+int PROPAGATION_NOT_SUPPORTED = 4;
+int PROPAGATION_NEVER = 5;
+int PROPAGATION_NESTED = 6;
+</code></pre><p>以上操作中最常用的三种:<br><strong>PROPAGATION_REQUIRED</strong><br>默认值 两个操作处于同一个事务，如果之前没有事务，新建一个事务.<br><strong>PROPAGATION_REQUIRES_NEW</strong><br>两个操作处于不同的事务.<br><strong>PROPAGATION_NESTED</strong><br>它是一种嵌套事务，它是使用SavePoint来实现的。事务回滚时可以回滚到指定的savepoint,注意：它只对DataSourceTransactionManager有作用.  </p>
+<h3 id="TransactionStatus接口"><a href="#TransactionStatus接口" class="headerlink" title="TransactionStatus接口"></a>TransactionStatus接口</h3><p>它定义了事务状态信息，在事务运行过程中，得到某个时间点的状态.</p>
+<h3 id="声明式事务管理"><a href="#声明式事务管理" class="headerlink" title="声明式事务管理"></a>声明式事务管理</h3><p>声明式事务控制，基于AOP对目标进行代理，添加around环绕通知。这种方案，它不具有侵入性，不需要修改原来的业务代码.<br><strong>1.基于xml配置声明式事务管理</strong><br>第一步:在applicationContext.xml文件中添加aop与tx的名称空间  </p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></span><br><span class="line"><span class="tag">	<span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> </span></span><br><span class="line"><span class="tag">	<span class="attr">xmlns:context</span>=<span class="string">"http://www.springframework.org/schema/context"</span></span></span><br><span class="line"><span class="tag">	<span class="attr">xmlns:aop</span>=<span class="string">"http://www.springframework.org/schema/aop"</span> </span></span><br><span class="line"><span class="tag">	<span class="attr">xmlns:tx</span>=<span class="string">"http://www.springframework.org/schema/tx"</span></span></span><br><span class="line"><span class="tag">	<span class="attr">xsi:schemaLocation</span>=<span class="string">"</span></span></span><br><span class="line"><span class="tag"><span class="string">        http://www.springframework.org/schema/beans </span></span></span><br><span class="line"><span class="tag"><span class="string">        http://www.springframework.org/schema/beans/spring-beans.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">        http://www.springframework.org/schema/context </span></span></span><br><span class="line"><span class="tag"><span class="string">        http://www.springframework.org/schema/context/spring-context.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">        http://www.springframework.org/schema/aop </span></span></span><br><span class="line"><span class="tag"><span class="string">        http://www.springframework.org/schema/aop/spring-aop.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">        http://www.springframework.org/schema/tx </span></span></span><br><span class="line"><span class="tag"><span class="string">        http://www.springframework.org/schema/tx/spring-tx.xsd"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>第二步：配置事务管理器<br><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"transactionManager"</span> <span class="attr">class</span>=<span class="string">"org.springframework.jdbc.datasource.DataSourceTransactionManager"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"c3p0DataSource"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>第三步：配置通知<br>Spring为我们提供了一个TransactionInterceptor来完成增强, 对于这个增强，可以使用spring为我们提供的一个标签<a href="tx:advice">tx:advice</a>来完成操作.<br><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tx:advice</span> <span class="attr">id</span>=<span class="string">"txAdvice"</span> <span class="attr">transaction-manager</span>=<span class="string">"transactionManager"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">tx:attributes</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"account"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">tx:attributes</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">tx:advice</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<pre><code>name:必须的，对哪些方法进行事务控制
+isolation 可选 设置事务隔离级别 默认是DEFAULT 
+propagation:可选 设置事务传播 默认值 REQUIRED
+timeout 可选 超时时间 默认值-1 
+read-only 可选 默认值是false 如果不是只读，它可以对insert update delete操作，如果是只读不可以。
+rollback-for 可选 可以设置一个异常，如果产生这个异常，触发事务回滚
+no-rolback-for 可选 可以设置一个异常，如果产生这个异常，不会触发事务回滚
+</code></pre><p>第四步：配置切面<br>因为使用的是传统的spring的advice,需要使用<a href="aop:advisor">aop:advisor</a><br><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">aop:config</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">aop:pointcut</span> <span class="attr">expression</span>=<span class="string">"execution(* cn.itheima.service.IAccountService.account(..))"</span> <span class="attr">id</span>=<span class="string">"txPointcut"</span>/&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">aop:advisor</span> <span class="attr">advice-ref</span>=<span class="string">"txAdvice"</span> <span class="attr">pointcut-ref</span>=<span class="string">"txPointcut"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">aop:config</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>2.基于annotation声明式事务管理</strong><br>1.配置事务管理器<br><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"transactionManager"</span> <span class="attr">class</span>=<span class="string">"org.springframework.jdbc.datasource.DataSourceTransactionManager"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"c3p0DataSource"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>2.开启注解事务<br><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tx:annotation-driven</span> <span class="attr">transaction-manager</span>=<span class="string">"transactionManager"</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>3.方法或者类上配置事务<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="meta">@Transactional</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">account</span><span class="params">(String outname, String inname, <span class="keyword">double</span> money)</span> </span>&#123;</span><br><span class="line"><span class="comment">// 从outname转出money</span></span><br><span class="line">accountDao.accountOut(outname, money);</span><br><span class="line"><span class="keyword">int</span> a = <span class="number">10</span> / <span class="number">0</span>; <span class="comment">// 一定会抛出异常</span></span><br><span class="line"><span class="comment">// 向inname转入money</span></span><br><span class="line">accountDao.accountIn(inname, money);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
         </div>
         <div class="post-tool">
             <a class="btn-thumbs-up" href="javascript:void(0);" data-cid="52" title="95">
