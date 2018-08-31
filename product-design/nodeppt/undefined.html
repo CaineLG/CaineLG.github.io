@@ -156,7 +156,7 @@
                 </a>
                 <p><span class="label">作者</span>
                     <a href="https://cainee.com" target="_blank">刘关</a>
-                    <span title="最后编辑于2017-04-06">2017-04-06</span>
+                    <span title="最后编辑于2015-04-06">2015-04-06</span>
                 </p>
                 <p>java全栈技术</p>
             </div>
@@ -383,8 +383,7 @@ proxy 默认值 是否采用延迟，需要另一方的类级别延迟策略来�
 no-proxy 不用研究
 </code></pre><h2 id="批量抓取"><a href="#批量抓取" class="headerlink" title="批量抓取"></a>批量抓取</h2><p>我们在查询多个对象的关联对象时，可以采用批量抓取方式来对程序进行优化.<br>要想实现批量抓取：<br>可以在配置文件中 batch-size属性来设置<br>可以使用注解 @BatchSize(size=4)   </p>
 <p>采用批量抓取可以解决N+1问题.  </p>
-<p>注意：<strong>无论是根据哪一方来查询别一方，在进行批量抓取时，都是在父方来设置,如果是要查询子信息，那么我们是在<set>上来设置batch-size,如果是从子方来查询父方，也是在父方设置在<class>设置batch-size.</strong></p>
-<p>父与子区分:有外键的表是子(从关联方就是父(主)表.</p>
+<p>注意：<strong>无论是根据哪一方来查询别一方，在进行批量抓取时，都是在父方来设置,如果是要查询子信息，那么我们是在<set>上来设置batch-size,如果是从子方来查询父方，也是在父方设置在<class>设置batch-size.</strong><br>​<br>父与子区分:有外键的表是子(从关联方就是父(主)表.</p>
 
         </div>
         <div class="post-tool">

@@ -156,13 +156,13 @@
                 </a>
                 <p><span class="label">作者</span>
                     <a href="https://cainee.com" target="_blank">刘关</a>
-                    <span title="最后编辑于2018-03-07">2018-03-07</span>
+                    <span title="最后编辑于2016-03-07">2016-03-07</span>
                 </p>
                 <p>java全栈技术</p>
             </div>
             <h2 class="post-title">Spring知识点总结</h2>
             <div class="post-meta">
-                本文总共9069个字 | 您是第<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+                本文总共8938个字 | 您是第<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
             </div>
         </div>
         <div class="post-content markdown-body">
@@ -187,7 +187,9 @@ b)也可以与其它的web层进行集成
 <h2 id="ApplicationContext与BeanFactory区别"><a href="#ApplicationContext与BeanFactory区别" class="headerlink" title="ApplicationContext与BeanFactory区别"></a>ApplicationContext与BeanFactory区别</h2><p>1.ApplicationContext它是扩展BeanFactory接口,ApplicationContext实例化bean采用的立即策略(默认)，在加载applicationContext.xml文件的时候就实例化bean对象<br>2.BeanFactory实例化bean采用的延迟策略，只有getBean的时候才会实例化bean对象  </p>
 <h2 id="Bean的实例化方式"><a href="#Bean的实例化方式" class="headerlink" title="Bean的实例化方式"></a>Bean的实例化方式</h2><h3 id="1-无参数构造"><a href="#1-无参数构造" class="headerlink" title="1.无参数构造"></a>1.无参数构造</h3><p>对于这种方式，注意Bean类中必须提供无参数构造.</p>
 <pre><code>&lt;bean id=&quot;userService&quot; class=&quot;cn.itheima.ioc.UserServiceImpl&quot;&gt;&lt;/bean&gt;
-</code></pre><h3 id="2-静态工厂方法"><a href="#2-静态工厂方法" class="headerlink" title="2.静态工厂方法"></a>2.静态工厂方法</h3><p>需要创建一个工厂类，在工厂类中提供一个static返回bean对象的方法就可以。<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BeanFactory</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bean <span class="title">createBean2</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> Bean();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">``` </span><br><span class="line">配置文件中配置:  </span><br><span class="line">	&lt;!-- 静态工厂方法 --&gt;</span><br><span class="line">	&lt;bean name="bean" class="com.lg.bean.BeanFactory" factory-method="createBean"&gt;&lt;/bean&gt;</span><br><span class="line">### 实例工厂方法</span><br><span class="line">需要创建一个工厂类，在工厂类中提供一个非<span class="keyword">static</span>的创建bean对象的方法，在配置文件中需要将工厂配置，还需要配置bean.  </span><br><span class="line">```java</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BeanFactory</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Bean <span class="title">createBean</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> Bean();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</code></pre><h3 id="2-静态工厂方法"><a href="#2-静态工厂方法" class="headerlink" title="2.静态工厂方法"></a>2.静态工厂方法</h3><p>需要创建一个工厂类，在工厂类中提供一个static返回bean对象的方法就可以。<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BeanFactory</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Bean <span class="title">createBean2</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> Bean();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>配置文件中配置:<br>    <!-- 静态工厂方法 --><br>    <bean name="bean" class="com.lg.bean.BeanFactory" factory-method="createBean"></bean></p>
+<h3 id="实例工厂方法"><a href="#实例工厂方法" class="headerlink" title="实例工厂方法"></a>实例工厂方法</h3><p>需要创建一个工厂类，在工厂类中提供一个非static的创建bean对象的方法，在配置文件中需要将工厂配置，还需要配置bean.<br><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BeanFactory</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Bean <span class="title">createBean</span><span class="params">()</span></span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> Bean();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>配置文件中配置:<br><!-- 实例工厂方法 --></p>
 <pre><code>&lt;bean name=&quot;beanFactory&quot; class=&quot;com.lg.bean.BeanFactory&quot;&gt;&lt;/bean&gt;  
 &lt;bean name=&quot;bean&quot; factory-bean=&quot;beanFactory&quot; factory-method=&quot;createBean&quot;&gt;&lt;/bean&gt;
@@ -240,9 +242,7 @@ expression=&quot;execution(* cn.itheima.aop.IOrderService.*(..))&quot;/&gt;
 4.优秀的整合与Spring的数据访问
 </code></pre><h3 id="spring声明式事务管理"><a href="#spring声明式事务管理" class="headerlink" title="spring声明式事务管理"></a>spring声明式事务管理</h3><p>Spring事务管理主要提供了三个接口来完成:  </p>
 <ol>
-<li>org.springframework.transaction.<strong>PlatformTransactionManager</strong><br>这是一个事务管理器，可以来选择相关的平台(jdbc  hibernate  jpa…)  </li>
-<li><strong>TransactionDefinition </strong><br>它定义事务的一些相关信息 例如 隔离 传播 超时 只读  </li>
-<li><p><strong>TransactionStatus</strong><br>它主要描述事务具体的运行状态  </p>
+<li><p>org.springframework.transaction.<strong>PlatformTransactionManager</strong><br>这是一个事务管理器，可以来选择相关的平台(jdbc  hibernate  jpa…)<br>2.<strong>TransactionDefinition </strong><br>它定义事务的一些相关信息 例如 隔离 传播 超时 只读<br>3.<strong>TransactionStatus</strong><br>它主要描述事务具体的运行状态  </p>
 <h3 id="PlatformTransactionManager接口"><a href="#PlatformTransactionManager接口" class="headerlink" title="PlatformTransactionManager接口"></a>PlatformTransactionManager接口</h3><p>platformTransactionManager平台事务管理器在不同的持久化解决技术它的事务代码不一样:<br>DataSourceTransactionManager主要针对于jdbcTemplate和MyBates开发.<br>HibernateTransactionManager主要针对于Hibernate开发.<br>JpaTransactionManager主要针对于JPA开发.  </p>
 <h3 id="TransactionDefinition接口"><a href="#TransactionDefinition接口" class="headerlink" title="TransactionDefinition接口"></a>TransactionDefinition接口</h3><p>transactionDefinition它描述的是事务的定义信息,它定义了大量的常量.<br>常量有如下几类:<br>1.隔离<br>事务的四个特性 ACIU 原子性,一致性,隔离性,持久性<br>不考虑事务的隔离性会有什么问题?脏读,不可重复读,虚读/幻读  </p>
 <p>ISOLATION_DEFUALT 它使用后端数据库的默认隔离级别(spring中选项)<br>ISOLATION_READ_UNCOMMITTED 不能解决问题，会发生脏读 不可重复读 虚读<br>ISOLATION_READ_COMMITTED 可以解决脏读 会产生不可重复读与虚读。<br>ISOLATION_REPEATABLE_READ 可以解决脏读，不可重复读 解决不了虚读<br>ISOLATION_SERIALIZABLE 串行化，可以解决所有问题<br>Oracle数据库它默认的是read_committed<br>Mysql数据库它默认的是repeatable_read.<br>2.超时  </p>

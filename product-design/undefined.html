@@ -156,13 +156,13 @@
                 </a>
                 <p><span class="label">作者</span>
                     <a href="https://cainee.com" target="_blank">刘关</a>
-                    <span title="最后编辑于2016-05-07">2016-05-07</span>
+                    <span title="最后编辑于2015-05-07">2015-05-07</span>
                 </p>
                 <p>java全栈技术</p>
             </div>
             <h2 class="post-title">Struts2全面解析</h2>
             <div class="post-meta">
-                本文总共10331个字 | 您是第<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+                本文总共10325个字 | 您是第<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
             </div>
         </div>
         <div class="post-content markdown-body">
@@ -181,15 +181,8 @@ ognl与valueStack
     &lt;action name=&quot;struts2&quot; class=&quot;cn.lg.web.action.Struts2Action&quot; method=&quot;show&quot;&gt;&lt;/action&gt;
 &lt;/package&gt;
 </code></pre><p>4.流程分析<br><img src="/img/2017/rumen.png" alt="rumen"></p>
-<p> <strong>流程：浏览器发出请求的时候:</strong></p>
-<pre><code>------&gt;request
-------&gt;创建ValueStack对象（root,context）
-------&gt;创建ActionContext(ValueStack把context交给ActionContext管理)
-------&gt;创建当前访问的Action对象
-------&gt;将Action对象push到root中
-------&gt;执行一堆的拦截器
-------&gt;执行Action的方法
-</code></pre><h2 id="struts框架流程介绍"><a href="#struts框架流程介绍" class="headerlink" title="struts框架流程介绍"></a>struts框架流程介绍</h2><p>1.当通过浏览器发送一个请求<br>2.会被StrutsPrepareAndExecuteFilter拦截<br>3.会调用struts2框架默认的拦截器(interceptor)完成部分功能<br>4.执行Action中的方法<br>5.根据Action中方法的执行结果来选择跳转页面Result视图<br>一般管StrutsPrepareAndExecuteFilter 叫做前端控制器(核心控制器)，只有配置了这个filter我们的strtus2框架才能使用。</p>
+<p> <strong>流程：浏览器发出请求的时候:</strong><br>​<br>    ——&gt;request<br>    ——&gt;创建ValueStack对象（root,context）<br>    ——&gt;创建ActionContext(ValueStack把context交给ActionContext管理)<br>    ——&gt;创建当前访问的Action对象<br>    ——&gt;将Action对象push到root中<br>    ——&gt;执行一堆的拦截器<br>    ——&gt;执行Action的方法</p>
+<h2 id="struts框架流程介绍"><a href="#struts框架流程介绍" class="headerlink" title="struts框架流程介绍"></a>struts框架流程介绍</h2><p>1.当通过浏览器发送一个请求<br>2.会被StrutsPrepareAndExecuteFilter拦截<br>3.会调用struts2框架默认的拦截器(interceptor)完成部分功能<br>4.执行Action中的方法<br>5.根据Action中方法的执行结果来选择跳转页面Result视图<br>一般管StrutsPrepareAndExecuteFilter 叫做前端控制器(核心控制器)，只有配置了这个filter我们的strtus2框架才能使用。</p>
 <h2 id="struts框架配置文件加载顺序"><a href="#struts框架配置文件加载顺序" class="headerlink" title="struts框架配置文件加载顺序"></a>struts框架配置文件加载顺序</h2><p>1.default.properties<br>   第一个加载的是default.properties文件<br>位置:strtus2-core.jar包org.apache.struts2包下<br>作用:主要是声明了struts2框架的常量<br>2.struts-default.xml<br>第二个加载的是struts-default.xml<br>位置:struts2-core.jar<br>作用:声明了interceptor(拦截器) result-type(结果视图类型)  bean(对象)<br>3.struts-plugin.xml<br>第三个加载的是struts-plugin.xml<br>位置:在struts2的插件包中<br>作用:主要用于插件的配置声明<br>4.struts.xml<br>第四个加载的是struts.xml<br>位置:在我们自己的工程中<br>作用:用于我们自己工程使用strtus2框架的配置<br>5.最后从web.xml读取struts2常量配置  </p>
 <h2 id="struts-xml的详细配置"><a href="#struts-xml的详细配置" class="headerlink" title="struts.xml的详细配置"></a>struts.xml的详细配置</h2><p>1.package配置<br>name属性,作用:定义一个包的名称，它必须唯一。<br>namespace属性,作用:与action标签的name属性联合使用来确定一个action的访问路径<br>extends属性,作用:指定继承自哪个包，一般值是struts-default<br>struts-default包是在struts-default.xml文件中声明的。<br>abstract属性,它代表当前包是一个抽象的，主要是用于被继承  </p>
 <p>2.action配置<br>name属性,作用:与package的namespace联合使用来确定一个action的访问路径<br>class属性,作用:用于指示当前访问的action类<br>method属性,作用:用于指示当前的action类中的哪个方法执行  </p>
